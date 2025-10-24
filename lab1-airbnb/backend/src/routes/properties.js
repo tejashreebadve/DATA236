@@ -1,78 +1,111 @@
+// backend/src/routes/properties.js
 const express = require('express');
 const router = express.Router();
-const { getPool } = require('../db');
+const pool = require('../db'); // <-- must be default export (pool.promise())
 
-// GET /api/properties/search?location=&guests=&start=&end=
+/**
+ * GET /api/properties/search
+ * Query params (all optional):
+ *   category=Beachfront|City|Parks|Museums|Hiking
+ *   country=USA|Canada|...
+ *   q=free text (matches name/description/location/country)
+ */
 router.get('/search', async (req, res) => {
   try {
-    const { location = '', guests } = req.query;
-    const pool = await getPool();
+    const { category, country, q } = req.query;
 
-    // basic filter on location + optional min guests
     const params = [];
-    let where = '1=1';
-    if (location) {
-      where += ' AND p.location LIKE ?';
-      params.push(`%${location}%`);
-    }
-    if (guests) {
-      where += ' AND p.max_guests >= ?';
-      params.push(Number(guests));
-    }
-
-    // pick first image per property
-    const [rows] = await pool.query(
-      `
+    let sql = `
       SELECT
-        p.id, p.owner_id, p.name, p.type, p.location, p.description,
-        p.amenities, p.price_per_night, p.bedrooms, p.bathrooms, p.max_guests,
-        (
-          SELECT pi.url FROM property_images pi
-          WHERE pi.property_id = p.id
-          ORDER BY pi.id ASC LIMIT 1
-        ) AS image_url
+        p.id,
+        p.name,
+        p.description,
+        p.type,
+        p.category,
+        p.location,
+        p.country,
+        p.price_per_night,
+        p.bedrooms,
+        p.bathrooms,
+        p.max_guests,
+        -- first image if exists (change table/column names below to match your DB)
+        (SELECT i.url
+           FROM property_images i
+          WHERE i.property_id = p.id
+          ORDER BY i.id ASC
+          LIMIT 1) AS image_url
       FROM properties p
-      WHERE ${where}
-      ORDER BY p.id DESC
-      `,
-      params
-    );
+      WHERE 1=1
+    `;
 
-    // shape images like your frontend expects: images:[{url:...}]
-    const data = rows.map(r => ({
-      ...r,
-      images: r.image_url ? [{ url: r.image_url }] : []
-    }));
+    if (category) {
+      sql += ` AND p.category = ?`;
+      params.push(category);
+    }
+    if (country) {
+      sql += ` AND p.country = ?`;
+      params.push(country);
+    }
+    if (q) {
+      sql += ` AND (p.name LIKE ? OR p.description LIKE ? OR p.location LIKE ? OR p.country LIKE ?)`;
+      const like = `%${q}%`;
+      params.push(like, like, like, like);
+    }
 
-    res.json(data);
+    sql += ` ORDER BY p.created_at DESC LIMIT 200`;
+
+    const [rows] = await pool.query(sql, params);
+    res.json(rows || []);
   } catch (err) {
-    console.error('SEARCH ERR', err);
+    console.error('PROPERTIES /search FAILED:', {
+      code: err.code, errno: err.errno, sqlState: err.sqlState,
+      sqlMessage: err.sqlMessage, message: err.message
+    });
     res.status(500).json({ error: 'Internal error' });
   }
 });
 
-// GET /api/properties/:id  (details + all images)
+/**
+ * GET /api/properties/:id
+ * Returns one property with an array of image URLs.
+ * Adjust table/columns to match your DB.
+ */
 router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const pool = await getPool();
+    if (!id) return res.status(400).json({ error: 'bad id' });
 
     const [[prop]] = await pool.query(
-      `SELECT id, owner_id, name, type, location, description, amenities,
-              price_per_night, bedrooms, bathrooms, max_guests, availability
-       FROM properties WHERE id = ? LIMIT 1`,
+      `SELECT
+         p.id,
+         p.name,
+         p.description,
+         p.type,
+         p.category,
+         p.location,
+         p.country,
+         p.price_per_night,
+         p.bedrooms,
+         p.bathrooms,
+         p.max_guests
+       FROM properties p
+       WHERE p.id = ?`,
       [id]
     );
-    if (!prop) return res.status(404).json({ error: 'Not found' });
+    if (!prop) return res.status(404).json({ error: 'not found' });
 
     const [imgs] = await pool.query(
-      `SELECT id, url FROM property_images WHERE property_id = ? ORDER BY id ASC`,
+      `SELECT url FROM property_images WHERE property_id = ? ORDER BY id ASC`,
       [id]
     );
+    prop.images = imgs.map(x => x.url);
 
-    res.json({ ...prop, images: imgs });
+    res.json(prop);
   } catch (err) {
-    console.error('DETAIL ERR', err);
+    console.error('PROPERTIES /:id FAILED:', {
+      code: err.code, errno: err.errno, sqlState: err.sqlState,
+      sqlMessage: err.sqlMessage, message: err.message
+    });
     res.status(500).json({ error: 'Internal error' });
   }
 });
