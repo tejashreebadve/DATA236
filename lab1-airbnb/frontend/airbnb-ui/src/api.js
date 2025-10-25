@@ -1,24 +1,31 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: "http://localhost:8000/api",
   withCredentials: true,
 });
 
-// redirect to login on 401, but don't clear state here
+// Optional: define which routes are public
+const publicPaths = [
+  "/",             // homepage
+  "/property",     // property detail
+  "/search",
+  "/login",
+  "/signup"
+];
+
 api.interceptors.response.use(
-  (r) => r,
+  (res) => res,
   (err) => {
-    if (err?.response?.status === 401) {
-      // only redirect if we're hitting a protected page
-      if (!window.location.pathname.startsWith('/login')) {
-        window.location.href = '/login';
-      }
+    const isUnauthorized = err?.response?.status === 401;
+    const path = window.location.pathname;
+    const isPublic = publicPaths.some((prefix) => path.startsWith(prefix));
+
+    if (isUnauthorized && !isPublic) {
+      console.warn("🔒 Redirecting to login due to 401 on protected route:", path);
+      window.location.href = "/login";
     }
+
     return Promise.reject(err);
   }
 );
-
-export const agentApi = axios.create({
-  baseURL: 'http://localhost:9000',
-});

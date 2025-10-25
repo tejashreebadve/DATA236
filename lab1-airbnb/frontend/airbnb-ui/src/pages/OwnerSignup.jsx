@@ -12,7 +12,7 @@ export default function Signup() {
     email: "",
     password: "",
     location: "",
-    role: "TRAVELER",
+    role: "OWNER", // hardcoded for owner signup
   });
 
   const [msg, setMsg] = useState("");
@@ -23,42 +23,18 @@ export default function Signup() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
-    if (form.role === "OWNER" && !form.location) {
-      setMsg("Business location is required for owners.");
-      return;
-    }
-
     const res = await signup(form);
-    if (res.ok) {
-      if (form.role === "OWNER") navigate("/owner");
-      else navigate("/traveler");
-    } else {
-      setMsg(res.error);
-    }
+    if (res.ok) navigate("/owner"); // owner dashboard
+    else setMsg(res.error);
   }
 
   return (
     <main className="max-w-md mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-4">Create Account</h1>
+      <h1 className="text-2xl font-bold mb-4">Owner Signup</h1>
 
       {msg && <div className="text-red-600 mb-2">{msg}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Role selector */}
-        <div>
-          <label className="block mb-1 font-medium">Signup As</label>
-          <select
-            name="role"
-            value={form.role}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
-          >
-            <option value="TRAVELER">Traveler</option>
-            <option value="OWNER">Owner</option>
-          </select>
-        </div>
-
         <input
           name="name"
           value={form.name}
@@ -85,24 +61,17 @@ export default function Signup() {
           className="w-full border p-2 rounded"
           required
         />
+        <input
+          name="location"
+          value={form.location}
+          onChange={handleChange}
+          placeholder="Location"
+          className="w-full border p-2 rounded"
+          required
+        />
 
-        {/* Owner-only field */}
-        {form.role === "OWNER" && (
-          <input
-            name="location"
-            value={form.location}
-            onChange={handleChange}
-            placeholder="Business Location"
-            className="w-full border p-2 rounded"
-            required
-          />
-        )}
-
-        <button
-          type="submit"
-          className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
-        >
-          Sign Up
+        <button type="submit" className="w-full bg-black text-white py-2 rounded">
+          Sign Up as Owner
         </button>
       </form>
     </main>

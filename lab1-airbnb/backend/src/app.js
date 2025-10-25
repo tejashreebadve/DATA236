@@ -5,6 +5,8 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const cors = require('cors');
 const pool = require('./db');
+const path = require('path');
+
 
 const app = express();
 
@@ -42,6 +44,10 @@ app.use('/api/favorites',  require('./routes/favorites'));
 app.use('/api/bookings',   require('./routes/bookings')); // if you added bookings
 app.use('/api/owners', require('./routes/owners'));
 app.get('/health', (_req,res)=>res.json({ ok:true }));
+app.use('/api/profile', require('./routes/profile'));
+app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
+
+
 
 const PORT = Number(process.env.PORT || 8000);
 app.listen(PORT, ()=>console.log('API on :' + PORT));

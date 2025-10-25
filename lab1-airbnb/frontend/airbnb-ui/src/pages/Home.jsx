@@ -5,37 +5,42 @@ import { useAuth, useFav } from "../store";
 import PropertyCard from "../components/PropertyCard";
 import FilterChips from "../components/FilterChips";
 
-export default function Home(){
+export default function Home() {
   const [items, setItems] = useState([]);
   const [active, setActive] = useState(null);
   const [params, setParams] = useSearchParams();
-  const me = useAuth(s=>s.me);
+  const me = useAuth(s => s.me);
   const fav = useFav();
 
-  useEffect(()=>{ me(); fav.load(); },[]);
+  useEffect(() => {
+    me();
+    fav.load(); // fav.load() works even if user is null (internally handles it)
+  }, []);
 
   useEffect(() => {
     const c = params.get("category");
     if (c) setActive(c);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(()=>{ (async()=>{
-    try {
-      const q = {};
-      if (active) q.category = active;
-      const { data } = await api.get("/properties/search", { params: q });
-      setItems(data || []);
-    } catch (e) {
-      console.error("Load listings failed", e);
-      setItems([]);
-    }
-  })(); }, [active]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const q = {};
+        if (active) q.category = active;
+        const { data } = await api.get("/properties/search", { params: q });
+        setItems(data || []);
+      } catch (e) {
+        console.error("Load listings failed", e);
+        setItems([]);
+      }
+    })();
+  }, [active]);
 
-  function handleChipChange(key){
+  function handleChipChange(key) {
     setActive(key);
     const next = new URLSearchParams(params);
-    if (key) next.set("category", key); else next.delete("category");
+    if (key) next.set("category", key);
+    else next.delete("category");
     setParams(next, { replace: true });
   }
 

@@ -1,57 +1,146 @@
+// src/pages/PropertyDetails.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../api";
+import { useFav, useAuth } from "../store";
 
-export default function PropertyDetails(){
+const btn = "px-4 py-2 rounded-full border border-black/30 bg-white text-black hover:border-black";
+const btnPrimary = "px-4 py-2 rounded-full border border-black bg-black text-white hover:bg-neutral-900 transition";
+
+export default function PropertyDetails() {
   const { id } = useParams();
-  const [p, setP] = useState(null);
-  const [start,setStart] = useState(""); const [end,setEnd] = useState(""); const [guests,setGuests]=useState(2);
-  const [msg,setMsg] = useState("");
+  const [property, setProperty] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [guests, setGuests] = useState(1);
+  const [msg, setMsg] = useState("");
+  const fav = useFav();
+  const user = useAuth(s => s.user);
 
-  useEffect(()=>{ (async()=>{
-    const { data } = await api.get(`/properties/${id}`);
-    setP(data);
-  })(); },[id]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await api.get(`/properties/${id}`);
+        setProperty(data);
+        if (!fav.loaded) await fav.load();
+      } catch (e) {
+        console.error("Failed to load property", e);
+      }
+    })();
+  }, [id]);
 
-  async function book(){
+  async function handleBooking(e) {
+    e.preventDefault();
     setMsg("");
-    const { data } = await api.post("/bookings",{ property_id: id, start_date: start, end_date: end, guests });
-    setMsg(`Booking created with status ${data.status || 'PENDING'}`);
+    const now = new Date();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (!startDate || !endDate || !guests) {
+      setMsg("❌ All booking fields are required.");
+      return;
+    }
+    if (start < now.setHours(0,0,0,0)) {
+      setMsg("❌ Start date must be in the future.");
+      return;
+    }
+    if (end <= start) {
+      setMsg("❌ End date must be after start date.");
+      return;
+    }
+
+    try {
+      await api.post("/bookings", {
+        propertyId: id,
+        startDate,
+        endDate,
+        guests
+      });
+      setMsg("✅ Booking request submitted.");
+    } catch (e) {
+      console.error(e);
+      setMsg("❌ Booking failed. Check dates or try again.");
+    }
   }
 
-  async function fav(){
-    await api.post(`/favorites/${id}`);
-    setMsg("Added to favorites");
+  async function toggleFav() {
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+    await fav.toggle(property.id);
   }
 
-  if (!p) return <main className="mx-auto max-w-5xl px-4 py-6">Loading...</main>
+  if (!property) return <p className="p-6">Loading...</p>;
 
-  const img = p.images?.[0]?.url || "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format";
+  const isFav = fav.ids.includes(Number(id));
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-6">
-      <div className="grid md:grid-cols-2 gap-6">
-        <img src={img} alt={p.name} className="w-full rounded-xl object-cover"/>
-        <div>
-          <h1 className="text-2xl font-semibold">{p.name}</h1>
-          <p className="text-textSecondary">{p.location}</p>
-          <p className="mt-2">{p.description}</p>
-          <p className="mt-4 font-medium">${Number(p.price_per_night).toFixed(0)} / night</p>
+    <main className="max-w-5xl mx-auto px-4 py-6">
+      <h1 className="text-3xl font-bold mb-2">{property.name}</h1>
+      <p className="text-gray-600 mb-4">{property.location}</p>
 
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <input type="date" value={start} onChange={e=>setStart(e.target.value)}
-              className="border border-borderSubtle rounded-xl px-3 py-2"/>
-            <input type="date" value={end} onChange={e=>setEnd(e.target.value)}
-              className="border border-borderSubtle rounded-xl px-3 py-2"/>
-            <input type="number" min={1} value={guests} onChange={e=>setGuests(+e.target.value)}
-              className="border border-borderSubtle rounded-xl px-3 py-2"/>
-            <button onClick={book} className="bg-brand text-white rounded-xl px-4 py-2">Book</button>
-            <button onClick={fav} className="border rounded-xl px-4 py-2">❤️ Favorite</button>
-          </div>
-
-          {msg && <p className="mt-3 text-sm text-green-700">{msg}</p>}
+      {property.images && (
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {property.images.map((url, i) => (
+            <img key={i} src={url} alt="" className="w-full h-60 object-cover rounded" />
+          ))}
         </div>
+      )}
+
+      <div className="space-y-2 mb-6">
+        <p><strong>Type:</strong> {property.type}</p>
+        <p><strong>Category:</strong> {property.category}</p>
+        <p><strong>Price per night:</strong> ${property.price_per_night}</p>
+        <p><strong>Bedrooms:</strong> {property.bedrooms}</p>
+        <p><strong>Bathrooms:</strong> {property.bathrooms}</p>
+        <p><strong>Max Guests:</strong> {property.max_guests}</p>
+        <p><strong>Amenities:</strong> {property.amenities}</p>
+        <button onClick={toggleFav} className={btn}>
+          {isFav ? "❤️ Favorited" : "🤍 Favorite"}
+        </button>
       </div>
+
+      <form onSubmit={handleBooking} className="border-t pt-4 space-y-4">
+        <h2 className="text-xl font-semibold">Book this property</h2>
+        {msg && <p className="text-blue-600">{msg}</p>}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Start Date</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              required
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">End Date</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              required
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="block text-sm font-medium mb-1">Guests</label>
+            <input
+              type="number"
+              min="1"
+              value={guests}
+              onChange={(e) => setGuests(e.target.value)}
+              className="border p-2 rounded w-full"
+              placeholder="Guests"
+            />
+          </div>
+        </div>
+        <button type="submit" className="bg-black text-white px-4 py-2 rounded">
+          Request Booking
+        </button>
+      </form>
     </main>
   );
 }

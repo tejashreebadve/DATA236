@@ -1,4 +1,3 @@
-// backend/src/routes/profile.js
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
@@ -6,81 +5,104 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-function requireAuth(req,res,next){ if(!req.session?.user) return res.status(401).json({error:'auth required'}); next(); }
+function requireAuth(req, res, next) {
+  if (!req.session?.user) return res.status(401).json({ error: 'auth required' });
+  next();
+}
 
+// ---------- File upload config ----------
 const uploadDir = path.join(__dirname, '../../uploads/avatars');
 fs.mkdirSync(uploadDir, { recursive: true });
 const upload = multer({ dest: uploadDir });
 
-/**
- * GET /api/profile/me
- * Returns current user details (adaptive: only returns columns that exist)
- */
-router.get('/me', requireAuth, async (req,res)=>{
-  try{
+// ---------- GET /api/profile/me ----------
+router.get('/me', requireAuth, async (req, res) => {
+  try {
     const uid = req.session.user.id;
-    const [rows] = await pool.query("SELECT * FROM users WHERE id=? LIMIT 1", [uid]);
-    if(!rows.length) return res.status(404).json({ error:'not found' });
-    const u = rows[0];
-    res.json({
-      id: u.id,
-      role: u.role,
-      name: u.name,
-      email: u.email,
-      phone: u.phone ?? null,
-      about: u.about ?? null,
-      city: u.city ?? null,
-      state: u.state ?? null,
-      country: u.country ?? null,
-      languages: u.languages ?? null,
-      gender: u.gender ?? null,
-      avatar: u.avatar ?? null,
-    });
-  }catch(e){
-    console.error('PROFILE /me', e);
-    res.status(500).json({ error:'Internal error' });
+
+    const [[user]] = await pool.query(
+      `SELECT id, name, email, role FROM users WHERE id = ?`,
+      [uid]
+    );
+
+    if (!user) return res.status(404).json({ error: 'user not found' });
+
+    const [[profile]] = await pool.query(
+      `SELECT phone, about_me AS about, city, country, state_abbr AS state, 
+              languages, gender, profile_image_url AS avatar
+       FROM traveler_profiles WHERE user_id = ?`,
+      [uid]
+    );
+
+    res.json({ ...user, ...profile });
+  } catch (e) {
+    console.error('GET /profile/me', e);
+    res.status(500).json({ error: 'Failed to load profile' });
   }
 });
 
-/**
- * PUT /api/profile/me
- * Updates any of: name,email,phone,about,city,state,country,languages,gender
- */
-router.put('/me', requireAuth, async (req,res)=>{
-  try{
+// ---------- PUT /api/profile/me ----------
+router.put('/me', requireAuth, async (req, res) => {
+  try {
     const uid = req.session.user.id;
-    const allowed = ['name','email','phone','about','city','state','country','languages','gender'];
-    const fields = [];
-    const params = [];
-    for(const k of allowed){
-      if(Object.prototype.hasOwnProperty.call(req.body,k)){
-        fields.push(`${k}=?`);
-        params.push(req.body[k]);
+
+    // Map frontend -> DB column names
+    const mapping = {
+      phone: 'phone',
+      about: 'about_me',
+      city: 'city',
+      country: 'country',
+      state: 'state_abbr',
+      languages: 'languages',
+      gender: 'gender',
+    };
+
+    const updates = [];
+    const values = [];
+
+    Object.keys(mapping).forEach(key => {
+      if (req.body[key] !== undefined) {
+        updates.push(`${mapping[key]} = ?`);
+        values.push(req.body[key]);
       }
-    }
-    if(!fields.length) return res.json({ ok:true });
-    params.push(uid);
-    await pool.execute(`UPDATE users SET ${fields.join(', ')} WHERE id=?`, params);
-    res.json({ ok:true });
-  }catch(e){
-    console.error('PROFILE PUT', e);
-    res.status(500).json({ error:'Internal error' });
+    });
+
+    if (!updates.length) return res.json({ ok: true });
+
+    // ensure a profile row exists
+    await pool.execute(`INSERT IGNORE INTO traveler_profiles (user_id) VALUES (?)`, [uid]);
+
+    values.push(uid);
+    const sql = `UPDATE traveler_profiles SET ${updates.join(', ')} WHERE user_id = ?`;
+    await pool.execute(sql, values);
+
+    res.json({ ok: true });
+  } catch (e) {
+    console.error('PUT /profile/me', e);
+    res.status(500).json({ error: 'Failed to update profile' });
   }
 });
 
-/**
- * POST /api/profile/avatar
- * multipart/form-data: file
- */
-router.post('/avatar', requireAuth, upload.single('file'), async (req,res)=>{
-  try{
-    if(!req.file) return res.status(400).json({ error:'file required' });
-    const rel = `/uploads/avatars/${path.basename(req.file.path)}`;
-    await pool.execute("UPDATE users SET avatar=? WHERE id=?", [rel, req.session.user.id]);
-    res.json({ ok:true, avatar: rel });
-  }catch(e){
-    console.error('PROFILE AVATAR', e);
-    res.status(500).json({ error:'Internal error' });
+// ---------- POST /api/profile/avatar ----------
+router.post('/avatar', requireAuth, upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'file required' });
+
+    const uid = req.session.user.id;
+    const relPath = `/uploads/avatars/${path.basename(req.file.path)}`;
+
+    // ensure a profile row exists
+    await pool.execute(`INSERT IGNORE INTO traveler_profiles (user_id) VALUES (?)`, [uid]);
+
+    await pool.execute(
+      `UPDATE traveler_profiles SET profile_image_url = ? WHERE user_id = ?`,
+      [relPath, uid]
+    );
+
+    res.json({ ok: true, avatar: relPath });
+  } catch (e) {
+    console.error('POST /profile/avatar', e);
+    res.status(500).json({ error: 'Upload failed' });
   }
 });
 

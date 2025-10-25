@@ -26,7 +26,7 @@ export default function Login(){
           className="w-full border border-borderSubtle rounded-xl px-3 py-2"/>
         <input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)}
           className="w-full border border-borderSubtle rounded-xl px-3 py-2"/>
-        <button className="w-full bg-brand text-white rounded-xl px-4 py-2">Log in</button>
+        <button className="bg-black text-white rounded-xl px-4 py-2 hover:bg-neutral-900 transition">Log in</button>
       </form>
       {err && <p className="text-sm text-red-600 mt-2">{err}</p>}
     </main>

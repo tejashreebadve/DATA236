@@ -11,7 +11,19 @@ export const useAuth = create((set, get) => ({
       const { data } = await api.get("/auth/me");
       set({ user: data?.user ?? null });
     } catch {
-      set({ user: null }); // never throw
+      set({ user: null });
+    }
+  },
+
+  async signup(payload) {
+    try {
+      const res = await api.post("/auth/signup", payload);
+      const user = res?.data?.user || null;
+      set({ user });
+      return user ? { ok: true, user } : { ok: false, error: "No user in response" };
+    } catch (e) {
+      const msg = e?.response?.data?.error || "Signup failed";
+      return { ok: false, error: msg };
     }
   },
 
@@ -38,34 +50,50 @@ export const useFav = create((set, get) => ({
   ids: [],
 
   async load() {
-    // idempotent
     if (get().loaded) return;
     try {
-      const { data } = await api.get("/favorites");
-      // accept either [{property_id:1}, ...] or [1,2,3]
-      const list = Array.isArray(data) ? data : [];
-      const ids = list.map((x) => (typeof x === "number" ? x : x.property_id)).filter(Boolean);
+      const { data } = await api.get("/favorites/mine");  // ✅ fixed path
+      const ids = Array.isArray(data) ? data.map((p) => p.id || p.property_id) : [];
       set({ ids, loaded: true });
-    } catch {
-      set({ loaded: true }); // never throw
+    } catch (e) {
+      console.error("Failed to load favorites", e);
+      set({ loaded: true });
+    }
+  },
+
+  async add(propertyId) {
+    try {
+      await api.post(`/favorites/${propertyId}`);
+      set((state) => ({
+        ids: [...state.ids, propertyId],
+      }));
+    } catch (e) {
+      console.error("Failed to add favorite", e);
+    }
+  },
+
+  async remove(propertyId) {
+    try {
+      await api.delete(`/favorites/${propertyId}`);
+      set((state) => ({
+        ids: state.ids.filter((id) => id !== propertyId),
+      }));
+    } catch (e) {
+      console.error("Failed to remove favorite", e);
+      throw e;
     }
   },
 
   async toggle(propertyId) {
-    // optimistic toggle
     const has = get().ids.includes(propertyId);
-    set({ ids: has ? get().ids.filter((id) => id !== propertyId) : [...get().ids, propertyId] });
-
     try {
-      // Prefer POST to add, DELETE to remove; adjust if your backend uses a different shape.
       if (has) {
-        await api.delete(`/favorites/${propertyId}`);
+        await get().remove(propertyId);
       } else {
-        await api.post(`/favorites/${propertyId}`);
+        await get().add(propertyId);
       }
-    } catch {
-      // revert on failure
-      set({ ids: get().ids });
+    } catch (e) {
+      console.error("Toggle favorite failed", e);
     }
   },
 }));

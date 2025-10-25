@@ -1,60 +1,110 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
-import { COUNTRIES } from "../utils/countries";
-import { US_STATES } from "../utils/usStates";
 
-export default function TravelerProfile(){
-  const [p,setP] = useState({});
-  const [msg,setMsg] = useState("");
+const countries = ["USA", "Canada", "India", "Germany", "France", "UK"];
+const states = ["CA", "NY", "TX", "WA", "FL", "ON", "MH", "DL"];
 
-  useEffect(()=>{ (async()=>{
-    const { data } = await api.get('/traveler/profile');
-    setP(data || {});
-  })(); },[]);
+export default function TravelerProfile() {
+  const [form, setForm] = useState({});
+  const [avatar, setAvatar] = useState("");
+  const [msg, setMsg] = useState("");
+  const [err, setErr] = useState("");
 
-  async function save(){
-    await api.put('/traveler/profile', p);
-    setMsg("Profile saved");
+  async function fetchProfile() {
+    try {
+      const { data } = await api.get("/profile/me");
+      setForm(data || {});
+      setAvatar(data.avatar || "");
+    } catch {
+      setErr("❌ Failed to load profile.");
+    }
   }
 
-  async function upload(e){
-    const f = e.target.files[0]; if(!f) return;
-    const fd = new FormData(); fd.append('image', f);
-    const { data } = await api.post('/upload/profile', fd, { headers: { 'Content-Type':'multipart/form-data' }});
-    setP(prev => ({ ...prev, profile_image_url: data.url }));
+  useEffect(() => { fetchProfile(); }, []);
+
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setMsg(""); setErr("");
+    try {
+      await api.put("/profile/me", form);
+      setMsg("✅ Profile updated successfully.");
+      fetchProfile();
+    } catch (e) {
+      console.error("UPDATE FAILED:", e?.response?.data || e);
+      setErr("❌ Update failed. Please check logs.");
+    }
+  }
+
+  async function handleFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const { data } = await api.post("/profile/avatar", fd);
+      setAvatar(data.avatar);
+      setMsg("✅ Profile picture updated.");
+    } catch {
+      setErr("❌ Image upload failed.");
+    }
   }
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-6 space-y-3">
-      <h1 className="text-2xl font-semibold">Traveler Profile</h1>
-      <div className="grid gap-3">
-        <input placeholder="Phone" value={p.phone||''} onChange={e=>setP({...p, phone:e.target.value})}
-          className="border border-borderSubtle rounded-xl px-3 py-2"/>
-        <textarea placeholder="About me" value={p.about_me||''} onChange={e=>setP({...p, about_me:e.target.value})}
-          className="border border-borderSubtle rounded-xl px-3 py-2"/>
-        <select value={p.country||''} onChange={e=>setP({...p, country:e.target.value})}
-          className="border border-borderSubtle rounded-xl px-3 py-2">
-          <option value="">Select country</option>
-          {COUNTRIES.map(c=><option key={c} value={c}>{c}</option>)}
-        </select>
-        <input placeholder="City" value={p.city||''} onChange={e=>setP({...p, city:e.target.value})}
-          className="border border-borderSubtle rounded-xl px-3 py-2"/>
-        <select value={p.state_abbr||''} onChange={e=>setP({...p, state_abbr:e.target.value})}
-          className="border border-borderSubtle rounded-xl px-3 py-2">
-          <option value="">State (2-letter)</option>
-          {US_STATES.map(s=><option key={s} value={s}>{s}</option>)}
-        </select>
-        <input placeholder="Languages (comma separated)" value={p.languages||''} onChange={e=>setP({...p, languages:e.target.value})}
-          className="border border-borderSubtle rounded-xl px-3 py-2"/>
-        <input placeholder="Gender" value={p.gender||''} onChange={e=>setP({...p, gender:e.target.value})}
-          className="border border-borderSubtle rounded-xl px-3 py-2"/>
-        <div className="flex items-center gap-3">
-          {p.profile_image_url && <img src={`http://localhost:8000${p.profile_image_url}`} alt="Profile" className="h-16 w-16 rounded-full object-cover border"/>}
-          <input type="file" onChange={upload}/>
+    <main className="max-w-3xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">My Profile</h1>
+
+      {msg && <p className="mb-4 text-green-600">{msg}</p>}
+      {err && <p className="mb-4 text-red-600">{err}</p>}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex items-center gap-4">
+          <img
+            src={avatar || "/placeholder.jpg"}
+            alt="avatar"
+            className="h-20 w-20 object-cover rounded-full border"
+          />
+          <label className="text-sm text-gray-600">
+            <span className="block">Upload new picture</span>
+            <input type="file" accept="image/*" onChange={handleFile} />
+          </label>
         </div>
-        <button onClick={save} className="bg-brand text-white rounded-xl px-4 py-2 w-fit">Save</button>
-        {msg && <p className="text-green-700 text-sm">{msg}</p>}
-      </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <input name="name" value={form.name || ""} onChange={handleChange} placeholder="Name" className="border p-2 rounded" />
+          <input name="email" value={form.email || ""} disabled className="border p-2 rounded bg-gray-100" />
+          <input name="phone" value={form.phone || ""} onChange={handleChange} placeholder="Phone" className="border p-2 rounded" />
+          <input name="city" value={form.city || ""} onChange={handleChange} placeholder="City" className="border p-2 rounded" />
+          <select name="state" value={form.state || ""} onChange={handleChange} className="border p-2 rounded">
+            <option value="">State</option>
+            {states.map(s => <option key={s}>{s}</option>)}
+          </select>
+          <select name="country" value={form.country || ""} onChange={handleChange} className="border p-2 rounded">
+            <option value="">Country</option>
+            {countries.map(c => <option key={c}>{c}</option>)}
+          </select>
+          <input name="languages" value={form.languages || ""} onChange={handleChange} placeholder="Languages" className="border p-2 rounded col-span-2" />
+          <input name="gender" value={form.gender || ""} onChange={handleChange} placeholder="Gender" className="border p-2 rounded col-span-2" />
+        </div>
+
+        <textarea
+          name="about"
+          value={form.about || ""}
+          onChange={handleChange}
+          placeholder="About me"
+          className="border p-2 rounded w-full h-24"
+        />
+
+        <button
+          type="submit"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+        >
+          Save Changes
+        </button>
+      </form>
     </main>
   );
 }
