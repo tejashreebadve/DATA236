@@ -1,5 +1,6 @@
-import os, re, json
-from typing import Tuple, Optional, List, Dict
+# agent/chains.py
+import os, re, json, datetime
+from typing import Tuple, Optional, List, Dict, Any
 
 import httpx
 from dotenv import load_dotenv
@@ -8,77 +9,123 @@ from langchain_anthropic import ChatAnthropic
 from schemas import AgentPlanRequest, PlanResponse
 from tools.weather import weather_summary
 
-
 # =========================
-# 0) Load environment early
+# 0) Environment & LLM init
 # =========================
-# Ensures this works no matter where uvicorn is started from
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path, override=True)
 
-# Validate Anthropic key before proceeding
 ANTHROPIC_API_KEY = (os.getenv("ANTHROPIC_API_KEY") or "").strip()
 if not ANTHROPIC_API_KEY.startswith("sk-ant-"):
     raise RuntimeError(
         "❌ Anthropic API key not found or invalid. "
-        "Please set ANTHROPIC_API_KEY in agent/.env (starts with sk-ant-)."
+        "Set ANTHROPIC_API_KEY in agent/.env (starts with sk-ant-)."
     )
 
-# =========================
-# 1) LLM: Claude 3.5 Haiku
-# =========================
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-3-5-haiku-20241022")
+
 llm = ChatAnthropic(
     model=ANTHROPIC_MODEL,
     anthropic_api_key=ANTHROPIC_API_KEY,
     temperature=0.3,
-    max_tokens=900,  # generous but bounded
+    max_tokens=2200,   # room for JSON
 )
 
 # =========================
-# 2) Tavily lightweight client (no LC tool import to avoid version churn)
+# 1) Tavily lightweight client
 # =========================
 TAVILY_API_KEY = (os.getenv("TAVILY_API_KEY") or "").strip()
 
-def tavily_search(q: str, max_results: int = 3) -> List[Dict]:
-    """Minimal Tavily REST call that works regardless of LangChain tool versions."""
+def tavily_search(
+    q: str,
+    max_results: int = 8,
+    depth: str = "advanced",
+    include: Optional[List[str]] = None,
+    exclude: Optional[List[str]] = None,
+    include_answer: bool = True,
+    timeout_s: int = 20,
+) -> Dict[str, Any]:
+    """
+    Minimal Tavily REST call.
+    Returns a dict: { query, answer, results: [ {title,url,content,score,...}, ... ] }
+    """
     if not TAVILY_API_KEY:
-        return []
-    url = "https://api.tavily.com/search"
+        print("[TAVILY] No API key configured.")
+        return {"query": q, "answer": "", "results": []}
+
     payload = {
         "api_key": TAVILY_API_KEY,
         "query": q,
-        "search_depth": "basic",
+        "search_depth": depth,
         "max_results": max_results,
-        "include_domains": [],
-        "exclude_domains": [],
-        "include_answer": False,
+        "include_answer": include_answer,
+        "include_domains": include or [],
+        "exclude_domains": exclude or [],
     }
-    try:
-        with httpx.Client(timeout=15) as c:
-            r = c.post(url, json=payload)
-            r.raise_for_status()
-            data = r.json()
-            return data.get("results", []) or []
-    except Exception:
-        return []
 
-def tavily_snippet(q: str, max_len: int = 600) -> str:
-    res = tavily_search(q, max_results=3)
-    if not res:
-        return ""
-    chunks = []
-    for item in res[:3]:
+    try:
+        with httpx.Client(timeout=timeout_s) as c:
+            r = c.post("https://api.tavily.com/search", json=payload)
+            r.raise_for_status()
+            data = r.json() or {}
+            # ---------- DEBUG ----------
+            print("\n" + "="*80)
+            print(f"[TAVILY RAW] Query: {q}")
+            # Print a pretty but bounded preview
+            try:
+                print(json.dumps(data, indent=2)[:3000])
+            except Exception:
+                print(str(data)[:3000])
+            print("="*80 + "\n")
+            # ---------------------------
+            # Ensure shape
+            data.setdefault("query", q)
+            data.setdefault("answer", "")
+            data.setdefault("results", [])
+            return data
+    except Exception as e:
+        print(f"[TAVILY ERROR] {e}")
+        return {"query": q, "answer": "", "results": []}
+
+def tavily_snippet(query: str, *, max_len: int = 1800, **search_kwargs) -> str:
+    """
+    Fetch richer Tavily snippets including title, score, and URLs.
+    Gives the LLM explicit structured input so it can extract real entities.
+    DEBUG: prints summary lines and the final snippet size.
+    """
+    data = tavily_search(query, **search_kwargs)  # returns dict
+    answer = data.get("answer") or ""
+    results = data.get("results") or []
+
+    lines = []
+    if answer:
+        lines.append(f"Summary from Tavily: {answer.strip()}")
+
+    for idx, item in enumerate(results[:8], start=1):
         title = item.get("title") or ""
         content = item.get("content") or ""
         url = item.get("url") or ""
-        chunks.append(f"- {title}: {content[:220]}… ({url})")
-    s = "\n".join(chunks)
-    return s[:max_len]
+        score = item.get("score", None)
+        score_str = f"{score:.2f}" if isinstance(score, (int, float)) else "N/A"
+        lines.append(
+            f"- #{idx} TITLE: {title}\n  SCORE: {score_str}\n  EXCERPT: {content[:500]}\n  SOURCE: {url}"
+        )
 
+    snippet = "\n".join(lines)[:max_len] or "No web results found."
+
+    # ---------- DEBUG ----------
+    print("[TAVILY SNIPPET] Built snippet for query:")
+    print(f"  {query}")
+    print(f"  Lines: {len(lines)}, Length: {len(snippet)} chars")
+    print("  Preview:")
+    print("  " + "\n  ".join(snippet.splitlines()[:6]))
+    print("-"*80)
+    # ---------------------------
+
+    return snippet
 
 # =========================
-# 3) Helpers
+# 2) Helpers
 # =========================
 MONTHS = [
     "january","february","march","april","may","june","july",
@@ -101,25 +148,43 @@ def _clean_concise(text: str) -> str:
     t = re.sub(r"^\s*(Answer|Summary|Final Answer)\s*[:\-]\s*", "", t, flags=re.I)
     return t if len(t) <= 1200 else t[:1200].rsplit(" ", 1)[0] + "…"
 
+def _date_range(start: str, end: str) -> List[str]:
+    """Inclusive ISO date range; fallback to 2 days if parsing fails."""
+    try:
+        s = datetime.date.fromisoformat(start)
+        e = datetime.date.fromisoformat(end)
+        if e < s:
+            e = s
+        days = []
+        cur = s
+        while cur <= e and len(days) < 10:
+            days.append(cur.isoformat())
+            cur = cur + datetime.timedelta(days=1)
+        if not days:
+            days = [s.isoformat()]
+        return days
+    except Exception:
+        today = datetime.date.today().isoformat()
+        return [today, (datetime.date.today() + datetime.timedelta(days=1)).isoformat()]
 
 # =========================
-# 4) Anonymous Chat (web + weather + LLM)
+# 3) Anonymous Chat (web + weather + LLM)
 # =========================
 def general_chat(question: str) -> str:
     """
     Non-logged-in flow:
-    - Try one quick Tavily search.
-    - Try a weather hint if a month + city are detected.
-    - Ask Claude to produce a concise, practical answer (3–6 sentences).
+    - Tavily snippet (quick grounding)
+    - Weather hint if month+city detected
+    - Concise 3–6 sentence answer
     """
-    ctx_parts = []
+    print("\n[GENERAL_CHAT] Q:", question)
 
-    # Web context
+    ctx_parts = []
     web = tavily_snippet(question)
     if web:
         ctx_parts.append("Web:\n" + web)
 
-    # Weather context
+    # Weather context if "in/for <city>" + month present
     wx_text = ""
     mn, _ = _extract_month(question)
     cm = re.search(r"(?:in|for)\s+([A-Za-z][A-Za-z\s\-,]+)", question)
@@ -130,147 +195,135 @@ def general_chat(question: str) -> str:
             wx_text = weather_summary(f"{city} | {start} to {end}")
             if wx_text:
                 ctx_parts.append("Weather:\n" + wx_text)
-        except Exception:
-            pass
+        except Exception as e:
+            print("[GENERAL_CHAT] Weather summary error:", e)
 
     system = (
         "You are TripMate, a concise travel assistant.\n"
         "Use the context if helpful. Answer in 3–6 sentences. Be specific and practical."
     )
     user = (("Context:\n" + "\n\n".join(ctx_parts) + "\n\n") if ctx_parts else "") + f"Question: {question}\nAnswer:"
-    try:
-        resp = llm.invoke(system + "\n\n" + user)
-        return _clean_concise(resp.content if hasattr(resp, "content") else str(resp))
-    except Exception as e:
-        print(f"[TripMate ERROR] Claude invocation failed: {e}")
-        return f"Sorry, I had trouble answering that."
 
-
-# =========================
-# 5) Logged-in Structured Planner (JSON) — no preferences field required
-# =========================
-import re, json
-from typing import Any, Dict
-
-def _budget_tier_from_number(usd: int | None) -> str:
-    """Tiny heuristic to steer suggestions; defaults to '$$'."""
-    if usd is None: return "$$"
-    return "$" if usd < 500 else ("$$" if usd < 1500 else "$$$")
-
-def _extract_from_ask(llm, ask: str) -> Dict[str, Any]:
-    """
-    OPTIONAL NLU: pull hints from the user's free text.
-    If extraction fails, return safe defaults.
-    """
-    if not (ask or "").strip():
-        return {"budget_amount_usd": None, "interests": [], "mobility": "none", "dietary": None}
-
-    # quick regex budget number
-    fallback_budget = None
-    m = re.search(r"\$?\s*([0-9]{2,6})\s*(?:usd|dollars|bucks)?", ask.lower())
-    if m:
-        try: fallback_budget = int(m.group(1))
-        except: pass
-
-    system = (
-        "Extract structured travel preferences from a single message. "
-        "Return ONLY JSON:\n"
-        "{"
-        '  "budget_amount_usd": number|null,'
-        '  "interests": string[],'
-        '  "mobility": "none"|"wheelchair"|"limited",'
-        '  "dietary": string|null'
-        "}\n"
-        "If unsure, use null or empty."
-    )
-    user = f"Message: {ask}\nReturn ONLY the JSON."
-    try:
-        resp = llm.invoke(system + "\n\n" + user)
-        data = json.loads(resp.content if hasattr(resp, "content") else str(resp))
-    except Exception:
-        data = {"budget_amount_usd": None, "interests": [], "mobility": "none", "dietary": None}
-
-    if data.get("budget_amount_usd") is None and fallback_budget is not None:
-        data["budget_amount_usd"] = fallback_budget
-    if not isinstance(data.get("interests"), list):
-        data["interests"] = []
-    if data.get("mobility") not in ("none", "wheelchair", "limited"):
-        data["mobility"] = "none"
-    if data.get("dietary") is not None and not isinstance(data["dietary"], str):
-        data["dietary"] = None
-    return data
-
-def plan_with_context(req: AgentPlanRequest) -> PlanResponse:
-    """
-    Build a plan using ONLY:
-      - req.booking: { id?, location, start, end, guests, (optional) partyType }
-      - req.ask: free text (optional)
-    No 'preferences' are read or required.
-    """
-    # --- 1) Normalize booking fields ---
-    city   = req.booking.location
-    start  = req.booking.start       # expected "YYYY-MM-DD" (client slices ISO)
-    end    = req.booking.end
-    guests = req.booking.guests
-    party  = getattr(req.booking, "partyType", None) or "group"
-    ask    = getattr(req, "ask", "") or ""
-
-    # --- 2) Context (POIs / Food via Tavily, Weather via tool) ---
-    # Keep queries minimal; just steer by city + whatever the user typed.
-    try:
-        pois = tavily_snippet(
-            f"Top things to do in {city}. Include addresses when possible. "
-            f"Keep it concise. Consider families if mentioned. Hints: {ask[:250]}"
-        ) or "Web search unavailable."
-    except Exception:
-        pois = "Web search unavailable."
-
-    try:
-        food = tavily_snippet(
-            f"Good restaurants in {city}. Include addresses when possible. "
-            f"Prefer options that match any dietary hints from: {ask[:250]}"
-        ) or "Web search unavailable."
-    except Exception:
-        food = "Web search unavailable."
-
-    try:
-        wx = weather_summary(f"{city} | {start} to {end}")
-    except Exception:
-        wx = "Weather data unavailable."
-
-    # --- 3) Ask Haiku for a compact JSON plan ---
-    system = (
-        "You are TripMate, a concise travel concierge.\n"
-        "Return ONLY valid JSON with keys:\n"
-        "  itinerary: [ { date: string, morning: [Activity], afternoon: [Activity], evening: [Activity] } ],\n"
-        "  activities: [Activity],\n"
-        "  restaurants: [Activity],\n"
-        "  packing: [string]\n\n"
-        "Activity schema:\n"
-        "{ title: string, address: string, priceTier: \"$\"|\"$$\"|\"$$$\"|\"$$$$\", duration: string,\n"
-        "  tags: string[], flags: { wheelchair: boolean, childFriendly: boolean } }\n"
-        "Be realistic, compact, and weather-aware. Use the web context to anchor suggestions."
-    )
-
-    user = (
-        f"Booking:\n"
-        f"- City: {city}\n- Dates: {start} → {end}\n- Guests: {guests}\n- Party type: {party}\n"
-        f"User ask (free text): {ask or '(none)'}\n\n"
-        f"POIs (web):\n{pois}\n\n"
-        f"Restaurants (web):\n{food}\n\n"
-        f"Weather summary:\n{wx}\n\n"
-        "Return ONLY the JSON."
-    )
+    print(f"[GENERAL_CHAT] Context blocks: {len(ctx_parts)}, total length: {len(user)} chars")
 
     try:
         resp = llm.invoke(system + "\n\n" + user)
         text = resp.content if hasattr(resp, "content") else str(resp)
-        data = json.loads(text)  # strict parse
-        return PlanResponse(**data)
+        ans = _clean_concise(text)
+        print("[GENERAL_CHAT] Answer preview:", ans[:200], "...")
+        return ans
     except Exception as e:
-        # Minimal valid fallback keeps UI functional
-        print(f"[TripMate ERROR] Plan generation failed: {e}")
-        pack = ["comfortable shoes", "reusable water bottle"]
+        print(f"[TripMate ERROR] Claude invocation failed: {e}")
+        return "Sorry, I had trouble answering that."
+
+# =========================
+# 4) Logged-in Structured Planner (JSON)
+# =========================
+def plan_with_context(req: AgentPlanRequest) -> PlanResponse:
+    """
+    Generate a full travel plan based on booking (dates, city, guests) and
+    optional free-text ask. Automatically fuses Tavily and weather context.
+    Adds detailed DEBUG prints at each step.
+    """
+    # --- 1. Basic fields ---
+    city   = req.booking.location
+    start  = req.booking.start[:10] if isinstance(req.booking.start, str) else str(req.booking.start)
+    end    = req.booking.end[:10]   if isinstance(req.booking.end, str)   else str(req.booking.end)
+    guests = int(req.booking.guests or 1)
+    party  = getattr(req.booking, "partyType", "group")
+    ask    = (getattr(req, "ask", "") or "").strip()
+
+    print("\n" + "#"*90)
+    print("[PLAN] Booking:", {"city": city, "start": start, "end": end, "guests": guests, "partyType": party})
+    print("[PLAN] User ask:", ask)
+    print("#"*90 + "\n")
+
+    # --- 2. Context from Tavily + weather ---
+    poi_query = (
+        f"Best things to do in {city} between {start} and {end}. "
+        f"Include addresses and note kid-friendly or wheelchair-friendly if relevant. "
+        f"Hints from user: {ask[:250]}"
+    )
+    food_query = (
+        f"Best restaurants in {city} between {start} and {end}. "
+        f"Prefer options matching dietary hints from: {ask[:250]}"
+    )
+
+    poi_snip = tavily_snippet(poi_query, max_len=1800, include_answer=True)
+    food_snip = tavily_snippet(food_query, max_len=1800, include_answer=True)
+
+    try:
+        wx = weather_summary(f"{city} | {start} to {end}")
+    except Exception as e:
+        print("[PLAN] Weather error:", e)
+        wx = "Weather data unavailable."
+
+    print("[PLAN] Snippet lengths → POIs:", len(poi_snip), "Food:", len(food_snip))
+    print("[PLAN] Weather summary length:", len(wx) if isinstance(wx, str) else 0)
+
+    # --- 3. Strong system prompt (JSON-only) ---
+    system = (
+        "You are TripMate, an expert AI travel planner.\n"
+        "You will receive:\n"
+        "- A booking (city, dates, guests)\n"
+        "- A free-text traveler request\n"
+        "- Tavily web data with TITLE, CONTENT EXCERPTS, URL, and SCORE (as a structured text block)\n"
+        "- Weather summary\n\n"
+        "Your job:\n"
+        "1. Infer traveler preferences (budget, interests, mobility, dietary) from the free text if present.\n"
+        "2. Use Tavily 'content' excerpts to extract REAL places and restaurants (do NOT just repeat article titles).\n"
+        "3. Produce strictly valid JSON with keys:\n"
+        "{\n"
+        "  \"itinerary\": [ { \"date\": string, \"morning\": [Activity], \"afternoon\": [Activity], \"evening\": [Activity] } ],\n"
+        "  \"activities\": [Activity],\n"
+        "  \"restaurants\": [Activity],\n"
+        "  \"packing\": [string]\n"
+        "}\n"
+        "Activity = { \"title\": string, \"address\": string, \"priceTier\": \"$\"|\"$$\"|\"$$$\"|\"$$$$\", "
+        "\"duration\": string, \"tags\": [string], \"flags\": {\"wheelchair\": boolean, \"childFriendly\": boolean} }\n"
+        "Generate at least 2 itinerary days (or all between start and end), with 1–2 items per block, grounded by Tavily.\n"
+        "Weather should influence packing and indoor/outdoor timing.\n"
+        "Return ONLY the JSON — no commentary."
+    )
+
+    user = (
+        f"BOOKING:\n"
+        f"City: {city}\nDates: {start} → {end}\nGuests: {guests}\nParty type: {party}\n\n"
+        f"USER TEXT:\n{ask or '(none)'}\n\n"
+        f"TAVILY – PLACES (structured lines):\n{poi_snip}\n\n"
+        f"TAVILY – RESTAURANTS (structured lines):\n{food_snip}\n\n"
+        f"WEATHER:\n{wx}\n\n"
+        "Return ONLY the JSON object."
+    )
+
+    print("[PLAN] Prompt sizes → system:", len(system), "user:", len(user))
+
+    # --- 4. LLM call and parse ---
+    try:
+        resp = llm.invoke(system + "\n\n" + user)
+        raw = resp.content if hasattr(resp, "content") else str(resp)
+
+        print("[PLAN] RAW LLM (first 1200 chars):")
+        print(raw[:1200])
+        if len(raw) > 1200:
+            print("... [truncated] ...")
+
+        data = json.loads(raw)
+
+        # Light repair: if a block is string, wrap into activity object
+        for day in data.get("itinerary", []):
+            for block in ("morning", "afternoon", "evening"):
+                if isinstance(day.get(block), str):
+                    day[block] = [{"title": day[block], "address": "", "priceTier": "$$", "duration": "1-2h", "tags": [], "flags": {"wheelchair": False, "childFriendly": True}}]
+
+        parsed = PlanResponse(**data)
+        print("[PLAN] Parsed PlanResponse OK.")
+        return parsed
+
+    except Exception as e:
+        print(f"[TripMate ERROR] JSON parse failed: {e}")
+        # Empty but valid response (no deterministic synthesis)
+        fallback_pack = []
         if isinstance(wx, str) and wx:
-            pack.append(wx)
-        return PlanResponse(itinerary=[], activities=[], restaurants=[], packing=pack)
+            fallback_pack.append(wx)
+        return PlanResponse(itinerary=[], activities=[], restaurants=[], packing=fallback_pack)

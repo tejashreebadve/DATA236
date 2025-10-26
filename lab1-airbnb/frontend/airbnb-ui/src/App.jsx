@@ -76,20 +76,15 @@ export default function App(){
 
     // --- Map whatever your backend returns → the exact schema agent needs
     const toAgentBooking = (b) => {
-      // dates come in many shapes: start, start_date, checkIn, check_in
       const startRaw =
         b.start || b.start_date || b.checkIn || b.check_in || b.checkin || ''
       const endRaw =
         b.end || b.end_date || b.checkOut || b.check_out || b.checkout || ''
-
       const normDate = (v) => (typeof v === 'string' ? v.slice(0,10) : '')
-
-      // location fallback if your row has city/state/country fields
       const loc =
         b.location ||
         [b.city, b.state, b.country].filter(Boolean).join(', ') ||
         'Unknown'
-
       return {
         id: b.id,
         location: loc,
@@ -103,16 +98,13 @@ export default function App(){
     try {
       const payload = {
         booking: toAgentBooking(selected),
-        // We removed preferences from the UX; planner ignores them anyway
         ask: ask || ''
       }
 
-      // quick client-side assert to catch missing fields before 422
       if (!payload.booking.location || !payload.booking.start || !payload.booking.end) {
         throw new Error('Missing required booking fields (location/start/end).')
       }
 
-      console.log('[agentPlan] payload →', payload)
       const data = await agentPlan(payload)
       setResp(data)
       setMode('plan')
@@ -123,6 +115,46 @@ export default function App(){
     } finally {
       setBusy(false)
     }
+  }
+
+  // -----------------------
+  // Small UI helpers
+  // -----------------------
+  const fmtDate = (v) => (typeof v === 'string' ? v.slice(0,10) : '')
+  const viewDate = (b) => ({
+    start: fmtDate(b.start || b.start_date || b.checkIn || b.check_in || b.checkin || ''),
+    end:   fmtDate(b.end   || b.end_date   || b.checkOut || b.check_out || b.checkout || ''),
+  })
+
+  const ActivityRow = ({ item }) => {
+    if (!item) return null
+    const flags = item.flags || {}
+    const tagText = Array.isArray(item.tags) && item.tags.length ? ` – ${item.tags.join(', ')}` : ''
+    const price = item.priceTier ? ` (${item.priceTier})` : ''
+    const dur = item.duration ? ` • ${item.duration}` : ''
+    const addr = item.address ? (
+      <div className="text-xs text-gray-500">{item.address}</div>
+    ) : null
+    const pills = (
+      <div className="flex flex-wrap gap-2 mt-1">
+        {flags.wheelchair ? (
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200">wheelchair</span>
+        ) : null}
+        {flags.childFriendly ? (
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 border border-indigo-200">kid-friendly</span>
+        ) : null}
+      </div>
+    )
+    return (
+      <li className="mb-2">
+        <div className="font-medium">
+          {item.title}
+          {price}{dur}{tagText}
+        </div>
+        {addr}
+        {(flags.wheelchair || flags.childFriendly) ? pills : null}
+      </li>
+    )
   }
 
   return (
@@ -182,18 +214,23 @@ export default function App(){
             <p className="text-sm text-gray-700">Choose one of your upcoming trips:</p>
 
             <ul className="space-y-2">
-              {bookings.map(b => (
-                <li key={b.id}>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="trip"
-                      onChange={()=>setSelected(b)}
-                    />
-                    <span>{b.location} — {b.start} → {b.end} ({b.guests} guests)</span>
-                  </label>
-                </li>
-              ))}
+              {bookings.map(b => {
+                const d = viewDate(b)
+                return (
+                  <li key={b.id}>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="trip"
+                        onChange={()=>setSelected(b)}
+                      />
+                      <span>
+                        {b.location} — {d.start} → {d.end} ({b.guests} guests)
+                      </span>
+                    </label>
+                  </li>
+                )
+              })}
               {!bookings?.length && (
                 <li className="text-sm text-gray-500">No upcoming trips found.</li>
               )}
@@ -220,6 +257,12 @@ export default function App(){
         {/* Plan view */}
         {mode === 'plan' && resp && typeof resp === 'object' && (
           <div className="space-y-4">
+            {/* Raw JSON (collapsible) for quick inspection */}
+            <details className="rounded border border-gray-200 bg-white p-2">
+              <summary className="cursor-pointer text-sm text-gray-700">View raw JSON</summary>
+              <pre className="mt-2 text-xs overflow-auto">{JSON.stringify(resp, null, 2)}</pre>
+            </details>
+
             <section>
               <h4 className="font-semibold mb-2">Packing</h4>
               <ul className="list-disc ml-5">
@@ -229,18 +272,16 @@ export default function App(){
 
             <section>
               <h4 className="font-semibold mb-2">Itinerary</h4>
-              {resp.itinerary?.map((day) => (
-                <div key={day.date} className="mb-3">
-                  <div className="font-medium">{day.date}</div>
+              {resp.itinerary?.map((day, di) => (
+                <div key={`${day.date || di}`} className="mb-3">
+                  <div className="font-medium">{day.date || `Day ${di+1}`}</div>
                   {['morning','afternoon','evening'].map(slot => (
                     <div key={slot} className="ml-3">
                       <div className="text-sm text-gray-600 capitalize">{slot}</div>
-                      <ul className="list-disc ml-5">
-                        {day[slot]?.map((c, idx) => (
-                          <li key={idx}>
-                            {c.title} {c.priceTier ? `(${c.priceTier})` : ''} {c.tags?.length ? `– ${c.tags.join(', ')}` : ''}
-                          </li>
-                        ))}
+                      <ul className="ml-5">
+                        {Array.isArray(day[slot]) && day[slot].length
+                          ? day[slot].map((c, idx) => <ActivityRow key={idx} item={c} />)
+                          : <li className="text-sm text-gray-400">—</li>}
                       </ul>
                     </div>
                   ))}
@@ -250,12 +291,20 @@ export default function App(){
 
             <section>
               <h4 className="font-semibold mb-2">Activities</h4>
-              <ul className="list-disc ml-5">{resp.activities?.map((a,i)=><li key={i}>{a.title}</li>)}</ul>
+              <ul className="ml-5">
+                {resp.activities?.length
+                  ? resp.activities.map((a,i)=><ActivityRow key={i} item={a} />)
+                  : <li className="text-sm text-gray-400">—</li>}
+              </ul>
             </section>
 
             <section>
               <h4 className="font-semibold mb-2">Restaurants</h4>
-              <ul className="list-disc ml-5">{resp.restaurants?.map((r,i)=><li key={i}>{r.title}</li>)}</ul>
+              <ul className="ml-5">
+                {resp.restaurants?.length
+                  ? resp.restaurants.map((r,i)=><ActivityRow key={i} item={r} />)
+                  : <li className="text-sm text-gray-400">—</li>}
+              </ul>
             </section>
           </div>
         )}
