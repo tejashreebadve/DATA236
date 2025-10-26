@@ -56,6 +56,7 @@ export function agentChat(question) {
  * }>}
  */
 export function agentPlan(payload) {
+  console.log("here!");
   return agentClient.post("/agent/plan", payload).then((r) => r.data);
 }
 

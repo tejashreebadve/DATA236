@@ -73,25 +73,52 @@ export default function App(){
     e?.preventDefault?.()
     if (!selected) return
     setBusy(true); setError(''); setResp(null)
+
+    // --- Map whatever your backend returns → the exact schema agent needs
+    const toAgentBooking = (b) => {
+      // dates come in many shapes: start, start_date, checkIn, check_in
+      const startRaw =
+        b.start || b.start_date || b.checkIn || b.check_in || b.checkin || ''
+      const endRaw =
+        b.end || b.end_date || b.checkOut || b.check_out || b.checkout || ''
+
+      const normDate = (v) => (typeof v === 'string' ? v.slice(0,10) : '')
+
+      // location fallback if your row has city/state/country fields
+      const loc =
+        b.location ||
+        [b.city, b.state, b.country].filter(Boolean).join(', ') ||
+        'Unknown'
+
+      return {
+        id: b.id,
+        location: loc,
+        start: normDate(startRaw),
+        end: normDate(endRaw),
+        partyType: b.partyType || 'family',
+        guests: Number(b.guests || 2),
+      }
+    }
+
     try {
       const payload = {
-        booking: {
-          id: selected.id,
-          location: selected.location,
-          start: selected.start,
-          end: selected.end,
-          partyType: 'family',
-          guests: selected.guests || 2
-        },
-        // ⬇️ Let Haiku extract budget/interests/mobility/diet from ask (NLU)
-        preferences: {},
+        booking: toAgentBooking(selected),
+        // We removed preferences from the UX; planner ignores them anyway
         ask: ask || ''
       }
+
+      // quick client-side assert to catch missing fields before 422
+      if (!payload.booking.location || !payload.booking.start || !payload.booking.end) {
+        throw new Error('Missing required booking fields (location/start/end).')
+      }
+
+      console.log('[agentPlan] payload →', payload)
       const data = await agentPlan(payload)
       setResp(data)
       setMode('plan')
     } catch (e) {
-      setError('Could not generate plan. Please try again.')
+      console.error('submitPlan error:', e)
+      setError('Could not generate plan. Please check dates/location and try again.')
       setMode('choose')
     } finally {
       setBusy(false)

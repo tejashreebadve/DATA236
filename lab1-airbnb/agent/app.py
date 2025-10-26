@@ -4,13 +4,15 @@ load_dotenv()
 import os
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+
 from schemas import (
-    GeneralChatRequest, GeneralChatResponse,
-    AgentPlanRequest, PlanResponse
+    GeneralChatRequest,
+    GeneralChatResponse,
+    AgentPlanRequest,
+    PlanResponse,            # ✅ now exists and matches chains.PlanResponse usage
 )
 from chains import general_chat, plan_with_context
 from db import fetch_upcoming_bookings
-
 
 app = FastAPI(title="StayBnB AI Concierge (LangChain + Ollama)")
 
@@ -27,19 +29,14 @@ app.add_middleware(
 def health():
     return {"ok": True}
 
-
 # ---------- Anonymous mode ----------
 @app.post("/ai/chat", response_model=GeneralChatResponse)
 def ai_chat(body: GeneralChatRequest):
-    """
-    General open chat for non-logged-in users (web + weather search).
-    """
     try:
         answer = general_chat(body.question)
         return {"answer": answer}
     except Exception as e:
         raise HTTPException(500, f"Agent error: {e}")
-
 
 # ---------- Logged-in bookings ----------
 @app.get("/ai/bookings")
@@ -48,7 +45,6 @@ def ai_bookings(user_id: int = Query(..., description="Traveler user id")):
         return {"bookings": fetch_upcoming_bookings(user_id)}
     except Exception as e:
         raise HTTPException(500, f"DB error: {e}")
-
 
 # ---------- Logged-in planner ----------
 @app.post("/ai/plan", response_model=PlanResponse)

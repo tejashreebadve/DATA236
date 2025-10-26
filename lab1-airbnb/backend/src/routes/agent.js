@@ -4,6 +4,7 @@ const pool = require('../db'); // ← use the same pool your app already uses
 
 const router = express.Router();
 const AGENT_BASE = process.env.AGENT_BASE || 'http://localhost:9000';
+console.log('[agent.js] Using AGENT_BASE =', AGENT_BASE);
 
 // Helper: try two likely schemas (start_date/end_date) then (start/end)
 async function fetchUpcomingBookings(pool, userId) {
@@ -79,14 +80,30 @@ router.post('/chat', async (req, res) => {
   }
 });
 
-// ✅ Generate itinerary (unchanged)
+// backend/src/routes/agent.js (or wherever this file is)
 router.post('/plan', async (req, res) => {
+  console.log('[/api/agent/plan] →', `${AGENT_BASE}/ai/plan`);
   try {
-    const { data } = await axios.post(`${AGENT_BASE}/ai/plan`, req.body, { timeout: 60000 });
-    res.json(data);
+    const { data, status } = await axios.post(
+      `${AGENT_BASE}/ai/plan`,
+      req.body,
+      {
+        timeout: 90000,                     // give a bit more headroom
+        validateStatus: () => true,         // don't throw on 4xx/5xx
+      }
+    );
+
+    if (status >= 200 && status < 300) {
+      return res.status(status).json(data);
+    }
+
+    console.error('Agent /ai/plan replied with', status, data);
+    return res.status(status).json(
+      data || { error: 'AgentError', detail: `Upstream returned ${status}` }
+    );
   } catch (e) {
-    console.error('Agent /plan error:', e.message);
-    res.status(502).json({ error: 'AgentUnavailable', detail: e.message || 'Unknown error' });
+    console.error('Agent /plan network error:', e.message);
+    return res.status(502).json({ error: 'AgentUnavailable', detail: e.message || 'Unknown' });
   }
 });
 

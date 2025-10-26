@@ -147,69 +147,130 @@ def general_chat(question: str) -> str:
 
 
 # =========================
-# 5) Logged-in Structured Planner (JSON)
+# 5) Logged-in Structured Planner (JSON) — no preferences field required
 # =========================
+import re, json
+from typing import Any, Dict
+
+def _budget_tier_from_number(usd: int | None) -> str:
+    """Tiny heuristic to steer suggestions; defaults to '$$'."""
+    if usd is None: return "$$"
+    return "$" if usd < 500 else ("$$" if usd < 1500 else "$$$")
+
+def _extract_from_ask(llm, ask: str) -> Dict[str, Any]:
+    """
+    OPTIONAL NLU: pull hints from the user's free text.
+    If extraction fails, return safe defaults.
+    """
+    if not (ask or "").strip():
+        return {"budget_amount_usd": None, "interests": [], "mobility": "none", "dietary": None}
+
+    # quick regex budget number
+    fallback_budget = None
+    m = re.search(r"\$?\s*([0-9]{2,6})\s*(?:usd|dollars|bucks)?", ask.lower())
+    if m:
+        try: fallback_budget = int(m.group(1))
+        except: pass
+
+    system = (
+        "Extract structured travel preferences from a single message. "
+        "Return ONLY JSON:\n"
+        "{"
+        '  "budget_amount_usd": number|null,'
+        '  "interests": string[],'
+        '  "mobility": "none"|"wheelchair"|"limited",'
+        '  "dietary": string|null'
+        "}\n"
+        "If unsure, use null or empty."
+    )
+    user = f"Message: {ask}\nReturn ONLY the JSON."
+    try:
+        resp = llm.invoke(system + "\n\n" + user)
+        data = json.loads(resp.content if hasattr(resp, "content") else str(resp))
+    except Exception:
+        data = {"budget_amount_usd": None, "interests": [], "mobility": "none", "dietary": None}
+
+    if data.get("budget_amount_usd") is None and fallback_budget is not None:
+        data["budget_amount_usd"] = fallback_budget
+    if not isinstance(data.get("interests"), list):
+        data["interests"] = []
+    if data.get("mobility") not in ("none", "wheelchair", "limited"):
+        data["mobility"] = "none"
+    if data.get("dietary") is not None and not isinstance(data["dietary"], str):
+        data["dietary"] = None
+    return data
+
 def plan_with_context(req: AgentPlanRequest) -> PlanResponse:
     """
-    Creates a detailed JSON itinerary based on booking, preferences, and free-text ask.
-    Returns a valid PlanResponse, best-effort even if any web/weather step fails.
+    Build a plan using ONLY:
+      - req.booking: { id?, location, start, end, guests, (optional) partyType }
+      - req.ask: free text (optional)
+    No 'preferences' are read or required.
     """
+    # --- 1) Normalize booking fields ---
     city   = req.booking.location
-    start  = req.booking.start
+    start  = req.booking.start       # expected "YYYY-MM-DD" (client slices ISO)
     end    = req.booking.end
     guests = req.booking.guests
+    party  = getattr(req.booking, "partyType", None) or "group"
+    ask    = getattr(req, "ask", "") or ""
 
-    interests = " ".join(req.preferences.interests) if req.preferences.interests else "top attractions"
-    diet      = req.preferences.diet or "restaurants"
-    budget    = req.preferences.budget or "$$"
+    # --- 2) Context (POIs / Food via Tavily, Weather via tool) ---
+    # Keep queries minimal; just steer by city + whatever the user typed.
+    try:
+        pois = tavily_snippet(
+            f"Top things to do in {city}. Include addresses when possible. "
+            f"Keep it concise. Consider families if mentioned. Hints: {ask[:250]}"
+        ) or "Web search unavailable."
+    except Exception:
+        pois = "Web search unavailable."
 
-    # Web snippets
-    search_pois = tavily_snippet(
-        f"Best {interests} in {city}; accessibility wheelchair/kid-friendly; suitable for {req.booking.partyType}; budget {budget}."
-    ) or "Web search unavailable."
-    search_food = tavily_snippet(
-        f"Best {diet} restaurants in {city}; budget {budget}; kid-friendly if possible."
-    ) or "Web search unavailable."
+    try:
+        food = tavily_snippet(
+            f"Good restaurants in {city}. Include addresses when possible. "
+            f"Prefer options that match any dietary hints from: {ask[:250]}"
+        ) or "Web search unavailable."
+    except Exception:
+        food = "Web search unavailable."
 
-    # Weather summary
     try:
         wx = weather_summary(f"{city} | {start} to {end}")
     except Exception:
         wx = "Weather data unavailable."
 
-    # Prompt to JSON
+    # --- 3) Ask Haiku for a compact JSON plan ---
     system = (
-        "You are TripMate, a travel concierge.\n"
-        "Return ONLY valid JSON with keys: itinerary (array of days; each has morning/afternoon/evening arrays "
-        "of activity cards), activities (flat array), restaurants (flat array), packing (array of strings).\n"
-        "Each activity/restaurant card: {title, address, priceTier ($-$$$$), duration, tags[], "
-        "flags: {wheelchair:boolean, childFriendly:boolean}}.\n"
-        "Keep output compact and realistic."
+        "You are TripMate, a concise travel concierge.\n"
+        "Return ONLY valid JSON with keys:\n"
+        "  itinerary: [ { date: string, morning: [Activity], afternoon: [Activity], evening: [Activity] } ],\n"
+        "  activities: [Activity],\n"
+        "  restaurants: [Activity],\n"
+        "  packing: [string]\n\n"
+        "Activity schema:\n"
+        "{ title: string, address: string, priceTier: \"$\"|\"$$\"|\"$$$\"|\"$$$$\", duration: string,\n"
+        "  tags: string[], flags: { wheelchair: boolean, childFriendly: boolean } }\n"
+        "Be realistic, compact, and weather-aware. Use the web context to anchor suggestions."
     )
+
     user = (
-        f"Booking: {start} to {end}, {guests} guests, location: {city}, partyType={req.booking.partyType}.\n"
-        f"Preferences: budget={budget}, interests={req.preferences.interests or []}, "
-        f"mobility={req.preferences.mobility or 'none'}, diet={req.preferences.diet or 'none'}.\n"
-        f"Free-text ask: {req.ask or 'n/a'}\n\n"
+        f"Booking:\n"
+        f"- City: {city}\n- Dates: {start} → {end}\n- Guests: {guests}\n- Party type: {party}\n"
+        f"User ask (free text): {ask or '(none)'}\n\n"
+        f"POIs (web):\n{pois}\n\n"
+        f"Restaurants (web):\n{food}\n\n"
         f"Weather summary:\n{wx}\n\n"
-        f"POIs (web):\n{search_pois}\n\n"
-        f"Restaurants (web):\n{search_food}\n\n"
         "Return ONLY the JSON."
     )
 
     try:
         resp = llm.invoke(system + "\n\n" + user)
         text = resp.content if hasattr(resp, "content") else str(resp)
-        data = json.loads(text)
+        data = json.loads(text)  # strict parse
         return PlanResponse(**data)
     except Exception as e:
+        # Minimal valid fallback keeps UI functional
         print(f"[TripMate ERROR] Plan generation failed: {e}")
-        packing = []
+        pack = ["comfortable shoes", "reusable water bottle"]
         if isinstance(wx, str) and wx:
-            packing.append(wx)
-        return PlanResponse(
-            itinerary=[],
-            activities=[],
-            restaurants=[],
-            packing=packing or ["comfortable shoes", "reusable water bottle"],
-        )
+            pack.append(wx)
+        return PlanResponse(itinerary=[], activities=[], restaurants=[], packing=pack)

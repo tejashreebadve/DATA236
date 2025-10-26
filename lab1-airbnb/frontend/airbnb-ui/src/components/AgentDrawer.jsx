@@ -44,40 +44,46 @@ export default function AgentDrawer({ open, onClose }) {
     [bookings, selectedId]
   );
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setSubmitting(true);
-    setError("");
-    setAnswer(null);
+  // inside AgentDrawer.jsx
 
-    try {
-      if (selectedBooking) {
-        // Logged-in: send booking + free text (server extracts prefs via NLU)
-        const payload = {
-          booking: {
-            id: selectedBooking.id,
-            location: selectedBooking.location,
-            start: selectedBooking.start,
-            end: selectedBooking.end,
-            partyType: selectedBooking.partyType || "group",
-            guests: selectedBooking.guests || 2,
-          },
-          preferences: {}, // extraction is server-side
-          ask: ask || "",
-        };
-        const data = await agentPlan(payload);
-        setAnswer({ type: "plan", data });
-      } else {
-        // Anonymous: server handles tools (web + weather)
-        const data = await agentChat(ask || "Help me plan a trip");
-        setAnswer({ type: "chat", data });
-      }
-    } catch (err) {
-      setError("Could not generate plan. Please try again.");
-    } finally {
-      setSubmitting(false);
+async function handleSubmit(e) {
+  e.preventDefault();
+  setSubmitting(true);
+  setError("");
+  setAnswer(null);
+
+  try {
+    const b = bookings.find(x => x.id === selectedId);
+    if (!b) {
+      throw new Error("No booking selected");
     }
+
+    // map only from the returned booking fields
+    const payload = {
+      booking: {
+        id: b.id,
+        location: b.location,                                // e.g. "San Diego, CA"
+        start: (b.start_date || "").slice(0, 10),            // e.g. "2025-10-29"
+        end:   (b.end_date   || "").slice(0, 10),            // e.g. "2025-10-31"
+        guests: Number(b.guests ?? 1)                         // keep provided guests
+        // ⬅️ no partyType, no extras
+      },
+      ask: (ask || "")
+    };
+
+    // quick client guard to avoid a 422
+    if (!payload.booking.location || !payload.booking.start || !payload.booking.end) {
+      throw new Error("Missing required booking fields (location/start/end).");
+    }
+
+    const data = await agentPlan(payload);
+    setAnswer({ type: "plan", data });
+  } catch (err) {
+    setError(err?.message || "Could not generate plan.");
+  } finally {
+    setSubmitting(false);
   }
+}
 
   // ---- UI sections (scoped style: dark/glass only inside drawer) ----
   function Header() {
