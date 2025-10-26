@@ -10,6 +10,21 @@ import { agentChat, agentBookings, agentPlan } from './api'
 import { useAuth } from './store'
 import './index.css'
 
+function buildQuery(params) {
+  const q = new URLSearchParams();
+  const location = (params.location || "").trim();
+  const start    = params.start || "";
+  const end      = params.end || "";
+  const guests   = Number(params.guests || 0);
+
+  if (location) q.set("location", location);
+  if (start)    q.set("start", start);
+  if (end)      q.set("end", end);
+  if (guests > 0) q.set("guests", String(guests));
+
+  return q.toString();
+}
+
 export default function App(){
   // ---------- Search (existing) ----------
   const [openSearch, setOpenSearch] = useState(false)
@@ -21,10 +36,11 @@ export default function App(){
   useEffect(()=>{ me?.().catch(()=>{}) },[])
 
   function handleSearch(params){
-    setOpenSearch(false)
-    const q = new URLSearchParams(params).toString()
-    navigate(`/search?${q}`)
+    setOpenSearch(false);
+    const qs = buildQuery(params);
+    navigate(qs ? `/search?${qs}` : "/search");
   }
+
 
   // ---------- Agent state ----------
   // modes: 'idle' | 'anon' | 'loading' | 'choose' | 'plan'
@@ -163,7 +179,7 @@ export default function App(){
 
       <SearchModal
         open={openSearch}
-        onClose={()=>setOpenSearch(false)}
+        onClose={() => setOpenSearch(false)}
         onSearch={handleSearch}
       />
 

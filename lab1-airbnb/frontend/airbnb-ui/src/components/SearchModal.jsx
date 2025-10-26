@@ -1,3 +1,4 @@
+// src/components/SearchModal.jsx
 import { useState } from "react";
 
 const btn = "px-4 py-2 rounded-full border border-black/30 bg-white text-black hover:border-black transition";
@@ -10,6 +11,15 @@ export default function SearchModal({ open, onClose, onSearch }) {
   const [guests, setGuests]     = useState(2);
 
   if (!open) return null;
+
+  const handleSubmit = () => {
+    onSearch({
+      location: location.trim(),
+      start: start || "",
+      end: end || "",
+      guests: Math.max(1, Number(guests) || 1),
+    });
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 flex items-start md:items-center justify-center p-4">
@@ -44,7 +54,7 @@ export default function SearchModal({ open, onClose, onSearch }) {
 
         <div className="p-4 border-t flex justify-end gap-3">
           <button onClick={onClose} className={btn}>Cancel</button>
-          <button onClick={()=>onSearch({ location, start, end, guests })} className={btnPrimary}>Search</button>
+          <button onClick={handleSubmit} className={btnPrimary}>Search</button>
         </div>
       </div>
     </div>
