@@ -1,5 +1,6 @@
 export default function PropertyCard({ item, onToggleFavorite, isFav }) {
-  const img = item.images?.[0]?.url || "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format";
+  console.log(item);
+  const img = item?.image_url || "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format";
   return (
     <article className="group">
       <div className="relative aspect-[20/13] overflow-hidden rounded-xl">
