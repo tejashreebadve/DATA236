@@ -53,33 +53,67 @@ async function handleSubmit(e) {
   setAnswer(null);
 
   try {
-    const b = bookings.find(x => x.id === selectedId);
-    if (!b) {
-      throw new Error("No booking selected");
+    // Find the currently selected booking (if any)
+    const b = bookings.find(x => x.id === selectedId) || null;
+
+    // Determine if we have a valid booking (only the fields we actually get back)
+    const hasBooking =
+      b &&
+      b.location &&
+      typeof b.location === "string" &&
+      b.start_date &&
+      b.end_date;
+
+    if (hasBooking) {
+      // Use ONLY the fields returned from the backend
+      const payload = {
+        booking: {
+          id: b.id,
+          location: b.location,                         // e.g. "San Diego, CA"
+          start: String(b.start_date).slice(0, 10),     // "YYYY-MM-DD"
+          end:   String(b.end_date).slice(0, 10),       // "YYYY-MM-DD"
+          guests: Number(b.guests ?? 1),                // keep provided guests
+          // no partyType or other extras
+        },
+        ask: (ask || "").trim(),
+      };
+
+      // Client-side guard (avoid 422)
+      if (!payload.booking.location || !payload.booking.start || !payload.booking.end) {
+        // If somehow still incomplete, fall back to chat below
+        throw new Error("__fallback_to_chat__");
+      }
+
+      const data = await agentPlan(payload);
+      setAnswer({ type: "plan", data });
+      return;
     }
 
-    // map only from the returned booking fields
-    const payload = {
-      booking: {
-        id: b.id,
-        location: b.location,                                // e.g. "San Diego, CA"
-        start: (b.start_date || "").slice(0, 10),            // e.g. "2025-10-29"
-        end:   (b.end_date   || "").slice(0, 10),            // e.g. "2025-10-31"
-        guests: Number(b.guests ?? 1)                         // keep provided guests
-        // ⬅️ no partyType, no extras
-      },
-      ask: (ask || "")
-    };
-
-    // quick client guard to avoid a 422
-    if (!payload.booking.location || !payload.booking.start || !payload.booking.end) {
-      throw new Error("Missing required booking fields (location/start/end).");
+    // ---- Fallback: Anonymous/general chat (works for logged-out or no booking) ----
+    const question = (ask || "").trim();
+    if (!question) {
+      setError("Type a question or select a booking.");
+      return;
     }
-
-    const data = await agentPlan(payload);
-    setAnswer({ type: "plan", data });
+    const data = await agentChat(question);
+    setAnswer({ type: "chat", data }); // data: { answer: string }
   } catch (err) {
-    setError(err?.message || "Could not generate plan.");
+    if (String(err?.message) === "__fallback_to_chat__") {
+      // Plan payload was incomplete → use chat instead
+      const question = (ask || "").trim();
+      if (!question) {
+        setError("Type a question or select a booking.");
+      } else {
+        try {
+          const data = await agentChat(question);
+          setAnswer({ type: "chat", data });
+        } catch (e2) {
+          setError("Could not generate a response. Please try again.");
+        }
+      }
+    } else {
+      setError(err?.message || "Could not generate a response.");
+    }
   } finally {
     setSubmitting(false);
   }
