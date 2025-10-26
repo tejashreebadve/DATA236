@@ -51,7 +51,7 @@ const PROPS = [
     password: process.env.MYSQL_PASSWORD, database: process.env.MYSQL_DATABASE
   });
 
-  const [[owner]] = await db.query("SELECT id FROM users WHERE email='owner@example.com' LIMIT 1");
+  const [[owner]] = await db.query("SELECT id FROM users WHERE email='djt@gmail.com' LIMIT 1");
   if (!owner) throw new Error('Seed users first (owner@example.com).');
 
   for (const p of PROPS) {

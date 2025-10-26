@@ -1,6 +1,6 @@
 
 CREATE DATABASE airbnb_lab1 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'labuser'@'localhost' IDENTIFIED BY 'labpass';
+CREATE USER 'labuser'@'localhost' IDENTIFIED BY 'Labpass@123';
 GRANT ALL PRIVILEGES ON airbnb_lab1.* TO 'labuser'@'localhost';
 FLUSH PRIVILEGES;
 
