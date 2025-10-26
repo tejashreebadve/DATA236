@@ -1,0 +1,173 @@
+# ==========================================================
+#   StayBnB (Airbnb Clone) – Combined .gitignore
+#   Covers FastAPI (Python), Node.js, React, MySQL creds, etc.
+# ==========================================================
+
+# ------------------------
+# System / Editor Files
+# ------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# ------------------------
+# Python (Agent Service)
+# ------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+build/
+dist/
+.eggs/
+.Python
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.pyre/
+celerybeat-schedule
+instance/
+.env
+.env.*
+.venv/
+venv/
+ENV/
+*.db
+*.sqlite3
+
+# FastAPI uploads / generated data
+uploads/
+*.db-journal
+
+# ------------------------
+# Node.js (Backend + Frontend)
+# ------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+pnpm-lock.yaml
+
+# Dist and build artifacts
+/dist/
+/build/
+/out/
+/.serve/
+/.cache/
+/.next/
+/coverage/
+
+# Local development files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ------------------------
+# Frontend (React / Vite)
+# ------------------------
+frontend/airbnb-ui/node_modules/
+frontend/airbnb-ui/.env
+frontend/airbnb-ui/.env.*
+
+# Vite & temporary files
+frontend/airbnb-ui/dist/
+frontend/airbnb-ui/.vite/
+frontend/airbnb-ui/.cache/
+
+# ------------------------
+# Backend (Express / Node)
+# ------------------------
+backend/node_modules/
+backend/.env
+backend/.env.*
+
+# Generated uploads (if any)
+backend/uploads/
+backend/logs/
+backend/tmp/
+backend/coverage/
+
+# ------------------------
+# Database & Secrets
+# ------------------------
+*.pem
+*.crt
+*.key
+*.csr
+*.p12
+*.db
+*.sql
+*.rdb
+*.tar.gz
+*.zip
+*.bak
+*.backup
+*.dump
+
+# ------------------------
+# macOS / Windows junk
+# ------------------------
+._*
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+Icon?
+.Trashes
+*.orig
+
+# ------------------------
+# Misc Tools
+# ------------------------
+__pypackages__/
+pip-wheel-metadata/
+site/
+.tox/
+.cache/
+pytest_cache/
+__snapshots__/
+
+# ------------------------
+# JetBrains / PyCharm
+# ------------------------
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# ------------------------
+# Docker / Compose
+# ------------------------
+docker-compose.override.yml
+**/docker-compose.override.yml
+**/docker-data/
+**/.docker/
+**/logs/
+**/tmp/
+**/pid/
+
+# ------------------------
+# Snowflake / Airflow / dbt (if integrated)
+# ------------------------
+airflow/logs/
+airflow/__pycache__/
+airflow/.env
+dbt/target/
+dbt/dbt_modules/
+profiles.yml
+
+# ------------------------
+# Ignore everything in agent/uploads (runtime generated)
+# ------------------------
+agent/uploads/
