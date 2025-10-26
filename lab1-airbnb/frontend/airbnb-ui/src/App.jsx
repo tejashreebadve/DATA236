@@ -1,3 +1,4 @@
+// src/App.jsx
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
@@ -13,8 +14,8 @@ export default function App(){
   // ---------- Search (existing) ----------
   const [openSearch, setOpenSearch] = useState(false)
   const navigate = useNavigate()
-  const me    = useAuth(s => s.me)     // action to fetch session
-  const user  = useAuth(s => s.user)   // current user object (if any)
+  const me    = useAuth(s => s.me)
+  const user  = useAuth(s => s.user)
   const isLoggedIn = !!user?.id
 
   useEffect(()=>{ me?.().catch(()=>{}) },[])
@@ -32,7 +33,6 @@ export default function App(){
   const [bookings, setBookings]   = useState([])
   const [selected, setSelected]   = useState(null)
   const [ask, setAsk]             = useState('')
-  const [prefs, setPrefs]         = useState({ budget: '$$', interests: [], mobility: 'none', diet: '' })
   const [resp, setResp]           = useState(null)
   const [error, setError]         = useState('')
   const [busy, setBusy]           = useState(false)
@@ -83,12 +83,8 @@ export default function App(){
           partyType: 'family',
           guests: selected.guests || 2
         },
-        preferences: {
-          budget: prefs.budget || '$$',
-          interests: prefs.interests || [],
-          mobility: prefs.mobility || 'none',
-          diet: prefs.diet || null
-        },
+        // ⬇️ Let Haiku extract budget/interests/mobility/diet from ask (NLU)
+        preferences: {},
         ask: ask || ''
       }
       const data = await agentPlan(payload)
@@ -176,39 +172,12 @@ export default function App(){
               )}
             </ul>
 
-            <div className="grid grid-cols-2 gap-2">
-              <select
-                className="border rounded px-2 py-1"
-                value={prefs.budget}
-                onChange={e=>setPrefs(p=>({...p, budget: e.target.value}))}
-              >
-                <option>$</option><option>$$</option><option>$$$</option><option>$$$$</option>
-              </select>
-
-              <select
-                className="border rounded px-2 py-1"
-                value={prefs.mobility}
-                onChange={e=>setPrefs(p=>({...p, mobility: e.target.value}))}
-              >
-                <option value="none">mobility: none</option>
-                <option value="wheelchair">mobility: wheelchair</option>
-                <option value="limited">mobility: limited</option>
-              </select>
-
-              <input
-                className="border rounded px-2 py-1 col-span-2"
-                placeholder="interests (comma-separated)"
-                onChange={e=>setPrefs(p=>({...p, interests: e.target.value.split(',').map(s=>s.trim()).filter(Boolean)}))}/>
-              <input
-                className="border rounded px-2 py-1 col-span-2"
-                placeholder="diet (vegan/halal/...)"
-                onChange={e=>setPrefs(p=>({...p, diet: e.target.value || null}))}/>
-            </div>
-
+            {/* Single NLU textbox (Haiku extracts everything) */}
             <form onSubmit={submitPlan} className="space-y-2">
-              <input
+              <textarea
+                rows={3}
                 className="w-full border rounded px-3 py-2"
-                placeholder='Anything to add? e.g., "vegan, no long hikes, two kids"'
+                placeholder={`Tell me what you need.\nExample: "We're on a $900 budget, vegan, wheelchair user, want beaches and easy walks for 2 kids"`}
                 value={ask}
                 onChange={e=>setAsk(e.target.value)}
               />
