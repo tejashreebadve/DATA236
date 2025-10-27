@@ -91,7 +91,6 @@ export default function OwnerDashboard() {
                   <p className="text-sm text-gray-500">{p.bedrooms} bed • {p.bathrooms} bath • max {p.max_guests} guests</p>
                   <p className="text-sm text-gray-500">Type: {p.type} | Category: {p.category}</p>
                   <p className="text-xs text-gray-500">Amenities: {(Array.isArray(p.amenities) ? p.amenities.join(", ") : JSON.parse(p.amenities || "[]").join(", "))}</p>
-                  <p className="text-xs text-gray-500">Availability: {p.availability ? JSON.stringify(p.availability) : 'N/A'}</p>
                   <div className="flex justify-between items-center pt-2">
                     <Link to={`/property/${p.id}`} className="text-blue-600 hover:underline text-sm">View</Link>
                     <button

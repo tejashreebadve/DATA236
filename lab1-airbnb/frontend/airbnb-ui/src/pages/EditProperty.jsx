@@ -78,10 +78,55 @@ export default function EditProperty() {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <input name="price_per_night" value={form.price_per_night} onChange={handleChange} placeholder="Price per Night" className="border p-2 rounded" required />
-          <input name="bedrooms" value={form.bedrooms} onChange={handleChange} placeholder="Bedrooms" className="border p-2 rounded" />
-          <input name="bathrooms" value={form.bathrooms} onChange={handleChange} placeholder="Bathrooms" className="border p-2 rounded" />
-          <input name="max_guests" value={form.max_guests} onChange={handleChange} placeholder="Max Guests" className="border p-2 rounded" required />
+          <label className="flex flex-col text-sm font-medium text-gray-700">
+            Price per Night
+            <input
+              type="number"
+              name="price_per_night"
+              value={form.price_per_night}
+              onChange={handleChange}
+              placeholder="Enter price per night"
+              className="border p-2 rounded mt-1"
+              required
+            />
+          </label>
+
+          <label className="flex flex-col text-sm font-medium text-gray-700">
+            Bedrooms
+            <input
+              type="number"
+              name="bedrooms"
+              value={form.bedrooms}
+              onChange={handleChange}
+              placeholder="Enter number of bedrooms"
+              className="border p-2 rounded mt-1"
+            />
+          </label>
+
+          <label className="flex flex-col text-sm font-medium text-gray-700">
+            Bathrooms
+            <input
+              type="number"
+              name="bathrooms"
+              value={form.bathrooms}
+              onChange={handleChange}
+              placeholder="Enter number of bathrooms"
+              className="border p-2 rounded mt-1"
+            />
+          </label>
+
+          <label className="flex flex-col text-sm font-medium text-gray-700">
+            Max Guests
+            <input
+              type="number"
+              name="max_guests"
+              value={form.max_guests}
+              onChange={handleChange}
+              placeholder="Enter maximum guests"
+              className="border p-2 rounded mt-1"
+              required
+            />
+          </label>
         </div>
 
         <div className="flex gap-3">
