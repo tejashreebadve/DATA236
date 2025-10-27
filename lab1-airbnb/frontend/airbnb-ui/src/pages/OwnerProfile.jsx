@@ -2,6 +2,58 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
 
+const API_BASE =
+  (api?.defaults?.baseURL ? String(api.defaults.baseURL) : "") ||
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_URL
+    ? String(import.meta.env.VITE_API_URL)
+    : "") ||
+  (typeof window !== "undefined" ? window.location.origin : "");
+
+/**
+ * Returns an absolute URL for a given path `p`.
+ * - If `p` is already absolute, return as-is.
+ * - If `p` starts with "/uploads" or "uploads", join with the **origin** of API_BASE
+ *   (so it doesn't inherit "/api" or other path segments).
+ * - Otherwise, join `p` against API_BASE normally.
+ */
+function toAbsoluteUrl(p) {
+  if (!p) return "";
+  if (/^https?:\/\//i.test(p)) return p;
+
+  const raw = String(p);
+  const rel = raw.replace(/^\/+/, ""); // strip leading slashes
+
+  // Derive origin (protocol + host) from API_BASE safely
+  let origin = "";
+  let baseForJoin = API_BASE || (typeof window !== "undefined" ? window.location.origin : "");
+  try {
+    const u = new URL(baseForJoin);
+    origin = `${u.protocol}//${u.host}`;
+  } catch {
+    // If API_BASE isn't a full URL, fall back to current origin
+    if (typeof window !== "undefined") {
+      origin = window.location.origin;
+    }
+  }
+
+  // If it's an uploads path, always serve from root /uploads on the API origin.
+  if (rel.startsWith("uploads/")) {
+    return `${origin}/${rel}`;
+  }
+
+  // Otherwise, join against full API_BASE (which may include /api)
+  try {
+    // Ensure API_BASE ends with a slash so URL joining works predictably
+    const base = API_BASE?.endsWith("/") ? API_BASE : `${API_BASE}/`;
+    console.log(base);
+    return new URL(rel, base).toString();
+  } catch {
+    // Last-ditch safe join
+    const base = (API_BASE || origin || "").replace(/\/+$/, "");
+    return `${base}/${rel}`;
+  }
+}
+
 export default function OwnerProfile() {
   const [form, setForm] = useState({});
   const [avatar, setAvatar] = useState("");
@@ -13,7 +65,7 @@ export default function OwnerProfile() {
       try {
         const { data } = await api.get("/owners/me/profile");
         setForm(data);
-        setAvatar(data.avatar || "");
+        setAvatar(toAbsoluteUrl(data.avatar));
       } catch {
         setMsg("Failed to load profile.");
       }
@@ -42,7 +94,7 @@ export default function OwnerProfile() {
     fd.append("file", file);
     try {
       const { data } = await api.post("/profile/avatar", fd);
-      setAvatar(data.avatar);
+      setAvatar(toAbsoluteUrl(data.avatar || ""));
     } catch {
       alert("Upload failed.");
     }
