@@ -3,6 +3,52 @@ import { useEffect, useState } from "react";
 import { api } from "../api";
 import { Link, useNavigate } from "react-router-dom";
 
+// Build API base (axios baseURL → VITE_API_URL → window origin)
+const API_BASE =
+  (api?.defaults?.baseURL ? String(api.defaults.baseURL) : "") ||
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_URL
+    ? String(import.meta.env.VITE_API_URL)
+    : "") ||
+  (typeof window !== "undefined" ? window.location.origin : "");
+
+/**
+ * Make an absolute URL from a possibly relative path.
+ * - If already absolute, return as-is.
+ * - If path starts with "/uploads" or "uploads", force join against API origin (drop /api).
+ * - Otherwise, join against full API_BASE (which may include /api).
+ */
+function toAbsoluteUrl(p) {
+  if (!p) return "";
+  if (/^https?:\/\//i.test(p)) return p;
+
+  const raw = String(p);
+  const rel = raw.replace(/^\/+/, ""); // strip leading slashes
+
+  // Derive origin from API_BASE (protocol + host only)
+  let origin = "";
+  let baseForJoin = API_BASE || (typeof window !== "undefined" ? window.location.origin : "");
+  try {
+    const u = new URL(baseForJoin);
+    origin = `${u.protocol}//${u.host}`;
+  } catch {
+    if (typeof window !== "undefined") origin = window.location.origin;
+  }
+
+  // If it's an uploads path, always serve from root /uploads on API origin (no /api).
+  if (rel.startsWith("uploads/")) {
+    return `${origin}/${rel}`;
+  }
+
+  // Otherwise join against full API_BASE (which might include /api)
+  try {
+    const base = API_BASE?.endsWith("/") ? API_BASE : `${API_BASE}/`;
+    return new URL(rel, base).toString();
+  } catch {
+    const base = (API_BASE || origin || "").replace(/\/+$/, "");
+    return `${base}/${rel}`;
+  }
+}
+
 export default function OwnerDashboard() {
   const [properties, setProperties] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -81,28 +127,47 @@ export default function OwnerDashboard() {
             <Link to="/owner/add" className="bg-black text-white px-4 py-2 rounded">+ Add Property</Link>
           </div>
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {properties.map((p) => (
-              <div key={p.id} className="border rounded-xl overflow-hidden bg-white">
-                <img src={p.image_url || "/placeholder.jpg"} className="h-48 w-full object-cover" alt="" />
-                <div className="p-4 space-y-1">
-                  <h2 className="font-semibold text-lg">{p.name}</h2>
-                  <p className="text-sm text-gray-600">{p.location}</p>
-                  <p className="text-sm text-gray-600">${p.price_per_night} / night</p>
-                  <p className="text-sm text-gray-500">{p.bedrooms} bed • {p.bathrooms} bath • max {p.max_guests} guests</p>
-                  <p className="text-sm text-gray-500">Type: {p.type} | Category: {p.category}</p>
-                  <p className="text-xs text-gray-500">Amenities: {(Array.isArray(p.amenities) ? p.amenities.join(", ") : JSON.parse(p.amenities || "[]").join(", "))}</p>
-                  <div className="flex justify-between items-center pt-2">
-                    <Link to={`/property/${p.id}`} className="text-blue-600 hover:underline text-sm">View</Link>
-                    <button
-                      onClick={() => navigate(`/owner/edit/${p.id}`)}
-                      className="text-sm text-black bg-gray-100 px-3 py-1 rounded hover:bg-gray-200"
-                    >
-                      Edit
-                    </button>
+            {properties.map((p) => {
+              // image_url is relative like "/uploads/xxxx" from backend
+              const img = toAbsoluteUrl(p.image_url || "");
+              let amenitiesText = "";
+              try {
+                const list = Array.isArray(p.amenities) ? p.amenities : JSON.parse(p.amenities || "[]");
+                amenitiesText = Array.isArray(list) ? list.join(", ") : "";
+              } catch {
+                amenitiesText = "";
+              }
+
+              return (
+                <div key={p.id} className="border rounded-xl overflow-hidden bg-white">
+                  <img
+                    src={img || "/placeholder.jpg"}
+                    className="h-48 w-full object-cover"
+                    alt={p.name || "property image"}
+                    onError={(e) => { e.currentTarget.src = "/placeholder.jpg"; }}
+                  />
+                  <div className="p-4 space-y-1">
+                    <h2 className="font-semibold text-lg">{p.name}</h2>
+                    <p className="text-sm text-gray-600">{p.location}</p>
+                    <p className="text-sm text-gray-600">${p.price_per_night} / night</p>
+                    <p className="text-sm text-gray-500">
+                      {p.bedrooms} bed • {p.bathrooms} bath • max {p.max_guests} guests
+                    </p>
+                    <p className="text-sm text-gray-500">Type: {p.type} | Category: {p.category}</p>
+                    <p className="text-xs text-gray-500">Amenities: {amenitiesText}</p>
+                    <div className="flex justify-between items-center pt-2">
+                      <Link to={`/property/${p.id}`} className="text-blue-600 hover:underline text-sm">View</Link>
+                      <button
+                        onClick={() => navigate(`/owner/edit/${p.id}`)}
+                        className="text-sm text-black bg-gray-100 px-3 py-1 rounded hover:bg-gray-200"
+                      >
+                        Edit
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </section>
         </>
       )}
