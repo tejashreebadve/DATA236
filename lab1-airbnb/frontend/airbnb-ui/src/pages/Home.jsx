@@ -98,7 +98,7 @@ export default function Home() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="w-full px-8">
       <FilterChips active={active} onChange={handleChipChange} />
 
       <div className="px-4 py-6">
