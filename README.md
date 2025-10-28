@@ -41,7 +41,7 @@ It allows travelers to book properties, owners to manage listings, and integrate
 ## 🧩 System Architecture
 <img width="1134" height="502" alt="image" src="https://github.com/user-attachments/assets/cc3c9d53-a4bb-4cbe-a0b3-cf72fc0bb6eb" />
 
-# 🏡 StayBnB – Local Development Setup Guide
+# 🏡 RedNest – Local Development Setup Guide
 
 This comprehensive guide will help you set up and run the **RedNest** application locally, including the MySQL database, Node.js backend, React frontend, and FastAPI AI agent.
 
@@ -200,4 +200,5 @@ By combining these layers, StayBnB provides:
 - And an AI-driven assistant that enhances trip discovery and planning.
 
 This project showcases how **AI + full-stack engineering** can come together to create smart, user-friendly web applications ready for real-world scalability.
+
 
