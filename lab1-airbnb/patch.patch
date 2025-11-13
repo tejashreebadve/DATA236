@@ -1,0 +1,93 @@
+diff --git a/lab1-airbnb/frontend/airbnb-ui/index.html b/lab1-airbnb/frontend/airbnb-ui/index.html
+index 63fc4bd..ec9c628 100644
+--- a/lab1-airbnb/frontend/airbnb-ui/index.html
++++ b/lab1-airbnb/frontend/airbnb-ui/index.html
+@@ -3,7 +3,7 @@
+   <head>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+-    <title>StayBnB</title>
++    <title>AeroStay</title>
+   </head>
+   <body>
+     <!-- THIS id MUST be 'root' -->
+diff --git a/lab1-airbnb/frontend/airbnb-ui/src/components/Navbar.jsx b/lab1-airbnb/frontend/airbnb-ui/src/components/Navbar.jsx
+index 1adf249..f3883e5 100644
+--- a/lab1-airbnb/frontend/airbnb-ui/src/components/Navbar.jsx
++++ b/lab1-airbnb/frontend/airbnb-ui/src/components/Navbar.jsx
+@@ -23,7 +23,7 @@ export default function Navbar({ onOpenSearch }) {
+         <a href="/" className="flex items-center gap-2 select-none">
+           <div className="text-black text-2xl">★</div>
+           <span className="font-semibold tracking-tight text-[22px]">
+-            Stay<span className="font-black">BnB</span>
++            Aero<span className="font-black">Stay</span>
+           </span>
+         </a>
+ 
+diff --git a/lab1-airbnb/frontend/airbnb-ui/src/pages/Login.jsx b/lab1-airbnb/frontend/airbnb-ui/src/pages/Login.jsx
+index 6dcdebf..cd36fd1 100644
+--- a/lab1-airbnb/frontend/airbnb-ui/src/pages/Login.jsx
++++ b/lab1-airbnb/frontend/airbnb-ui/src/pages/Login.jsx
+@@ -3,18 +3,24 @@ import { useNavigate } from "react-router-dom";
+ import { useAuth } from "../store";
+ 
+ export default function Login(){
+-  const [email,setEmail] = useState(""); const [password,setPassword] = useState("");
++  const [email,setEmail] = useState("");
++  const [password,setPassword] = useState("");
+   const [err,setErr] = useState("");
+   const navigate = useNavigate();
+-  const login = useAuth(s=>s.login)
++  const login = useAuth(s=>s.login);
+ 
+   async function submit(e){
+     e.preventDefault();
++    setErr("");
+     try {
+-      await login(email,password);
+-      navigate('/');
+-    } catch (e) {
+-      setErr(e?.response?.data?.error || 'Login failed');
++      const res = await login(email, password); // { ok, user|error }
++      if (res?.ok) {
++        navigate("/");
++      } else {
++        setErr(res?.error || "Invalid email or password");
++      }
++    } catch {
++      setErr("Login failed. Please try again.");
+     }
+   }
+ 
+@@ -22,13 +28,24 @@ export default function Login(){
+     <main className="mx-auto max-w-md px-4 py-10">
+       <h1 className="text-2xl font-semibold mb-4">Log in</h1>
+       <form onSubmit={submit} className="space-y-3">
+-        <input placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)}
+-          className="w-full border border-borderSubtle rounded-xl px-3 py-2"/>
+-        <input placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)}
+-          className="w-full border border-borderSubtle rounded-xl px-3 py-2"/>
+-        <button className="bg-black text-white rounded-xl px-4 py-2 hover:bg-neutral-900 transition">Log in</button>
++        <input
++          placeholder="Email"
++          value={email}
++          onChange={e=>setEmail(e.target.value)}
++          className="w-full border border-borderSubtle rounded-xl px-3 py-2"
++        />
++        <input
++          placeholder="Password"
++          type="password"
++          value={password}
++          onChange={e=>setPassword(e.target.value)}
++          className="w-full border border-borderSubtle rounded-xl px-3 py-2"
++        />
++        <button type="submit" className="bg-black text-white rounded-xl px-4 py-2 hover:bg-neutral-900 transition">
++          Log in
++        </button>
+       </form>
+       {err && <p className="text-sm text-red-600 mt-2">{err}</p>}
+     </main>
+   );
+-}
++}
+\ No newline at end of file
