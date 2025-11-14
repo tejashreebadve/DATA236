@@ -20,6 +20,9 @@ if (!fs.existsSync(uploadsDir)) {
 // Connect to MongoDB
 connectDB();
 
+// Initialize Kafka consumer
+require('./kafka/consumer');
+
 // Middleware
 app.use(helmet());
 app.use(cors({

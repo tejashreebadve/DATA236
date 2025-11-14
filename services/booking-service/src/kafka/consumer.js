@@ -24,10 +24,18 @@ const initConsumer = async () => {
           console.log('Received booking status update event:', event);
 
           if (event.eventType === 'BOOKING_STATUS_UPDATED') {
-            // Update booking status in database
-            await Booking.findByIdAndUpdate(event.bookingId, {
-              status: event.newStatus,
-            });
+            // Note: This is a backup/consistency mechanism
+            // The booking status is already updated via HTTP call from Owner Service
+            // This consumer ensures eventual consistency if HTTP call fails
+            // or if event is published from another source
+            
+            const booking = await Booking.findById(event.bookingId);
+            if (booking && booking.status !== event.newStatus) {
+              await Booking.findByIdAndUpdate(event.bookingId, {
+                status: event.newStatus,
+              });
+              console.log(`Booking ${event.bookingId} status synchronized to ${event.newStatus}`);
+            }
           }
         } catch (error) {
           console.error('Error processing message:', error);
