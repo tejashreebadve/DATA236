@@ -73,9 +73,9 @@ router.get('/dashboard', authenticate, requireOwner, getDashboard);
 
 // Booking routes
 router.get('/bookings', authenticate, requireOwner, getBookings);
-router.get('/bookings/:id', authenticate, requireOwner, getBooking);
 router.put('/bookings/:id/accept', authenticate, requireOwner, acceptBooking);
 router.put('/bookings/:id/cancel', authenticate, requireOwner, cancelBooking);
+router.get('/bookings/:id', authenticate, requireOwner, getBooking);
 
 module.exports = router;
 

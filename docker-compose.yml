@@ -1,24 +1,6 @@
 version: '3.8'
 
 services:
-  # MongoDB Service
-  mongodb:
-    image: mongo:7.0
-    container_name: rednest-mongodb
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_DATABASE: rednest_auth
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - rednest-network
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   # Authentication Service
   auth-service:
     build:
@@ -30,15 +12,12 @@ services:
     environment:
       PORT: 3001
       NODE_ENV: development
-      MONGODB_URI: mongodb://mongodb:27017/rednest_auth
-      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      MONGODB_URI: mongodb+srv://dygandole_db_user:dygandole_db_pass@rednest.yv8hxk8.mongodb.net/rednest?appName=Rednest&retryWrites=true&w=majority
+      JWT_SECRET: ${JWT_SECRET:-Yu3UjJv4/iUH4ykcI6q9aA==}
       JWT_EXPIRES_IN: 24h
-      JWT_REFRESH_SECRET: vY680jpsBB5IyPC2YEKUVw==
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-vY680jpsBB5IyPC2YEKUVw==}
       JWT_REFRESH_EXPIRES_IN: 7d
       CORS_ORIGIN: http://localhost:3000
-    depends_on:
-      mongodb:
-        condition: service_healthy
     networks:
       - rednest-network
     restart: unless-stopped
@@ -54,13 +33,12 @@ services:
     environment:
       PORT: 3002
       NODE_ENV: development
-      MONGODB_URI: mongodb://mongodb:27017/rednest_traveler
-      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      MONGODB_URI: mongodb+srv://dygandole_db_user:dygandole_db_pass@rednest.yv8hxk8.mongodb.net/rednest?appName=Rednest&retryWrites=true&w=majority
+      JWT_SECRET: ${JWT_SECRET:-Yu3UjJv4/iUH4ykcI6q9aA==}
       BOOKING_SERVICE_URL: http://booking-service:3005
       PROPERTY_SERVICE_URL: http://property-service:3004
       CORS_ORIGIN: http://localhost:3000
     depends_on:
-      - mongodb
       - auth-service
     networks:
       - rednest-network
@@ -77,14 +55,13 @@ services:
     environment:
       PORT: 3003
       NODE_ENV: development
-      MONGODB_URI: mongodb://mongodb:27017/rednest_owner
-      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      MONGODB_URI: mongodb+srv://dygandole_db_user:dygandole_db_pass@rednest.yv8hxk8.mongodb.net/rednest?appName=Rednest&retryWrites=true&w=majority
+      JWT_SECRET: ${JWT_SECRET:-Yu3UjJv4/iUH4ykcI6q9aA==}
       BOOKING_SERVICE_URL: http://booking-service:3005
       PROPERTY_SERVICE_URL: http://property-service:3004
       KAFKA_BROKERS: kafka:9092
       CORS_ORIGIN: http://localhost:3000
     depends_on:
-      - mongodb
       - auth-service
       - kafka
     networks:
@@ -102,12 +79,11 @@ services:
     environment:
       PORT: 3004
       NODE_ENV: development
-      MONGODB_URI: mongodb://mongodb:27017/rednest_property
-      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      MONGODB_URI: mongodb+srv://dygandole_db_user:dygandole_db_pass@rednest.yv8hxk8.mongodb.net/rednest?appName=Rednest&retryWrites=true&w=majority
+      JWT_SECRET: ${JWT_SECRET:-Yu3UjJv4/iUH4ykcI6q9aA==}
       KAFKA_BROKERS: kafka:9092
       CORS_ORIGIN: http://localhost:3000
     depends_on:
-      - mongodb
       - auth-service
       - kafka
     networks:
@@ -125,13 +101,12 @@ services:
     environment:
       PORT: 3005
       NODE_ENV: development
-      MONGODB_URI: mongodb://mongodb:27017/rednest_booking
-      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      MONGODB_URI: mongodb+srv://dygandole_db_user:dygandole_db_pass@rednest.yv8hxk8.mongodb.net/rednest?appName=Rednest&retryWrites=true&w=majority
+      JWT_SECRET: ${JWT_SECRET:-Yu3UjJv4/iUH4ykcI6q9aA==}
       PROPERTY_SERVICE_URL: http://property-service:3004
       KAFKA_BROKERS: kafka:9092
       CORS_ORIGIN: http://localhost:3000
     depends_on:
-      - mongodb
       - auth-service
       - property-service
       - kafka
@@ -168,9 +143,6 @@ services:
     networks:
       - rednest-network
     restart: unless-stopped
-
-volumes:
-  mongodb_data:
 
 networks:
   rednest-network:

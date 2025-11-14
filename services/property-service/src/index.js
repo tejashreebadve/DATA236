@@ -23,6 +23,9 @@ if (!fs.existsSync(uploadsDir)) {
 // Connect to MongoDB
 connectDB();
 
+// Register Owner model for population (same database)
+require('./models/Owner');
+
 // Middleware
 app.use(helmet());
 app.use(cors({
