@@ -66,8 +66,9 @@ const acceptBooking = async (req, res, next) => {
       });
     }
 
-    // Update booking status
-    const updatedBooking = await updateBookingStatus(id, 'accepted');
+    // Update booking status - forward JWT token for internal service call
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const updatedBooking = await updateBookingStatus(id, 'accepted', token);
 
     // Publish event to Kafka
     try {
@@ -130,8 +131,9 @@ const cancelBooking = async (req, res, next) => {
       });
     }
 
-    // Update booking status
-    const updatedBooking = await updateBookingStatus(id, 'cancelled');
+    // Update booking status - forward JWT token for internal service call
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const updatedBooking = await updateBookingStatus(id, 'cancelled', token);
 
     // Publish event to Kafka
     try {

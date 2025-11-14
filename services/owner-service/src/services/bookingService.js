@@ -27,11 +27,16 @@ const getBookingById = async (bookingId) => {
   }
 };
 
-const updateBookingStatus = async (bookingId, status) => {
+const updateBookingStatus = async (bookingId, status, token) => {
   try {
     const response = await axios.put(
       `${BOOKING_SERVICE_URL}/api/booking/${bookingId}/status`,
-      { status }
+      { status },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
