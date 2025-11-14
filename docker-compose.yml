@@ -43,6 +43,132 @@ services:
       - rednest-network
     restart: unless-stopped
 
+  # Traveler Service
+  traveler-service:
+    build:
+      context: ./services/traveler-service
+      dockerfile: Dockerfile
+    container_name: rednest-traveler-service
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongodb:27017/rednest_traveler
+      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      BOOKING_SERVICE_URL: http://booking-service:3005
+      PROPERTY_SERVICE_URL: http://property-service:3004
+      CORS_ORIGIN: http://localhost:3000
+    depends_on:
+      - mongodb
+      - auth-service
+    networks:
+      - rednest-network
+    restart: unless-stopped
+
+  # Owner Service
+  owner-service:
+    build:
+      context: ./services/owner-service
+      dockerfile: Dockerfile
+    container_name: rednest-owner-service
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongodb:27017/rednest_owner
+      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      BOOKING_SERVICE_URL: http://booking-service:3005
+      PROPERTY_SERVICE_URL: http://property-service:3004
+      KAFKA_BROKERS: kafka:9092
+      CORS_ORIGIN: http://localhost:3000
+    depends_on:
+      - mongodb
+      - auth-service
+      - kafka
+    networks:
+      - rednest-network
+    restart: unless-stopped
+
+  # Property Service
+  property-service:
+    build:
+      context: ./services/property-service
+      dockerfile: Dockerfile
+    container_name: rednest-property-service
+    ports:
+      - "3004:3004"
+    environment:
+      PORT: 3004
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongodb:27017/rednest_property
+      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      KAFKA_BROKERS: kafka:9092
+      CORS_ORIGIN: http://localhost:3000
+    depends_on:
+      - mongodb
+      - auth-service
+      - kafka
+    networks:
+      - rednest-network
+    restart: unless-stopped
+
+  # Booking Service
+  booking-service:
+    build:
+      context: ./services/booking-service
+      dockerfile: Dockerfile
+    container_name: rednest-booking-service
+    ports:
+      - "3005:3005"
+    environment:
+      PORT: 3005
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongodb:27017/rednest_booking
+      JWT_SECRET: Yu3UjJv4/iUH4ykcI6q9aA==
+      PROPERTY_SERVICE_URL: http://property-service:3004
+      KAFKA_BROKERS: kafka:9092
+      CORS_ORIGIN: http://localhost:3000
+    depends_on:
+      - mongodb
+      - auth-service
+      - property-service
+      - kafka
+    networks:
+      - rednest-network
+    restart: unless-stopped
+
+  # Zookeeper (for Kafka)
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: rednest-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - rednest-network
+    restart: unless-stopped
+
+  # Kafka
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: rednest-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+    networks:
+      - rednest-network
+    restart: unless-stopped
+
 volumes:
   mongodb_data:
 
