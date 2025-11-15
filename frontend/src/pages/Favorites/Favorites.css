@@ -15,6 +15,9 @@
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 .favorite-card:hover {
@@ -22,10 +25,66 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.favorite-image {
+.favorite-image-container {
+  position: relative;
   width: 100%;
   height: 200px;
+  overflow: hidden;
+}
+
+.favorite-image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+
+.favorite-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.favorite-image-placeholder svg {
+  width: 64px;
+  height: 64px;
+}
+
+/* Heart Icon Styling - Same as Home page */
+.favorite-heart {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 2;
+}
+
+.favorite-heart:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.favorite-heart svg {
+  width: 18px;
+  height: 18px;
+  color: #222;
+}
+
+.favorite-heart.favorited svg {
+  color: #ff385c;
+  fill: #ff385c;
 }
 
 .favorite-info {
@@ -34,14 +93,10 @@
 
 .favorite-info h3 {
   margin-bottom: 10px;
-}
-
-.favorite-info h3 a {
   color: #333;
-  text-decoration: none;
 }
 
-.favorite-info h3 a:hover {
+.favorite-info h3:hover {
   color: #e31c5f;
 }
 
@@ -60,11 +115,7 @@
   font-size: 18px;
   font-weight: bold;
   color: #e31c5f;
-  margin-bottom: 15px;
-}
-
-.remove-btn {
-  width: 100%;
+  margin-bottom: 0;
 }
 
 .no-favorites {
@@ -77,4 +128,3 @@
   font-size: 18px;
   margin-bottom: 20px;
 }
-

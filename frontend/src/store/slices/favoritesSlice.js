@@ -22,10 +22,17 @@ export const fetchFavorites = createAsyncThunk(
 
 export const addFavorite = createAsyncThunk(
   'favorites/add',
-  async (propertyId, { rejectWithValue }) => {
+  async (propertyId, { rejectWithValue, getState }) => {
     try {
-      const response = await travelerAPI.addFavorite(propertyId)
-      return response.data.property || response.data.favorite?.propertyId || { _id: propertyId }
+      await travelerAPI.addFavorite(propertyId)
+      
+      // Get the property from properties list to add to favorites immediately
+      const state = getState()
+      const property = state.properties.items.find(p => p._id === propertyId)
+      
+      // Return the full property object if found, otherwise minimal object
+      // This allows immediate UI update without refetching
+      return property || { _id: propertyId }
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to add favorite'
