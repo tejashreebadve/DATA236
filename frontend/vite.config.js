@@ -32,6 +32,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path,
       },
+      // Proxy for traveler service uploads
+      '/uploads': {
+        target: 'http://localhost:3002',
+        changeOrigin: true,
+        rewrite: (path) => path,
+      },
     },
   },
 })

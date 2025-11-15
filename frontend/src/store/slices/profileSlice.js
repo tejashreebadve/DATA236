@@ -34,6 +34,24 @@ export const updateProfile = createAsyncThunk(
   }
 )
 
+export const uploadProfilePicture = createAsyncThunk(
+  'profile/uploadPicture',
+  async ({ role, file }, { rejectWithValue }) => {
+    try {
+      const api = role === 'traveler' ? travelerAPI : ownerAPI
+      const response = await api.uploadProfilePicture(file)
+      // Backend returns { imageUrl, message }
+      // We need to refetch the profile to get the updated profile with the new picture
+      const profileResponse = await api.getProfile()
+      return { role, profile: profileResponse.data }
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error?.message || 'Failed to upload profile picture'
+      )
+    }
+  }
+)
+
 const initialState = {
   traveler: null,
   owner: null,
@@ -86,6 +104,23 @@ const profileSlice = createSlice({
         }
       })
       .addCase(updateProfile.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+      // Upload Profile Picture
+      .addCase(uploadProfilePicture.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(uploadProfilePicture.fulfilled, (state, action) => {
+        state.loading = false
+        if (action.payload.role === 'traveler') {
+          state.traveler = action.payload.profile
+        } else {
+          state.owner = action.payload.profile
+        }
+      })
+      .addCase(uploadProfilePicture.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload
       })

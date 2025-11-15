@@ -120,6 +120,13 @@ export const travelerAPI = {
   updateProfile: (data) => api.put('/api/traveler/profile', data, {
     headers: { 'Content-Type': 'multipart/form-data' },
   }),
+  uploadProfilePicture: (file) => {
+    const formData = new FormData()
+    formData.append('image', file)
+    return api.post('/api/traveler/profile/picture', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+  },
   getBookings: () => api.get('/api/traveler/bookings'),
   createBooking: (data) => api.post('/api/booking', data), // Calls booking-service directly
   getFavorites: () => api.get('/api/traveler/favorites'),
@@ -133,6 +140,13 @@ export const ownerAPI = {
   updateProfile: (data) => api.put('/api/owner/profile', data, {
     headers: { 'Content-Type': 'multipart/form-data' },
   }),
+  uploadProfilePicture: (file) => {
+    const formData = new FormData()
+    formData.append('image', file)
+    return api.post('/api/owner/profile/picture', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+  },
   getBookings: () => api.get('/api/owner/bookings'),
   getBooking: (id) => api.get(`/api/owner/bookings/${id}`),
   acceptBooking: (id) => api.put(`/api/owner/bookings/${id}/accept`),

@@ -1,0 +1,46 @@
+/**
+ * Get the full URL for an uploaded image
+ * In development, uses relative paths that go through Vite proxy
+ * @param {string} imagePath - The image path from the database (e.g., "uploads/profile-123.jpg")
+ * @param {string} role - The role (traveler or owner) to determine which service to use
+ * @returns {string} - The full URL to the image
+ */
+export const getProfilePictureUrl = (imagePath, role = 'traveler') => {
+  if (!imagePath) return null
+  
+  // If it's already a full URL (http/https), return as is
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath
+  }
+  
+  // Normalize the path to start with /uploads
+  // Backend stores as "uploads/profile-123.jpg" (no leading slash)
+  let normalizedPath = imagePath
+  
+  // If it doesn't start with /, add it
+  if (!normalizedPath.startsWith('/')) {
+    normalizedPath = `/${normalizedPath}`
+  }
+  
+  // Ensure it starts with /uploads (in case path is just "profile-123.jpg")
+  if (!normalizedPath.startsWith('/uploads')) {
+    normalizedPath = `/uploads${normalizedPath.startsWith('/') ? '' : '/'}${normalizedPath}`
+  }
+  
+  // In development, use relative path (Vite proxy will handle it)
+  // The proxy is configured to route /uploads to traveler-service (3002)
+  // For owner service, we need to use full URL since proxy only routes to traveler
+  if (import.meta.env.DEV) {
+    // For owner service, use full URL since proxy routes to traveler by default
+    if (role === 'owner') {
+      return `http://localhost:3003${normalizedPath}`
+    }
+    // For traveler service, use relative path (proxy will handle)
+    return normalizedPath
+  }
+  
+  // In production, construct full URL based on service
+  const servicePort = role === 'owner' ? 3003 : 3002
+  return `http://localhost:${servicePort}${normalizedPath}`
+}
+
