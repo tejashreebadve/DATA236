@@ -5,6 +5,7 @@ import { fetchPropertyById } from '../../store/slices/propertiesSlice'
 import { createBooking } from '../../store/slices/bookingsSlice'
 import { addFavorite, removeFavorite, fetchFavorites } from '../../store/slices/favoritesSlice'
 import { format } from 'date-fns'
+import { getPropertyImageUrl } from '../../utils/imageUtils'
 import './Property.css'
 
 const PropertyDetails = () => {
@@ -107,8 +108,8 @@ const PropertyDetails = () => {
   if (!selectedProperty) return <div className="no-property">Property not found</div>
 
   const photos = selectedProperty.photos || []
-  const mainPhoto = photos[0] || null
-  const otherPhotos = photos.slice(1, 5)
+  const mainPhoto = photos[0] ? getPropertyImageUrl(photos[0]) : null
+  const otherPhotos = photos.slice(1, 5).map(photo => getPropertyImageUrl(photo))
 
   return (
     <div className="property-details-page">
@@ -232,91 +233,89 @@ const PropertyDetails = () => {
               )}
             </div>
 
-            {/* Right Side - Booking Widget */}
-            {isAuthenticated && user?.role === 'traveler' && (
-              <div className="booking-widget-container">
-                <div className="booking-widget">
-                  <div className="booking-price">
-                    <span className="price-amount">${selectedProperty.pricing?.perNight || 0}</span>
-                    <span className="price-period"> / night</span>
+            {/* Right Side - Booking Widget - Show for everyone */}
+            <div className="booking-widget-container">
+              <div className="booking-widget">
+                <div className="booking-price">
+                  <span className="price-amount">${selectedProperty.pricing?.perNight || 0}</span>
+                  <span className="price-period"> / night</span>
+                </div>
+
+                <form onSubmit={handleBooking} className="booking-form">
+                  {bookingError && (
+                    <div className="alert alert-error">
+                      {bookingError}
+                    </div>
+                  )}
+                  {bookingSuccess && (
+                    <div className="alert alert-success">
+                      {bookingSuccess}
+                    </div>
+                  )}
+                  <div className="date-inputs">
+                    <div className="date-input-group">
+                      <label>CHECK-IN</label>
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        required
+                        min={new Date().toISOString().split('T')[0]}
+                      />
+                    </div>
+                    <div className="date-input-group">
+                      <label>CHECKOUT</label>
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        required
+                        min={startDate || new Date().toISOString().split('T')[0]}
+                      />
+                    </div>
                   </div>
 
-                  <form onSubmit={handleBooking} className="booking-form">
-                    {bookingError && (
-                      <div className="alert alert-error">
-                        {bookingError}
+                  <div className="guests-input-group">
+                    <label>GUESTS</label>
+                    <select
+                      value={guests}
+                      onChange={(e) => setGuests(parseInt(e.target.value))}
+                      required
+                    >
+                      {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                        <option key={num} value={num}>
+                          {num} {num === 1 ? 'guest' : 'guests'}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <button type="submit" className="reserve-button" disabled={isBooking}>
+                    {isBooking ? 'Processing...' : !isAuthenticated || user?.role !== 'traveler' ? 'Log in to Reserve' : 'Reserve'}
+                  </button>
+
+                  {startDate && endDate && calculateTotal() > 0 && (
+                    <div className="booking-summary">
+                      <div className="summary-row">
+                        <span>
+                          ${selectedProperty.pricing?.perNight || 0} x{' '}
+                          {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))}{' '}
+                          nights
+                        </span>
+                        <span>${calculateTotal().toFixed(2)}</span>
                       </div>
-                    )}
-                    {bookingSuccess && (
-                      <div className="alert alert-success">
-                        {bookingSuccess}
-                      </div>
-                    )}
-                    <div className="date-inputs">
-                      <div className="date-input-group">
-                        <label>CHECK-IN</label>
-                        <input
-                          type="date"
-                          value={startDate}
-                          onChange={(e) => setStartDate(e.target.value)}
-                          required
-                          min={new Date().toISOString().split('T')[0]}
-                        />
-                      </div>
-                      <div className="date-input-group">
-                        <label>CHECKOUT</label>
-                        <input
-                          type="date"
-                          value={endDate}
-                          onChange={(e) => setEndDate(e.target.value)}
-                          required
-                          min={startDate || new Date().toISOString().split('T')[0]}
-                        />
+                      <div className="summary-divider"></div>
+                      <div className="summary-row total">
+                        <span>Total</span>
+                        <span>${calculateTotal().toFixed(2)}</span>
                       </div>
                     </div>
+                  )}
 
-                    <div className="guests-input-group">
-                      <label>GUESTS</label>
-                      <select
-                        value={guests}
-                        onChange={(e) => setGuests(parseInt(e.target.value))}
-                        required
-                      >
-                        {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-                          <option key={num} value={num}>
-                            {num} {num === 1 ? 'guest' : 'guests'}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <button type="submit" className="reserve-button" disabled={isBooking}>
-                      {isBooking ? 'Processing...' : 'Reserve'}
-                    </button>
-
-                    {startDate && endDate && calculateTotal() > 0 && (
-                      <div className="booking-summary">
-                        <div className="summary-row">
-                          <span>
-                            ${selectedProperty.pricing?.perNight || 0} x{' '}
-                            {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))}{' '}
-                            nights
-                          </span>
-                          <span>${calculateTotal().toFixed(2)}</span>
-                        </div>
-                        <div className="summary-divider"></div>
-                        <div className="summary-row total">
-                          <span>Total</span>
-                          <span>${calculateTotal().toFixed(2)}</span>
-                        </div>
-                      </div>
-                    )}
-
-                    <p className="booking-note">You won't be charged yet</p>
-                  </form>
-                </div>
+                  <p className="booking-note">You won't be charged yet</p>
+                </form>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

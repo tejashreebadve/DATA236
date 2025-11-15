@@ -44,3 +44,40 @@ export const getProfilePictureUrl = (imagePath, role = 'traveler') => {
   return `http://localhost:${servicePort}${normalizedPath}`
 }
 
+/**
+ * Get the full URL for a property image
+ * Property images are served by the property service (port 3004)
+ * @param {string} imagePath - The image path from the database (e.g., "uploads/property-123.jpg")
+ * @returns {string} - The full URL to the image
+ */
+export const getPropertyImageUrl = (imagePath) => {
+  if (!imagePath) return null
+  
+  // If it's already a full URL (http/https), return as is
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath
+  }
+  
+  // Normalize the path to start with /uploads
+  let normalizedPath = imagePath
+  
+  // If it doesn't start with /, add it
+  if (!normalizedPath.startsWith('/')) {
+    normalizedPath = `/${normalizedPath}`
+  }
+  
+  // Ensure it starts with /uploads
+  if (!normalizedPath.startsWith('/uploads')) {
+    normalizedPath = `/uploads${normalizedPath.startsWith('/') ? '' : '/'}${normalizedPath}`
+  }
+  
+  // In development, use the property-uploads proxy
+  if (import.meta.env.DEV) {
+    // Use property-uploads proxy which routes to property service
+    return normalizedPath.replace(/^\/uploads/, '/property-uploads')
+  }
+  
+  // In production, construct full URL to property service
+  return `http://localhost:3004${normalizedPath}`
+}
+

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProperties, updateSearchFilters } from '../store/slices/propertiesSlice'
 import { addFavorite, removeFavorite, fetchFavorites } from '../store/slices/favoritesSlice'
+import { getPropertyImageUrl } from '../utils/imageUtils'
 import OwnerHome from './Home/OwnerHome'
 import './Home.css'
 
@@ -155,7 +156,7 @@ const Home = () => {
                   <div className="property-image-container">
                     {property.photos && property.photos.length > 0 ? (
                       <img
-                        src={property.photos[0]}
+                        src={getPropertyImageUrl(property.photos[0])}
                         alt={property.name}
                         className="property-image"
                       />

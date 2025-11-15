@@ -38,6 +38,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path,
       },
+      // Proxy for property service uploads (property photos)
+      '/property-uploads': {
+        target: 'http://localhost:3004',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/property-uploads/, '/uploads'),
+      },
     },
   },
 })

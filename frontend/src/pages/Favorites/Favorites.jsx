@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchFavorites, removeFavorite } from '../../store/slices/favoritesSlice'
+import { getPropertyImageUrl } from '../../utils/imageUtils'
 import './Favorites.css'
 
 const Favorites = () => {
@@ -43,7 +44,7 @@ const Favorites = () => {
                 <div className="favorite-image-container">
                   {property.photos && property.photos.length > 0 ? (
                     <img
-                      src={property.photos[0]}
+                      src={getPropertyImageUrl(property.photos[0])}
                       alt={property.name}
                       className="favorite-image"
                     />

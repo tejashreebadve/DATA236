@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { fetchBookings } from '../../store/slices/bookingsSlice'
 import { fetchPropertyById } from '../../store/slices/propertiesSlice'
 import { format } from 'date-fns'
+import { getPropertyImageUrl } from '../../utils/imageUtils'
 import './Booking.css'
 
 const TravelerBookings = () => {
@@ -29,7 +30,7 @@ const TravelerBookings = () => {
         if (typeof booking.propertyId === 'object' && booking.propertyId._id) {
           const propId = booking.propertyId._id.toString()
           if (booking.propertyId.photos && booking.propertyId.photos.length > 0) {
-            imageMap[propId] = booking.propertyId.photos[0]
+            imageMap[propId] = getPropertyImageUrl(booking.propertyId.photos[0])
           } else {
             // Need to fetch if not already in our map
             if (!imageMap[propId] && !propertyImages[propId]) {
@@ -54,7 +55,7 @@ const TravelerBookings = () => {
           }
           const property = await dispatch(fetchPropertyById(propertyId)).unwrap()
           if (property?.photos && property.photos.length > 0) {
-            imageMap[propertyId] = property.photos[0]
+            imageMap[propertyId] = getPropertyImageUrl(property.photos[0])
           }
         } catch (error) {
           console.error(`Error fetching property ${propertyId}:`, error)
@@ -79,9 +80,10 @@ const TravelerBookings = () => {
   const getPropertyImage = (booking) => {
     // Check if propertyId is populated object
     if (typeof booking.propertyId === 'object' && booking.propertyId.photos) {
-      return booking.propertyId.photos[0] || null
+      const photo = booking.propertyId.photos[0]
+      return photo ? getPropertyImageUrl(photo) : null
     }
-    // Check cached images
+    // Check cached images (already converted to URLs in imageMap)
     const propertyId = typeof booking.propertyId === 'object' 
       ? booking.propertyId._id 
       : booking.propertyId
