@@ -38,11 +38,15 @@ const upload = multer({
   },
 });
 
-// Public routes
+// Public routes - order matters: specific routes first, then dynamic routes
+// Exact matches must come before parameterized routes
 router.get('/search', searchProperties);
-router.get('/:id', getPropertyById);
-router.get('/:id/availability', checkPropertyAvailability);
 router.get('/owner/:ownerId', getPropertiesByOwner);
+router.get('/', searchProperties);
+router.get('/:id/availability', checkPropertyAvailability);
+// List all properties (empty query) - must be before /:id
+// Get property by ID - validates ObjectId format in controller
+router.get('/:id', getPropertyById);
 
 // Protected routes (owner only)
 router.post(

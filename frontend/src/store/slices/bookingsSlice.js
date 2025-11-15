@@ -8,7 +8,8 @@ export const fetchBookings = createAsyncThunk(
     try {
       const api = role === 'traveler' ? travelerAPI : ownerAPI
       const response = await api.getBookings()
-      return response.data.bookings || response.data || []
+      // Backend returns array directly, not wrapped in { bookings: [...] }
+      return Array.isArray(response.data) ? response.data : []
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to fetch bookings'
@@ -24,7 +25,8 @@ export const fetchBookingById = createAsyncThunk(
       const response = role === 'owner'
         ? await ownerAPI.getBooking(id)
         : await bookingAPI.getById(id)
-      return response.data.booking || response.data
+      // Backend returns booking directly, not wrapped
+      return response.data
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to fetch booking'
@@ -37,8 +39,13 @@ export const createBooking = createAsyncThunk(
   'bookings/create',
   async (data, { rejectWithValue }) => {
     try {
+      // Frontend calls booking-service directly via travelerAPI.createBooking
+      // But traveler-service doesn't have this endpoint, it should call booking-service
+      // Actually, the frontend should call booking-service directly, not via traveler-service
+      // Let's check the API service - it should be calling /api/booking
       const response = await travelerAPI.createBooking(data)
-      return response.data.booking || response.data
+      // Backend returns booking directly, not wrapped
+      return response.data
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to create booking'
@@ -52,7 +59,8 @@ export const acceptBooking = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await ownerAPI.acceptBooking(id)
-      return response.data.booking || response.data
+      // Backend returns booking directly, not wrapped
+      return response.data
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to accept booking'
@@ -66,7 +74,8 @@ export const cancelBooking = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await ownerAPI.cancelBooking(id)
-      return response.data.booking || response.data
+      // Backend returns booking directly, not wrapped
+      return response.data
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to cancel booking'

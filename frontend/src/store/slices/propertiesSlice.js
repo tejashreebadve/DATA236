@@ -1,13 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { propertyAPI } from '../../services/api'
+import { transformProperties, transformProperty } from '../../utils/transformProperty'
 
 // Async thunks
 export const fetchProperties = createAsyncThunk(
   'properties/fetchAll',
   async (filters = {}, { rejectWithValue }) => {
     try {
-      const response = await propertyAPI.getAll(filters)
-      return response.data.properties || response.data
+      // Backend expects query params, so convert filters object to query string
+      const params = {}
+      if (filters.location) params.location = filters.location
+      if (filters.startDate) params.startDate = filters.startDate
+      if (filters.endDate) params.endDate = filters.endDate
+      if (filters.guests) params.guests = filters.guests
+      if (filters.minPrice) params.minPrice = filters.minPrice
+      if (filters.maxPrice) params.maxPrice = filters.maxPrice
+      if (filters.type) params.type = filters.type
+      if (filters.amenities) params.amenities = Array.isArray(filters.amenities) ? filters.amenities.join(',') : filters.amenities
+
+      const response = await propertyAPI.getAll(params)
+      // Backend returns array directly, transform it
+      const properties = Array.isArray(response.data) ? response.data : (response.data.properties || [])
+      return transformProperties(properties)
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to fetch properties'
@@ -21,7 +35,9 @@ export const fetchPropertyById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await propertyAPI.getById(id)
-      return response.data.property || response.data
+      // Backend returns property directly
+      const property = response.data.property || response.data
+      return transformProperty(property)
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to fetch property'

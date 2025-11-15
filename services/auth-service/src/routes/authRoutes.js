@@ -84,6 +84,7 @@ router.post(
 );
 
 router.post('/verify', verifyJWT);
+router.get('/verify', verifyJWT); // Also support GET for frontend compatibility
 
 module.exports = router;
 

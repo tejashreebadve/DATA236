@@ -184,15 +184,17 @@ const Home = () => {
                   </div>
                   <div className="property-info">
                     <div className="property-header-info">
-                      <h3 className="property-title">{property.location}</h3>
+                      <h3 className="property-title">{property.location || property.name}</h3>
                       {property.type && (
                         <span className="property-type-badge">{property.type}</span>
                       )}
                     </div>
-                    <p className="property-name">{property.name}</p>
+                    {property.name && property.name !== property.location && (
+                      <p className="property-name">{property.name}</p>
+                    )}
                     <div className="property-meta">
                       <span className="property-price">
-                        ${property.pricing?.perNight || 0}
+                        ${property.pricing?.perNight || property.pricing?.basePrice || 0}
                         <span className="price-period"> night</span>
                       </span>
                     </div>

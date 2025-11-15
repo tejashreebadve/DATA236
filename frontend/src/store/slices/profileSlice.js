@@ -8,7 +8,8 @@ export const fetchProfile = createAsyncThunk(
     try {
       const api = role === 'traveler' ? travelerAPI : ownerAPI
       const response = await api.getProfile()
-      return { role, profile: response.data.traveler || response.data.owner || response.data }
+      // Backend returns profile directly, not wrapped in { traveler: ... } or { owner: ... }
+      return { role, profile: response.data }
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to fetch profile'
@@ -23,7 +24,8 @@ export const updateProfile = createAsyncThunk(
     try {
       const api = role === 'traveler' ? travelerAPI : ownerAPI
       const response = await api.updateProfile(data)
-      return { role, profile: response.data.traveler || response.data.owner || response.data }
+      // Backend returns profile directly
+      return { role, profile: response.data }
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to update profile'

@@ -26,7 +26,9 @@ const getBooking = async (req, res, next) => {
     const booking = await getBookingById(id);
 
     // Verify the booking belongs to this traveler
-    if (booking.travelerId !== req.user.id) {
+    // Convert to string for comparison (ObjectId vs string)
+    const travelerId = booking.travelerId?.toString() || booking.travelerId;
+    if (travelerId !== req.user.id) {
       return res.status(403).json({
         error: {
           message: 'You do not have access to this booking',

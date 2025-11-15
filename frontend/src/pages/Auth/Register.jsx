@@ -48,7 +48,21 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    dispatch(registerUser({ role, data: formData }))
+    
+    // Filter out empty strings and undefined values
+    const cleanData = Object.entries(formData).reduce((acc, [key, value]) => {
+      // Only include non-empty values for registration
+      // Backend only accepts: name, email, password, phone (optional)
+      if (value && value.trim() !== '') {
+        // For registration, only send: name, email, password, phone
+        if (['name', 'email', 'password', 'phone'].includes(key)) {
+          acc[key] = value.trim()
+        }
+      }
+      return acc
+    }, {})
+    
+    dispatch(registerUser({ role, data: cleanData }))
   }
 
   return (

@@ -21,7 +21,9 @@ const getBooking = async (req, res, next) => {
     const booking = await getBookingById(id);
 
     // Verify the booking belongs to this owner
-    if (booking.ownerId !== req.user.id) {
+    // Convert to string for comparison (ObjectId vs string)
+    const ownerId = booking.ownerId?.toString() || booking.ownerId;
+    if (ownerId !== req.user.id) {
       return res.status(403).json({
         error: {
           message: 'You do not have access to this booking',
@@ -46,7 +48,9 @@ const acceptBooking = async (req, res, next) => {
     const booking = await getBookingById(id);
 
     // Verify the booking belongs to this owner
-    if (booking.ownerId !== req.user.id) {
+    // Convert to string for comparison (ObjectId vs string)
+    const ownerId = booking.ownerId?.toString() || booking.ownerId;
+    if (ownerId !== req.user.id) {
       return res.status(403).json({
         error: {
           message: 'You do not have access to this booking',
@@ -111,7 +115,9 @@ const cancelBooking = async (req, res, next) => {
     const booking = await getBookingById(id);
 
     // Verify the booking belongs to this owner
-    if (booking.ownerId !== req.user.id) {
+    // Convert to string for comparison (ObjectId vs string)
+    const ownerId = booking.ownerId?.toString() || booking.ownerId;
+    if (ownerId !== req.user.id) {
       return res.status(403).json({
         error: {
           message: 'You do not have access to this booking',

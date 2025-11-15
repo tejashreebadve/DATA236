@@ -19,12 +19,16 @@ const Login = () => {
   const from = location.state?.from?.pathname || `/${role}/dashboard`
 
   useEffect(() => {
+    console.log('🔍 Auth state changed:', { loading, error, isAuthenticated, user: user?.email })
+    
     if (isAuthenticated && user) {
+      console.log('✅ User authenticated, redirecting...', { role: user.role })
       const redirectPath =
         user.role === 'traveler' ? '/traveler/bookings' : '/owner/dashboard'
+      console.log('📍 Redirecting to:', redirectPath)
       navigate(redirectPath, { replace: true })
     }
-  }, [isAuthenticated, user, navigate])
+  }, [loading, error, isAuthenticated, user, navigate])
 
   useEffect(() => {
     return () => {
@@ -34,6 +38,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log('🚀 Login form submitted:', { role, email, passwordLength: password.length })
+    
+    // Clear any previous errors
+    dispatch(clearError())
+    
+    // Dispatch login action
+    // Note: dispatch returns the action, not a promise, so we rely on Redux state changes
     dispatch(loginUser({ role, credentials: { email, password } }))
   }
 
@@ -80,7 +91,27 @@ const Login = () => {
             />
           </div>
 
-          {error && <div className="error-message">{error}</div>}
+          {error && (
+            <div className="error-message" style={{ 
+              color: 'red', 
+              backgroundColor: '#ffe6e6', 
+              padding: '10px', 
+              borderRadius: '4px', 
+              marginBottom: '10px',
+              border: '1px solid #ff9999'
+            }}>
+              <strong>Error:</strong> {error}
+            </div>
+          )}
+          {loading && (
+            <div style={{ 
+              color: 'blue', 
+              padding: '10px', 
+              textAlign: 'center' 
+            }}>
+              Logging in...
+            </div>
+          )}
 
           <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { travelerAPI } from '../../services/api'
+import { transformProperties } from '../../utils/transformProperty'
 
 // Async thunks
 export const fetchFavorites = createAsyncThunk(
@@ -7,9 +8,10 @@ export const fetchFavorites = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await travelerAPI.getFavorites()
-      const favorites = response.data.favorites || response.data || []
-      // Extract properties from favorites
-      return favorites.map((fav) => fav.propertyId || fav).filter(Boolean)
+      // Backend returns array of properties directly (from getPropertiesByIds)
+      const favorites = Array.isArray(response.data) ? response.data : []
+      // Transform properties to frontend format
+      return transformProperties(favorites)
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to fetch favorites'

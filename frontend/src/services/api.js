@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
+// Use empty baseURL or relative path so Vite proxy can handle routing
+// In development, Vite proxy will route /api/* to appropriate services
+// In production, set VITE_API_BASE_URL to your API gateway URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 // Create axios instance
 const api = axios.create({
@@ -10,6 +13,14 @@ const api = axios.create({
   },
 })
 
+// Log API configuration in development
+if (import.meta.env.DEV) {
+  console.log('🔧 API Configuration:', {
+    baseURL: API_BASE_URL || '(empty - using Vite proxy)',
+    mode: import.meta.env.MODE,
+  })
+}
+
 // Request interceptor to add token
 api.interceptors.request.use(
   (config) => {
@@ -17,23 +28,66 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    
+    // Log requests in development
+    if (import.meta.env.DEV) {
+      console.log('📤 API Request:', {
+        method: config.method?.toUpperCase(),
+        url: config.url,
+        baseURL: config.baseURL,
+        fullURL: `${config.baseURL || ''}${config.url}`,
+        hasToken: !!token,
+      })
+    }
+    
     return config
   },
   (error) => {
+    console.error('❌ Request interceptor error:', error)
     return Promise.reject(error)
   }
 )
 
 // Response interceptor to handle errors
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Log successful responses in development
+    if (import.meta.env.DEV) {
+      console.log('✅ API Response:', {
+        url: response.config.url,
+        method: response.config.method,
+        status: response.status,
+        data: response.data,
+      })
+    }
+    return response
+  },
   (error) => {
+    // Log errors in development
+    if (import.meta.env.DEV) {
+      console.error('❌ API Error:', {
+        url: error.config?.url,
+        method: error.config?.method,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message,
+      })
+    }
+
     if (error.response?.status === 401) {
       // Unauthorized - clear token and redirect to login
+      // But don't redirect if we're already on the login page (to avoid redirect loop)
+      const isLoginPage = window.location.pathname === '/login' || window.location.pathname === '/register'
+      
       localStorage.removeItem('token')
       localStorage.removeItem('refreshToken')
       localStorage.removeItem('user')
-      window.location.href = '/login'
+      
+      // Only redirect if not already on auth pages
+      if (!isLoginPage) {
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(error)
   }
@@ -67,7 +121,7 @@ export const travelerAPI = {
     headers: { 'Content-Type': 'multipart/form-data' },
   }),
   getBookings: () => api.get('/api/traveler/bookings'),
-  createBooking: (data) => api.post('/api/booking', data),
+  createBooking: (data) => api.post('/api/booking', data), // Calls booking-service directly
   getFavorites: () => api.get('/api/traveler/favorites'),
   addFavorite: (propertyId) => api.post(`/api/traveler/favorites/${propertyId}`),
   removeFavorite: (propertyId) => api.delete(`/api/traveler/favorites/${propertyId}`),

@@ -43,6 +43,13 @@ const PropertyDetails = () => {
       return
     }
 
+    // Calculate total price
+    const checkIn = new Date(startDate)
+    const checkOut = new Date(endDate)
+    const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24))
+    const perNight = selectedProperty.pricing?.perNight || selectedProperty.pricing?.basePrice || 0
+    const totalPrice = nights * perNight
+
     setIsBooking(true)
     try {
       await dispatch(createBooking({
@@ -50,6 +57,7 @@ const PropertyDetails = () => {
         startDate,
         endDate,
         guests,
+        totalPrice,
       })).unwrap()
       alert('Booking request created successfully!')
       navigate('/traveler/bookings')
@@ -182,10 +190,10 @@ const PropertyDetails = () => {
                   <span>{selectedProperty.bedrooms || 0} bedrooms</span>
                   <span>·</span>
                   <span>{selectedProperty.bathrooms || 0} bathrooms</span>
-                  {selectedProperty.pricing?.maxGuests && (
+                  {selectedProperty.maxGuests && (
                     <>
                       <span>·</span>
-                      <span>Up to {selectedProperty.pricing.maxGuests} guests</span>
+                      <span>Up to {selectedProperty.maxGuests} guests</span>
                     </>
                   )}
                 </div>

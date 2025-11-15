@@ -6,19 +6,37 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async ({ role, credentials }, { rejectWithValue }) => {
     try {
+      console.log('🔐 Login attempt:', { role, email: credentials.email })
+      
       const response = await authAPI.login(role, credentials)
+      console.log('✅ Login response received:', response.data)
+      
       const { token, refreshToken, user } = response.data
+
+      if (!token || !user) {
+        console.error('❌ Invalid login response: missing token or user')
+        throw new Error('Invalid login response: missing token or user')
+      }
 
       // Store tokens in localStorage
       localStorage.setItem('token', token)
       localStorage.setItem('refreshToken', refreshToken)
       localStorage.setItem('user', JSON.stringify(user))
 
+      console.log('✅ Login successful, tokens stored')
       return { token, refreshToken, user }
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.error?.message || 'Login failed'
-      )
+      console.error('❌ Login error:', error)
+      console.error('❌ Login error response:', error.response?.data)
+      
+      // Extract error message
+      const errorMessage = error.response?.data?.error?.message 
+        || error.response?.data?.message
+        || error.message 
+        || 'Login failed'
+      
+      console.error('❌ Login error message:', errorMessage)
+      return rejectWithValue(errorMessage)
     }
   }
 )
@@ -49,7 +67,11 @@ export const verifyToken = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await authAPI.verifyToken()
-      return response.data.user
+      // Backend returns { valid: true, user: { ... } } or { error: { ... }, valid: false }
+      if (response.data.valid && response.data.user) {
+        return response.data.user
+      }
+      throw new Error('Invalid token response')
     } catch (error) {
       // Token invalid, clear localStorage
       localStorage.removeItem('token')

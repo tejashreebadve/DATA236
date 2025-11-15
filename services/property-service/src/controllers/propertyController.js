@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Property = require('../models/Property');
 const { checkAvailability, blockDates, unblockDates } = require('../services/propertyService');
 
@@ -65,6 +66,18 @@ const searchProperties = async (req, res, next) => {
 const getPropertyById = async (req, res, next) => {
   try {
     const { id } = req.params;
+    
+    // Validate MongoDB ObjectId format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        error: {
+          message: 'Invalid property ID format',
+          code: 'INVALID_ID',
+          status: 400,
+        },
+      });
+    }
+    
     const property = await Property.findById(id).populate('ownerId', 'name email');
 
     if (!property) {
