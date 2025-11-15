@@ -102,16 +102,48 @@ const getPropertiesByOwner = async (req, res, next) => {
  */
 const createProperty = async (req, res, next) => {
   try {
+    // Extract photos first before spreading req.body
+    const { photos, ...restBody } = req.body;
+    
     const propertyData = {
-      ...req.body,
+      ...restBody,
       ownerId: req.user.id,
     };
 
-    // Handle photos from multer
-    if (req.files && req.files.length > 0) {
-      propertyData.photos = req.files.map((file) => file.path || `/uploads/${file.filename}`);
+    // Remove coordinates entirely if not provided or if null/undefined
+    // This prevents MongoDB from trying to index null coordinates
+    if (propertyData.location) {
+      // Deep clone location to avoid mutating the original
+      propertyData.location = { ...propertyData.location };
+      
+      // Check if coordinates exist and are valid
+      if (propertyData.location.coordinates) {
+        const coords = propertyData.location.coordinates;
+        const lat = coords.lat;
+        const lng = coords.lng;
+        
+        // If coordinates are null, undefined, or not valid numbers, remove them
+        if (lat == null || lng == null || isNaN(Number(lat)) || isNaN(Number(lng))) {
+          // Completely remove coordinates from the location object
+          delete propertyData.location.coordinates;
+        }
+      }
     }
 
+    // Handle photos from multer (file upload) OR from JSON body (URLs)
+    if (req.files && req.files.length > 0) {
+      // If files are uploaded via multer, use file paths
+      propertyData.photos = req.files.map((file) => file.path || `/uploads/${file.filename}`);
+    } else if (photos && Array.isArray(photos)) {
+      // If photos are provided as URLs in JSON body, use them directly
+      propertyData.photos = photos;
+    } else {
+      // Default to empty array if no photos provided
+      propertyData.photos = [];
+    }
+
+    // Create property - coordinates will be omitted if they were removed above
+    // The pre-save hook will also ensure coordinates are not null
     const property = await Property.create(propertyData);
 
     res.status(201).json(property);
@@ -151,16 +183,21 @@ const updateProperty = async (req, res, next) => {
 
     // Update fields
     Object.keys(req.body).forEach((key) => {
-      if (key !== 'ownerId' && key !== '_id') {
+      if (key !== 'ownerId' && key !== '_id' && key !== 'photos') {
         property[key] = req.body[key];
       }
     });
 
-    // Handle new photos
+    // Handle photos - file upload OR URLs in JSON body
     if (req.files && req.files.length > 0) {
+      // If new files are uploaded via multer, add them to existing photos
       const newPhotos = req.files.map((file) => file.path || `/uploads/${file.filename}`);
-      property.photos = [...property.photos, ...newPhotos];
+      property.photos = [...(property.photos || []), ...newPhotos];
+    } else if (req.body.photos && Array.isArray(req.body.photos)) {
+      // If photos are provided as URLs in JSON body, replace all photos
+      property.photos = req.body.photos;
     }
+    // If neither files nor photos in body, keep existing photos
 
     await property.save();
 

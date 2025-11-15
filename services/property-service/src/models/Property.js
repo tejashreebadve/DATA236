@@ -41,11 +41,13 @@ const propertySchema = new mongoose.Schema(
       coordinates: {
         lat: {
           type: Number,
-          default: null,
+          default: undefined,
+          required: false,
         },
         lng: {
           type: Number,
-          default: null,
+          default: undefined,
+          required: false,
         },
       },
     },
@@ -123,7 +125,8 @@ propertySchema.index({ ownerId: 1 });
 propertySchema.index({ type: 1 });
 propertySchema.index({ 'pricing.basePrice': 1 });
 propertySchema.index({ maxGuests: 1 });
-propertySchema.index({ 'location.coordinates': '2dsphere' }); // For geospatial queries
+// Geospatial index commented out - uncomment when coordinates are properly formatted as GeoJSON
+// propertySchema.index({ 'location.coordinates': '2dsphere' }, { sparse: true }); // For geospatial queries
 
 const Property = mongoose.model('Property', propertySchema);
 
