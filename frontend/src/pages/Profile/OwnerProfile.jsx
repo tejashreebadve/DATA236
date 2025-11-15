@@ -22,6 +22,7 @@ const OwnerProfile = () => {
   const [picturePreview, setPicturePreview] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [imageKey, setImageKey] = useState(0)
 
   useEffect(() => {
     dispatch(fetchProfile('owner'))
@@ -36,11 +37,13 @@ const OwnerProfile = () => {
         location: owner.location || '',
         about: owner.about || '',
       })
-      // Reset picture preview when profile loads
-      setPicturePreview(null)
-      setSelectedPictureFile(null)
+      // Reset picture preview when profile loads (but keep it if we're in edit mode and just uploaded)
+      if (!isEditing) {
+        setPicturePreview(null)
+        setSelectedPictureFile(null)
+      }
     }
-  }, [owner])
+  }, [owner, isEditing])
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -109,12 +112,15 @@ const OwnerProfile = () => {
       await dispatch(updateProfile({ role: 'owner', data: formData })).unwrap()
       // Refetch profile to get updated data including picture
       await dispatch(fetchProfile('owner'))
-      setIsEditing(false)
+      // Clear preview after refetch so the actual image shows
       setPicturePreview(null)
       setSelectedPictureFile(null)
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
       }
+      // Force image re-render by updating key
+      setImageKey(prev => prev + 1)
+      setIsEditing(false)
       setSuccessMessage('Profile updated successfully!')
       // Clear success message after 5 seconds
       setTimeout(() => setSuccessMessage(null), 5000)
@@ -159,7 +165,7 @@ const OwnerProfile = () => {
                 <img
                   src={
                     picturePreview ||
-                    (owner?.profilePicture ? `${getProfilePictureUrl(owner.profilePicture, 'owner')}?t=${Date.now()}` : 'https://via.placeholder.com/150?text=No+Photo')
+                    (owner?.profilePicture ? getProfilePictureUrl(owner.profilePicture, 'owner') : 'https://via.placeholder.com/150?text=No+Photo')
                   }
                   alt="Profile"
                   className="profile-picture-img"
@@ -169,7 +175,7 @@ const OwnerProfile = () => {
                       e.target.src = 'https://via.placeholder.com/150?text=No+Photo'
                     }
                   }}
-                  key={owner?.profilePicture ? `${owner.profilePicture}-${Date.now()}` : picturePreview}
+                  key={`owner-profile-${owner?.profilePicture || 'no-photo'}-${imageKey}`}
                 />
                 {isEditing && (
                   <div className="profile-picture-overlay">

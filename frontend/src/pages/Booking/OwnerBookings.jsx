@@ -145,12 +145,30 @@ const OwnerBookings = () => {
           <div className="bookings-list">
             {filteredBookings.map((booking) => {
               try {
+                // Debug logging for cancelled bookings
+                if (booking.status === 'cancelled') {
+                  console.log('🔴 Cancelled booking data:', {
+                    bookingId: booking._id,
+                    travelerId: booking.travelerId,
+                    travelerIdType: typeof booking.travelerId,
+                    propertyId: booking.propertyId,
+                    propertyIdType: typeof booking.propertyId,
+                    fullBooking: booking
+                  });
+                }
+
                 // Safely extract property data
-                const property = typeof booking.propertyId === 'object' && booking.propertyId !== null 
-                  ? booking.propertyId 
-                  : null;
+                // Handle both populated objects and ObjectId strings
+                let property = null;
+                if (typeof booking.propertyId === 'object' && booking.propertyId !== null) {
+                  // Check if it's a populated object (has _id or name property)
+                  if (booking.propertyId._id || booking.propertyId.name || booking.propertyId.photos) {
+                    property = booking.propertyId;
+                  }
+                }
                 
-                const propertyId = property?._id || property || booking.propertyId || '';
+                // If property is not populated but we have an ID, we'll show placeholder
+                const propertyId = property?._id || (typeof booking.propertyId === 'string' ? booking.propertyId : booking.propertyId?._id || booking.propertyId) || '';
                 const propertyName = property?.name || 'Property';
                 // Handle location - could be string or object
                 const propertyLocation = typeof property?.location === 'string' 
@@ -159,20 +177,33 @@ const OwnerBookings = () => {
                     ? `${property.location.address}, ${property.location.city}, ${property.location.state}, ${property.location.country}`
                     : null;
                 const propertyPhoto = property?.photos?.[0];
-                
-                // Debug logging for image issues
-                if (propertyName === 'Mumbai Villa' || propertyName === 'Mumbai apt') {
-                  console.log(`🔍 ${propertyName} - propertyPhoto:`, propertyPhoto);
-                  console.log(`🔍 ${propertyName} - property.photos:`, property?.photos);
-                  console.log(`🔍 ${propertyName} - full property:`, property);
-                }
 
                 // Safely extract traveler data
-                const traveler = typeof booking.travelerId === 'object' && booking.travelerId !== null
-                  ? booking.travelerId
-                  : null;
+                // Handle both populated objects and ObjectId strings
+                let traveler = null;
+                if (typeof booking.travelerId === 'object' && booking.travelerId !== null) {
+                  // Check if it's a populated object (has _id, name, or email property)
+                  if (booking.travelerId._id || booking.travelerId.name || booking.travelerId.email) {
+                    traveler = booking.travelerId;
+                  }
+                }
                 
                 const travelerName = traveler?.name || traveler?.email || 'Unknown';
+                
+                // Debug logging for cancelled bookings
+                if (booking.status === 'cancelled') {
+                  console.log('🔴 Cancelled booking debug:', {
+                    rawTravelerId: booking.travelerId,
+                    travelerIdType: typeof booking.travelerId,
+                    parsedTraveler: traveler,
+                    travelerName,
+                    rawPropertyId: booking.propertyId,
+                    propertyIdType: typeof booking.propertyId,
+                    parsedProperty: property,
+                    propertyName,
+                    propertyPhoto
+                  });
+                }
 
                 return (
               <div key={booking._id} className="booking-card">

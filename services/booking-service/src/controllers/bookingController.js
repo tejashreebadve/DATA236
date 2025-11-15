@@ -168,20 +168,32 @@ const getOwnerBookings = async (req, res, next) => {
       .populate({
         path: 'travelerId',
         select: 'name email',
-        model: 'Traveler'
+        model: 'Traveler',
+        strictPopulate: false // Allow population even if model doesn't match exactly
       })
       .populate({
         path: 'propertyId',
         select: 'name photos location pricing',
-        model: 'Property'
+        model: 'Property',
+        strictPopulate: false // Allow population even if model doesn't match exactly
       })
       .lean() // Convert to plain JavaScript objects for better JSON serialization
       .sort({ createdAt: -1 });
     
     // Debug: Log first booking to check populate
     if (bookings.length > 0) {
-      console.log('📊 First booking travelerId:', JSON.stringify(bookings[0].travelerId, null, 2));
-      console.log('📊 First booking propertyId:', JSON.stringify(bookings[0].propertyId, null, 2));
+      console.log(`📊 Status: ${status || 'all'}, First booking travelerId:`, JSON.stringify(bookings[0].travelerId, null, 2));
+      console.log(`📊 Status: ${status || 'all'}, First booking propertyId:`, JSON.stringify(bookings[0].propertyId, null, 2));
+      
+      // Special debug for cancelled bookings
+      if (status === 'cancelled' || bookings[0].status === 'cancelled') {
+        console.log('🔴 CANCELLED BOOKING DEBUG:');
+        console.log('  - travelerId type:', typeof bookings[0].travelerId);
+        console.log('  - travelerId value:', bookings[0].travelerId);
+        console.log('  - propertyId type:', typeof bookings[0].propertyId);
+        console.log('  - propertyId value:', bookings[0].propertyId);
+        console.log('  - Full booking:', JSON.stringify(bookings[0], null, 2));
+      }
     }
     
     res.json(bookings);

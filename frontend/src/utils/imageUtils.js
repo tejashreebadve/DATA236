@@ -27,13 +27,11 @@ export const getProfilePictureUrl = (imagePath, role = 'traveler') => {
     normalizedPath = `/uploads${normalizedPath.startsWith('/') ? '' : '/'}${normalizedPath}`
   }
   
-  // In development, use relative path (Vite proxy will handle it)
-  // The proxy is configured to route /uploads to traveler-service (3002)
-  // For owner service, we need to use full URL since proxy only routes to traveler
+  // In development, use relative paths that go through Vite proxy
   if (import.meta.env.DEV) {
-    // For owner service, use full URL since proxy routes to traveler by default
+    // For owner service, use owner-uploads proxy
     if (role === 'owner') {
-      return `http://localhost:3003${normalizedPath}`
+      return normalizedPath.replace(/^\/uploads/, '/owner-uploads')
     }
     // For traveler service, use relative path (proxy will handle)
     return normalizedPath

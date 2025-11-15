@@ -171,7 +171,7 @@ const TravelerProfile = () => {
                 <img
                   src={
                     picturePreview ||
-                    (traveler?.profilePicture ? `${getProfilePictureUrl(traveler.profilePicture, 'traveler')}?t=${Date.now()}` : 'https://via.placeholder.com/150?text=No+Photo')
+                    (traveler?.profilePicture ? getProfilePictureUrl(traveler.profilePicture, 'traveler') : 'https://via.placeholder.com/150?text=No+Photo')
                   }
                   alt="Profile"
                   className="profile-picture-img"
@@ -181,7 +181,7 @@ const TravelerProfile = () => {
                       e.target.src = 'https://via.placeholder.com/150?text=No+Photo'
                     }
                   }}
-                  key={traveler?.profilePicture ? `${traveler.profilePicture}-${Date.now()}` : picturePreview}
+                  key={`traveler-profile-${traveler?.profilePicture || 'no-photo'}-${traveler?.updatedAt || Date.now()}`}
                 />
                 {isEditing && (
                   <div className="profile-picture-overlay">
