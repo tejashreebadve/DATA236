@@ -142,7 +142,9 @@ const getTravelerBookings = async (req, res, next) => {
       query.status = status;
     }
 
-    const bookings = await Booking.find(query).sort({ createdAt: -1 });
+    const bookings = await Booking.find(query)
+      .populate('propertyId', 'name photos location pricing')
+      .sort({ createdAt: -1 });
     res.json(bookings);
   } catch (error) {
     next(error);
@@ -162,7 +164,26 @@ const getOwnerBookings = async (req, res, next) => {
       query.status = status;
     }
 
-    const bookings = await Booking.find(query).sort({ createdAt: -1 });
+    const bookings = await Booking.find(query)
+      .populate({
+        path: 'travelerId',
+        select: 'name email',
+        model: 'Traveler'
+      })
+      .populate({
+        path: 'propertyId',
+        select: 'name photos location pricing',
+        model: 'Property'
+      })
+      .lean() // Convert to plain JavaScript objects for better JSON serialization
+      .sort({ createdAt: -1 });
+    
+    // Debug: Log first booking to check populate
+    if (bookings.length > 0) {
+      console.log('📊 First booking travelerId:', JSON.stringify(bookings[0].travelerId, null, 2));
+      console.log('📊 First booking propertyId:', JSON.stringify(bookings[0].propertyId, null, 2));
+    }
+    
     res.json(bookings);
   } catch (error) {
     next(error);

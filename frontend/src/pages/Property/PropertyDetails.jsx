@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPropertyById } from '../../store/slices/propertiesSlice'
 import { createBooking } from '../../store/slices/bookingsSlice'
@@ -111,14 +111,34 @@ const PropertyDetails = () => {
   const mainPhoto = photos[0] ? getPropertyImageUrl(photos[0]) : null
   const otherPhotos = photos.slice(1, 5).map(photo => getPropertyImageUrl(photo))
 
+  // Check if owner is viewing their own property
+  const isOwnerViewingOwnProperty = isAuthenticated && 
+    user?.role === 'owner' && 
+    selectedProperty?.ownerId && 
+    (selectedProperty.ownerId._id === user.id || selectedProperty.ownerId === user.id)
+
   return (
     <div className="property-details-page">
+      {isOwnerViewingOwnProperty && (
+        <div className="container" style={{ marginBottom: '20px' }}>
+          <button onClick={() => navigate('/owner/properties')} className="back-button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Back to My Properties
+          </button>
+        </div>
+      )}
       <div className="property-header-section">
         <div className="container">
           <div className="property-title-section">
             <h1>{selectedProperty.name}</h1>
             <div className="property-actions">
-              
+              {isOwnerViewingOwnProperty && (
+                <Link to={`/owner/properties/${id}/edit`} className="btn btn-primary">
+                  Edit Property
+                </Link>
+              )}
               {isAuthenticated && user?.role === 'traveler' && (
                 <button
                   className={`save-button ${isFavorite ? 'saved' : ''}`}
@@ -233,7 +253,8 @@ const PropertyDetails = () => {
               )}
             </div>
 
-            {/* Right Side - Booking Widget - Show for everyone */}
+            {/* Right Side - Booking Widget - Hide for owners viewing their own property */}
+            {!isOwnerViewingOwnProperty && (
             <div className="booking-widget-container">
               <div className="booking-widget">
                 <div className="booking-price">
@@ -316,6 +337,7 @@ const PropertyDetails = () => {
                 </form>
               </div>
             </div>
+            )}
           </div>
         </div>
       </div>

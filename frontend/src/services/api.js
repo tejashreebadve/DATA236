@@ -105,6 +105,7 @@ export const authAPI = {
 export const propertyAPI = {
   getAll: (params) => api.get('/api/property', { params }),
   getById: (id) => api.get(`/api/property/${id}`),
+  getByOwner: (ownerId) => api.get(`/api/property/owner/${ownerId}`),
   create: (data) => api.post('/api/property', data, {
     headers: { 'Content-Type': 'multipart/form-data' },
   }),

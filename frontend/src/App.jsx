@@ -14,6 +14,7 @@ import Favorites from './pages/Favorites/Favorites'
 import OwnerDashboard from './pages/Dashboard/OwnerDashboard'
 import CreateProperty from './pages/Property/CreateProperty'
 import EditProperty from './pages/Property/EditProperty'
+import OwnerProperties from './pages/Property/OwnerProperties'
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -89,6 +90,14 @@ function App() {
           element={
             <ProtectedRoute requiredRole="owner">
               <OwnerBookings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/owner/properties"
+          element={
+            <ProtectedRoute requiredRole="owner">
+              <OwnerProperties />
             </ProtectedRoute>
           }
         />

@@ -46,6 +46,22 @@ export const fetchPropertyById = createAsyncThunk(
   }
 )
 
+export const fetchPropertiesByOwner = createAsyncThunk(
+  'properties/fetchByOwner',
+  async (ownerId, { rejectWithValue }) => {
+    try {
+      const response = await propertyAPI.getByOwner(ownerId)
+      // Backend returns array directly
+      const properties = Array.isArray(response.data) ? response.data : []
+      return transformProperties(properties)
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error?.message || 'Failed to fetch owner properties'
+      )
+    }
+  }
+)
+
 export const createProperty = createAsyncThunk(
   'properties/create',
   async (data, { rejectWithValue }) => {
@@ -143,6 +159,19 @@ const propertiesSlice = createSlice({
         state.selectedProperty = action.payload
       })
       .addCase(fetchPropertyById.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+      // Fetch Properties By Owner
+      .addCase(fetchPropertiesByOwner.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchPropertiesByOwner.fulfilled, (state, action) => {
+        state.loading = false
+        state.items = Array.isArray(action.payload) ? action.payload : []
+      })
+      .addCase(fetchPropertiesByOwner.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload
       })

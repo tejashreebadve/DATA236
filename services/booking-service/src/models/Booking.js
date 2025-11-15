@@ -5,6 +5,7 @@ const bookingSchema = new mongoose.Schema(
     propertyId: {
       type: mongoose.Schema.Types.ObjectId,
       required: [true, 'Property ID is required'],
+      ref: 'Property',
       index: true,
     },
     travelerId: {

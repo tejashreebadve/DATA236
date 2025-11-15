@@ -23,8 +23,7 @@ const Login = () => {
     
     if (isAuthenticated && user) {
       console.log('✅ User authenticated, redirecting...', { role: user.role })
-      const redirectPath =
-        user.role === 'traveler' ? '/traveler/bookings' : '/'
+      const redirectPath = '/'
       console.log('📍 Redirecting to:', redirectPath)
       navigate(redirectPath, { replace: true })
     }

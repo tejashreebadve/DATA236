@@ -127,7 +127,15 @@ const EditProperty = () => {
   return (
     <div className="property-form-page">
       <div className="container">
-        <h1>Edit Property</h1>
+        <button onClick={() => navigate('/owner/properties')} className="back-button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back to My Properties
+        </button>
+        <div className="header-content">
+          <h1>Edit Property</h1>
+        </div>
         <form onSubmit={handleSubmit} className="property-form">
           <div className="form-group">
             <label>Property Name *</label>
