@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPropertyById, updateProperty } from '../../store/slices/propertiesSlice'
+import { fetchPropertyById, updateProperty, fetchPropertiesByOwner } from '../../store/slices/propertiesSlice'
 import { PROPERTY_TYPES } from '../../utils/constants'
+import { getPropertyImageUrl } from '../../utils/imageUtils'
 import './PropertyForm.css'
 
 const EditProperty = () => {
@@ -10,6 +11,7 @@ const EditProperty = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { selectedProperty } = useSelector((state) => state.properties)
+  const { user } = useSelector((state) => state.auth)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -18,7 +20,8 @@ const EditProperty = () => {
     description: '',
     bedrooms: 1,
     bathrooms: 1,
-    pricing: { perNight: 0 },
+    maxGuests: 1,
+    pricing: { perNight: '' },
     amenities: [],
     availability: {
       startDate: '',
@@ -28,6 +31,9 @@ const EditProperty = () => {
   const [amenityInput, setAmenityInput] = useState('')
   const [files, setFiles] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
+  const [existingPhotos, setExistingPhotos] = useState([])
 
   useEffect(() => {
     dispatch(fetchPropertyById(id))
@@ -35,20 +41,39 @@ const EditProperty = () => {
 
   useEffect(() => {
     if (selectedProperty) {
+      // Parse location - could be string or object
+      let locationString = ''
+      if (typeof selectedProperty.location === 'string') {
+        locationString = selectedProperty.location
+      } else if (selectedProperty.location && typeof selectedProperty.location === 'object') {
+        // Build location string from object
+        const parts = []
+        if (selectedProperty.location.city) parts.push(selectedProperty.location.city)
+        if (selectedProperty.location.state) parts.push(selectedProperty.location.state)
+        if (selectedProperty.location.country) parts.push(selectedProperty.location.country)
+        locationString = parts.length > 0 ? parts.join(', ') : (selectedProperty.location.address || '')
+      }
+
       setFormData({
         name: selectedProperty.name || '',
         type: selectedProperty.type || '',
-        location: selectedProperty.location || '',
+        location: locationString,
         description: selectedProperty.description || '',
         bedrooms: selectedProperty.bedrooms || 1,
         bathrooms: selectedProperty.bathrooms || 1,
-        pricing: selectedProperty.pricing || { perNight: 0 },
+        maxGuests: selectedProperty.maxGuests || 1,
+        pricing: {
+          perNight: selectedProperty.pricing?.basePrice || selectedProperty.pricing?.perNight || '',
+        },
         amenities: selectedProperty.amenities || [],
         availability: selectedProperty.availability || {
           startDate: '',
           endDate: '',
         },
       })
+      
+      // Set existing photos
+      setExistingPhotos(selectedProperty.photos || [])
     }
   }, [selectedProperty])
 
@@ -58,7 +83,7 @@ const EditProperty = () => {
       const field = name.split('.')[1]
       setFormData({
         ...formData,
-        pricing: { ...formData.pricing, [field]: parseFloat(value) || 0 },
+        pricing: { ...formData.pricing, [field]: value === '' ? '' : (parseFloat(value) || 0) },
       })
     } else if (name.startsWith('availability.')) {
       const field = name.split('.')[1]
@@ -92,22 +117,63 @@ const EditProperty = () => {
     setFiles(Array.from(e.target.files))
   }
 
+  const handleRemoveExistingPhoto = (index) => {
+    setExistingPhotos(existingPhotos.filter((_, i) => i !== index))
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setErrorMessage(null)
+    setSuccessMessage(null)
 
     try {
       const data = new FormData()
-      Object.keys(formData).forEach((key) => {
-        if (key === 'pricing' || key === 'availability') {
-          data.append(key, JSON.stringify(formData[key]))
-        } else if (key === 'amenities') {
-          data.append('amenities', JSON.stringify(formData[key]))
-        } else {
-          data.append(key, formData[key])
-        }
+      
+      // Add basic fields
+      data.append('name', formData.name)
+      data.append('type', formData.type)
+      data.append('description', formData.description)
+      data.append('bedrooms', formData.bedrooms.toString())
+      data.append('bathrooms', formData.bathrooms.toString())
+      data.append('maxGuests', formData.maxGuests.toString())
+      
+      // Add pricing using bracket notation (same as CreateProperty)
+      const priceValue = formData.pricing.perNight === '' ? 0 : (parseFloat(formData.pricing.perNight) || 0)
+      data.append('pricing[basePrice]', priceValue.toString())
+      
+      // Parse location string into object (same as CreateProperty)
+      const locationParts = formData.location.split(',').map(s => s.trim())
+      const city = locationParts[0] || formData.location
+      const state = locationParts[1] || 'CA'
+      const country = locationParts[2] || locationParts[1] || 'United States'
+      const stateCode = state.length === 2 ? state.toUpperCase() : 'CA'
+      
+      data.append('location[address]', city)
+      data.append('location[city]', city)
+      data.append('location[state]', stateCode)
+      data.append('location[country]', country)
+      
+      // Add amenities using bracket notation
+      formData.amenities.forEach((amenity) => {
+        data.append('amenities[]', amenity)
+      })
+      
+      // Add availability dates if provided (using bracket notation)
+      if (formData.availability.startDate) {
+        data.append('availability[startDate]', formData.availability.startDate)
+      }
+      if (formData.availability.endDate) {
+        data.append('availability[endDate]', formData.availability.endDate)
+      }
+
+      // Add existing photos (that weren't removed) as URLs
+      existingPhotos.forEach(photo => {
+        const photoUrl = typeof photo === 'string' ? photo : photo.url || photo
+        data.append('photos[]', photoUrl)
       })
 
+      // Add new file uploads
       if (files.length > 0) {
         files.forEach((file) => {
           data.append('photos', file)
@@ -115,10 +181,37 @@ const EditProperty = () => {
       }
 
       await dispatch(updateProperty({ id, data })).unwrap()
-      alert('Property updated successfully!')
-      navigate('/owner/dashboard')
+      
+      // Refetch owner properties to ensure the list is up to date
+      if (user?.id) {
+        await dispatch(fetchPropertiesByOwner(user.id))
+      }
+      
+      setSuccessMessage('Property updated successfully! Redirecting...')
+      setTimeout(() => {
+        navigate('/owner/properties')
+      }, 1500)
     } catch (error) {
-      alert(`Failed to update property: ${error}`)
+      // Extract error message
+      let errorMsg = 'Failed to update property. Please check all required fields.'
+      
+      if (typeof error === 'string') {
+        errorMsg = error
+      } else if (error?.response?.data?.error) {
+        const errorData = error.response.data.error
+        if (errorData.details && Array.isArray(errorData.details)) {
+          const validationErrors = errorData.details.map(d => d.msg || d.message || `${d.param}: ${d.msg}`).join(', ')
+          errorMsg = `Validation failed: ${validationErrors}`
+        } else if (errorData.message) {
+          errorMsg = errorData.message
+        }
+      } else if (error?.response?.data?.message) {
+        errorMsg = error.response.data.message
+      } else if (error?.message) {
+        errorMsg = error.message
+      }
+      
+      setErrorMessage(errorMsg)
     } finally {
       setIsSubmitting(false)
     }
@@ -136,6 +229,18 @@ const EditProperty = () => {
         <div className="header-content">
           <h1>Edit Property</h1>
         </div>
+
+        {errorMessage && (
+          <div className="alert alert-error">
+            {errorMessage}
+          </div>
+        )}
+        {successMessage && (
+          <div className="alert alert-success">
+            {successMessage}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="property-form">
           <div className="form-group">
             <label>Property Name *</label>
@@ -161,12 +266,13 @@ const EditProperty = () => {
           </div>
 
           <div className="form-group">
-            <label>Location *</label>
+            <label>Location * (Format: City, State, Country)</label>
             <input
               type="text"
               name="location"
               value={formData.location}
               onChange={handleChange}
+              placeholder="e.g., Mumbai, CA, India"
               required
             />
           </div>
@@ -206,6 +312,17 @@ const EditProperty = () => {
                 step="0.5"
               />
             </div>
+            <div className="form-group">
+              <label>Max Guests *</label>
+              <input
+                type="number"
+                name="maxGuests"
+                value={formData.maxGuests}
+                onChange={handleChange}
+                required
+                min="1"
+              />
+            </div>
           </div>
 
           <div className="form-group">
@@ -217,7 +334,7 @@ const EditProperty = () => {
               onChange={handleChange}
               required
               min="0"
-              step="0.01"
+              step="1"
             />
           </div>
 
@@ -271,6 +388,28 @@ const EditProperty = () => {
                 min={formData.availability.startDate}
               />
             </div>
+          </div>
+
+          <div className="form-group">
+            <label>Existing Photos</label>
+            {existingPhotos.length > 0 ? (
+              <div className="existing-photos">
+                {existingPhotos.map((photo, index) => (
+                  <div key={index} className="existing-photo-item">
+                    <img src={getPropertyImageUrl(photo)} alt={`Property ${index + 1}`} />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveExistingPhoto(index)}
+                      className="remove-photo-btn"
+                    >
+                      × Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="no-photos">No photos currently</p>
+            )}
           </div>
 
           <div className="form-group">

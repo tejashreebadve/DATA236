@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPropertiesByOwner } from '../../store/slices/propertiesSlice'
 import { getPropertyImageUrl } from '../../utils/imageUtils'
@@ -8,14 +8,16 @@ import './PropertyForm.css'
 const OwnerProperties = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const { items: properties, loading } = useSelector((state) => state.properties)
   const { user } = useSelector((state) => state.auth)
 
+  // Refetch whenever we navigate to this page (location.pathname changes)
   useEffect(() => {
-    if (user?.id) {
+    if (user?.id && location.pathname === '/owner/properties') {
       dispatch(fetchPropertiesByOwner(user.id))
     }
-  }, [dispatch, user?.id])
+  }, [dispatch, user?.id, location.pathname])
 
   if (loading) {
     return (

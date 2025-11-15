@@ -81,7 +81,8 @@ export const updateProperty = createAsyncThunk(
   async ({ id, data }, { rejectWithValue }) => {
     try {
       const response = await propertyAPI.update(id, data)
-      return response.data.property || response.data
+      const property = response.data.property || response.data
+      return transformProperty(property)
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.error?.message || 'Failed to update property'
