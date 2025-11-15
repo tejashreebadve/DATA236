@@ -1,0 +1,95 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { travelerAPI, ownerAPI } from '../../services/api'
+
+// Async thunks
+export const fetchProfile = createAsyncThunk(
+  'profile/fetch',
+  async (role, { rejectWithValue }) => {
+    try {
+      const api = role === 'traveler' ? travelerAPI : ownerAPI
+      const response = await api.getProfile()
+      return { role, profile: response.data.traveler || response.data.owner || response.data }
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error?.message || 'Failed to fetch profile'
+      )
+    }
+  }
+)
+
+export const updateProfile = createAsyncThunk(
+  'profile/update',
+  async ({ role, data }, { rejectWithValue }) => {
+    try {
+      const api = role === 'traveler' ? travelerAPI : ownerAPI
+      const response = await api.updateProfile(data)
+      return { role, profile: response.data.traveler || response.data.owner || response.data }
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error?.message || 'Failed to update profile'
+      )
+    }
+  }
+)
+
+const initialState = {
+  traveler: null,
+  owner: null,
+  loading: false,
+  error: null,
+}
+
+const profileSlice = createSlice({
+  name: 'profile',
+  initialState,
+  reducers: {
+    clearProfile: (state) => {
+      state.traveler = null
+      state.owner = null
+    },
+    clearError: (state) => {
+      state.error = null
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // Fetch Profile
+      .addCase(fetchProfile.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        state.loading = false
+        if (action.payload.role === 'traveler') {
+          state.traveler = action.payload.profile
+        } else {
+          state.owner = action.payload.profile
+        }
+      })
+      .addCase(fetchProfile.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+      // Update Profile
+      .addCase(updateProfile.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.loading = false
+        if (action.payload.role === 'traveler') {
+          state.traveler = action.payload.profile
+        } else {
+          state.owner = action.payload.profile
+        }
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+  },
+})
+
+export const { clearProfile, clearError } = profileSlice.actions
+export default profileSlice.reducer
+

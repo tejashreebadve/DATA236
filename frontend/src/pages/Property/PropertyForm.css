@@ -1,0 +1,103 @@
+.property-form-page {
+  padding: 20px 0;
+}
+
+.property-form {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #e31c5f;
+}
+
+.amenity-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.amenity-input input {
+  flex: 1;
+}
+
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.amenity-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: #f0f0f0;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.remove-amenity {
+  background: none;
+  border: none;
+  color: #e31c5f;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-amenity:hover {
+  color: #b91c5f;
+}
+
+.file-count {
+  margin-top: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
