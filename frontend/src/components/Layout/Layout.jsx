@@ -52,29 +52,20 @@ const Layout = ({ children }) => {
 
             {/* Desktop Navigation */}
             <nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
-              {isAuthenticated && (
-                <>
-                  {user?.role === 'traveler' && (
-                    <Link to="/traveler/bookings" onClick={() => setMenuOpen(false)}>
-                      My Trips
-                    </Link>
-                  )}
-                  {user?.role === 'owner' && (
-                    <>
-                      <Link to="/owner/dashboard" onClick={() => setMenuOpen(false)}>
-                        Dashboard
-                      </Link>
-                      <Link
-                        to="/owner/properties/create"
-                        onClick={() => setMenuOpen(false)}
-                        className="host-link"
-                      >
-                        List your property
-                      </Link>
-                    </>
-                  )}
-                </>
-              )}
+            {isAuthenticated && user?.role === 'owner' && (
+              <>
+                <Link to="/owner/dashboard" onClick={() => setMenuOpen(false)}>
+                  Dashboard
+                </Link>
+                <Link
+                 to="/owner/properties/create"
+                 onClick={() => setMenuOpen(false)}
+                 className="host-link"
+                >
+                List your property
+              </Link>
+            </>
+          )}
             </nav>
 
             {/* User Menu Button - Airbnb Style */}

@@ -1,26 +1,84 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { fetchProperties, updateSearchFilters } from '../../store/slices/propertiesSlice'
 import './Property.css'
 
 const PropertySearch = () => {
   const dispatch = useDispatch()
-  const { items, loading, searchFilters } = useSelector((state) => state.properties)
-  const [filters, setFilters] = useState({
-    location: '',
-    startDate: '',
-    endDate: '',
-    guests: 1,
-  })
+  const location = useLocation()
+  const { items, loading, searchFilters: reduxFilters } = useSelector((state) => state.properties)
+  
+  // Get filters from navigation state, Redux state, or use defaults
+  const getInitialFilters = () => {
+    // Priority: location.state > Redux state > defaults
+    if (location.state?.filters) {
+      return location.state.filters
+    }
+    if (reduxFilters && (reduxFilters.location || reduxFilters.startDate || reduxFilters.endDate)) {
+      return {
+        location: reduxFilters.location || '',
+        startDate: reduxFilters.startDate || '',
+        endDate: reduxFilters.endDate || '',
+        guests: reduxFilters.guests || 1,
+      }
+    }
+    return {
+      location: '',
+      startDate: '',
+      endDate: '',
+      guests: 1,
+    }
+  }
 
+  const [filters, setFilters] = useState(getInitialFilters())
+
+  // Update filters when location state changes (e.g., navigating from Home)
   useEffect(() => {
-    dispatch(fetchProperties())
-  }, [dispatch])
+    // Priority: location.state (from navigation) > Redux state > fetch all
+    if (location.state?.filters) {
+      // Filters passed from Home page navigation
+      const newFilters = location.state.filters
+      setFilters(newFilters)
+      dispatch(updateSearchFilters(newFilters))
+      dispatch(fetchProperties(newFilters))
+    } else if (reduxFilters && (reduxFilters.location || reduxFilters.startDate || reduxFilters.endDate)) {
+      // Use Redux filters if available (from previous search)
+      const newFilters = {
+        location: reduxFilters.location || '',
+        startDate: reduxFilters.startDate || '',
+        endDate: reduxFilters.endDate || '',
+        guests: reduxFilters.guests || 1,
+      }
+      setFilters(newFilters)
+      dispatch(fetchProperties(newFilters))
+    } else {
+      // Initial load - fetch all properties
+      dispatch(fetchProperties())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Only run on mount
+
+  // Also listen for location.state changes (when navigating from Home)
+  useEffect(() => {
+    if (location.state?.filters) {
+      const newFilters = location.state.filters
+      setFilters(newFilters)
+      dispatch(updateSearchFilters(newFilters))
+      dispatch(fetchProperties(newFilters))
+    }
+  }, [location.state, dispatch])
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target
-    setFilters({ ...filters, [name]: value })
+    const updatedFilters = { ...filters, [name]: value }
+    
+    // If startDate changes and endDate is before new startDate, clear endDate
+    if (name === 'startDate' && filters.endDate && value && filters.endDate < value) {
+      updatedFilters.endDate = ''
+    }
+    
+    setFilters(updatedFilters)
   }
 
   const handleSearch = (e) => {
@@ -53,6 +111,7 @@ const PropertySearch = () => {
               name="startDate"
               value={filters.startDate}
               onChange={handleFilterChange}
+              min={new Date().toISOString().split('T')[0]}
             />
           </div>
 
@@ -63,6 +122,7 @@ const PropertySearch = () => {
               name="endDate"
               value={filters.endDate}
               onChange={handleFilterChange}
+              min={filters.startDate || new Date().toISOString().split('T')[0]}
             />
           </div>
 
