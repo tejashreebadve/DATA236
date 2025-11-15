@@ -21,6 +21,8 @@ const PropertyDetails = () => {
   const [isBooking, setIsBooking] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [showAllPhotos, setShowAllPhotos] = useState(false)
+  const [bookingError, setBookingError] = useState(null)
+  const [bookingSuccess, setBookingSuccess] = useState(null)
 
   const isFavorite = favorites.some((fav) => fav._id === selectedProperty?._id)
 
@@ -33,13 +35,22 @@ const PropertyDetails = () => {
 
   const handleBooking = async (e) => {
     e.preventDefault()
+    setBookingError(null)
+    setBookingSuccess(null)
+    
     if (!isAuthenticated || user?.role !== 'traveler') {
       navigate('/login')
       return
     }
 
     if (!startDate || !endDate) {
-      alert('Please select check-in and check-out dates')
+      setBookingError('Please select check-in and check-out dates')
+      return
+    }
+
+    // Validate max guests
+    if (selectedProperty.maxGuests && guests > selectedProperty.maxGuests) {
+      setBookingError(`This property can accommodate a maximum of ${selectedProperty.maxGuests} guests. Please adjust the number of guests.`)
       return
     }
 
@@ -59,10 +70,13 @@ const PropertyDetails = () => {
         guests,
         totalPrice,
       })).unwrap()
-      alert('Booking request created successfully!')
-      navigate('/traveler/bookings')
+      setBookingSuccess('Booking request created successfully! Redirecting...')
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        navigate('/traveler/bookings')
+      }, 2000)
     } catch (error) {
-      alert(`Booking failed: ${error}`)
+      setBookingError(error || 'Booking failed. Please try again.')
     } finally {
       setIsBooking(false)
     }
@@ -103,23 +117,12 @@ const PropertyDetails = () => {
           <div className="property-title-section">
             <h1>{selectedProperty.name}</h1>
             <div className="property-actions">
-              <button className="share-button" aria-label="Share">
-                <svg viewBox="0 0 32 32" fill="none">
-                  <path
-                    d="M16 4V12M16 12L20 8M16 12L12 8M8 12H6C4.89543 12 4 12.8954 4 14V26C4 27.1046 4.89543 28 6 28H26C27.1046 28 28 27.1046 28 26V14C28 12.8954 27.1046 12 26 12H24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                Share
-              </button>
+              
               {isAuthenticated && user?.role === 'traveler' && (
                 <button
                   className={`save-button ${isFavorite ? 'saved' : ''}`}
                   onClick={handleFavorite}
-                  aria-label="Save"
+                  aria-label="Favorite"
                 >
                   <svg viewBox="0 0 32 32" fill={isFavorite ? 'currentColor' : 'none'}>
                     <path
@@ -130,7 +133,7 @@ const PropertyDetails = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  Save
+                  Favorite
                 </button>
               )}
             </div>
@@ -239,6 +242,16 @@ const PropertyDetails = () => {
                   </div>
 
                   <form onSubmit={handleBooking} className="booking-form">
+                    {bookingError && (
+                      <div className="alert alert-error">
+                        {bookingError}
+                      </div>
+                    )}
+                    {bookingSuccess && (
+                      <div className="alert alert-success">
+                        {bookingSuccess}
+                      </div>
+                    )}
                     <div className="date-inputs">
                       <div className="date-input-group">
                         <label>CHECK-IN</label>

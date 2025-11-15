@@ -50,23 +50,10 @@ const Layout = ({ children }) => {
               <span className="logo-text">RedNest</span>
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
-            {isAuthenticated && user?.role === 'owner' && (
-              <>
-                <Link to="/owner/dashboard" onClick={() => setMenuOpen(false)}>
-                  Dashboard
-                </Link>
-                <Link
-                 to="/owner/properties/create"
-                 onClick={() => setMenuOpen(false)}
-                 className="host-link"
-                >
-                List your property
-              </Link>
-            </>
-          )}
-            </nav>
+  {/* Desktop Navigation - Removed owner menu items */}
+  <nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
+    {/* Owner menu items removed - they're in the homepage CTA buttons */}
+  </nav>
 
             {/* User Menu Button - Airbnb Style */}
             <div className="user-menu-wrapper" ref={userMenuRef}>

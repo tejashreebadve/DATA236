@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProperties, updateSearchFilters } from '../store/slices/propertiesSlice'
 import { addFavorite, removeFavorite, fetchFavorites } from '../store/slices/favoritesSlice'
+import OwnerHome from './Home/OwnerHome'
 import './Home.css'
 
 const Home = () => {
@@ -11,6 +12,11 @@ const Home = () => {
   const { items: properties, loading } = useSelector((state) => state.properties)
   const { isAuthenticated, user } = useSelector((state) => state.auth)
   const { items: favorites } = useSelector((state) => state.favorites)
+
+  // Show owner-specific homepage for owners
+  if (isAuthenticated && user?.role === 'owner') {
+    return <OwnerHome />
+  }
 
   const [searchFilters, setSearchFilters] = useState({
     location: '',
