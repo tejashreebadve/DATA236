@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchPropertyById } from '../../store/slices/propertiesSlice'
 import { createBooking } from '../../store/slices/bookingsSlice'
 import { addFavorite, removeFavorite, fetchFavorites } from '../../store/slices/favoritesSlice'
+import { format } from 'date-fns'
 import './Property.css'
 
 const PropertyDetails = () => {
@@ -18,6 +19,8 @@ const PropertyDetails = () => {
   const [endDate, setEndDate] = useState('')
   const [guests, setGuests] = useState(1)
   const [isBooking, setIsBooking] = useState(false)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [showAllPhotos, setShowAllPhotos] = useState(false)
 
   const isFavorite = favorites.some((fav) => fav._id === selectedProperty?._id)
 
@@ -32,6 +35,11 @@ const PropertyDetails = () => {
     e.preventDefault()
     if (!isAuthenticated || user?.role !== 'traveler') {
       navigate('/login')
+      return
+    }
+
+    if (!startDate || !endDate) {
+      alert('Please select check-in and check-out dates')
       return
     }
 
@@ -65,108 +73,230 @@ const PropertyDetails = () => {
     }
   }
 
+  const calculateTotal = () => {
+    if (!startDate || !endDate || !selectedProperty?.pricing?.perNight) return 0
+    const checkIn = new Date(startDate)
+    const checkOut = new Date(endDate)
+    const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24))
+    return nights * selectedProperty.pricing.perNight
+  }
+
   if (loading) return <div className="loading">Loading property details...</div>
-  if (!selectedProperty) return <div>Property not found</div>
+  if (!selectedProperty) return <div className="no-property">Property not found</div>
+
+  const photos = selectedProperty.photos || []
+  const mainPhoto = photos[0] || null
+  const otherPhotos = photos.slice(1, 5)
 
   return (
-    <div className="property-details">
-      <div className="container">
-        <div className="property-header">
-          <h1>{selectedProperty.name}</h1>
-          <p className="property-location">{selectedProperty.location}</p>
-          {isAuthenticated && user?.role === 'traveler' && (
-            <button onClick={handleFavorite} className="btn-favorite">
-              {isFavorite ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
-            </button>
+    <div className="property-details-page">
+      <div className="property-header-section">
+        <div className="container">
+          <div className="property-title-section">
+            <h1>{selectedProperty.name}</h1>
+            <div className="property-actions">
+              <button className="share-button" aria-label="Share">
+                <svg viewBox="0 0 32 32" fill="none">
+                  <path
+                    d="M16 4V12M16 12L20 8M16 12L12 8M8 12H6C4.89543 12 4 12.8954 4 14V26C4 27.1046 4.89543 28 6 28H26C27.1046 28 28 27.1046 28 26V14C28 12.8954 27.1046 12 26 12H24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                Share
+              </button>
+              {isAuthenticated && user?.role === 'traveler' && (
+                <button
+                  className={`save-button ${isFavorite ? 'saved' : ''}`}
+                  onClick={handleFavorite}
+                  aria-label="Save"
+                >
+                  <svg viewBox="0 0 32 32" fill={isFavorite ? 'currentColor' : 'none'}>
+                    <path
+                      d="M16 28C16 28 6 20 6 12C6 8.68629 8.68629 6 12 6C13.8135 6 15.5251 6.78964 16.71 8.07034C17.8949 6.78964 19.6065 6 21.42 6C24.7337 6 27.42 8.68629 27.42 12C27.42 20 16 28 16 28Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  Save
+                </button>
+              )}
+            </div>
+          </div>
+          <p className="property-location-text">
+            {selectedProperty.location} · {selectedProperty.type}
+          </p>
+        </div>
+      </div>
+
+      {/* Image Gallery */}
+      <div className="property-images-section">
+        <div className="container">
+          {photos.length > 0 ? (
+            <div className="image-gallery">
+              <div className="main-image">
+                <img src={mainPhoto} alt={selectedProperty.name} />
+              </div>
+              {otherPhotos.length > 0 && (
+                <div className="thumbnail-images">
+                  {otherPhotos.map((photo, index) => (
+                    <div
+                      key={index}
+                      className="thumbnail"
+                      onClick={() => setSelectedImageIndex(index + 1)}
+                    >
+                      <img src={photo} alt={`${selectedProperty.name} - ${index + 2}`} />
+                      {index === 3 && photos.length > 5 && (
+                        <div className="show-all-overlay" onClick={() => setShowAllPhotos(true)}>
+                          <span>Show all photos</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="no-images">
+              <p>No images available</p>
+            </div>
           )}
         </div>
+      </div>
 
-        <div className="property-content">
-          <div className="property-images">
-            {selectedProperty.photos && selectedProperty.photos.length > 0 ? (
-              selectedProperty.photos.map((photo, index) => (
-                <img key={index} src={photo} alt={`${selectedProperty.name} - ${index + 1}`} />
-              ))
-            ) : (
-              <div className="no-image">No images available</div>
-            )}
-          </div>
+      {/* Main Content */}
+      <div className="property-content-section">
+        <div className="container">
+          <div className="content-layout">
+            {/* Left Side - Property Info */}
+            <div className="property-info-content">
+              <div className="property-highlights">
+                <h2>
+                  {selectedProperty.type} in {selectedProperty.location?.split(',')[0] || ''}
+                </h2>
+                <div className="property-specs">
+                  <span>{selectedProperty.bedrooms || 0} bedrooms</span>
+                  <span>·</span>
+                  <span>{selectedProperty.bathrooms || 0} bathrooms</span>
+                  {selectedProperty.pricing?.maxGuests && (
+                    <>
+                      <span>·</span>
+                      <span>Up to {selectedProperty.pricing.maxGuests} guests</span>
+                    </>
+                  )}
+                </div>
+              </div>
 
-          <div className="property-info-section">
-            <h2>About this property</h2>
-            <p>{selectedProperty.description}</p>
+              <div className="property-description-section">
+                <div className="description-header">
+                  <h3>About this place</h3>
+                </div>
+                <p>{selectedProperty.description || 'No description available.'}</p>
+              </div>
 
-            <div className="property-specs">
-              <div className="spec">
-                <strong>Type:</strong> {selectedProperty.type}
-              </div>
-              <div className="spec">
-                <strong>Bedrooms:</strong> {selectedProperty.bedrooms}
-              </div>
-              <div className="spec">
-                <strong>Bathrooms:</strong> {selectedProperty.bathrooms}
-              </div>
-              <div className="spec">
-                <strong>Price:</strong> ${selectedProperty.pricing?.perNight || 0}/night
-              </div>
+              {selectedProperty.amenities && selectedProperty.amenities.length > 0 && (
+                <div className="amenities-section">
+                  <h3>What this place offers</h3>
+                  <div className="amenities-grid">
+                    {selectedProperty.amenities.map((amenity, index) => (
+                      <div key={index} className="amenity-item">
+                        <svg viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <span>{amenity}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {selectedProperty.amenities && selectedProperty.amenities.length > 0 && (
-              <>
-                <h3>Amenities</h3>
-                <ul className="amenities-list">
-                  {selectedProperty.amenities.map((amenity, index) => (
-                    <li key={index}>{amenity}</li>
-                  ))}
-                </ul>
-              </>
+            {/* Right Side - Booking Widget */}
+            {isAuthenticated && user?.role === 'traveler' && (
+              <div className="booking-widget-container">
+                <div className="booking-widget">
+                  <div className="booking-price">
+                    <span className="price-amount">${selectedProperty.pricing?.perNight || 0}</span>
+                    <span className="price-period"> / night</span>
+                  </div>
+
+                  <form onSubmit={handleBooking} className="booking-form">
+                    <div className="date-inputs">
+                      <div className="date-input-group">
+                        <label>CHECK-IN</label>
+                        <input
+                          type="date"
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                          required
+                          min={new Date().toISOString().split('T')[0]}
+                        />
+                      </div>
+                      <div className="date-input-group">
+                        <label>CHECKOUT</label>
+                        <input
+                          type="date"
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                          required
+                          min={startDate || new Date().toISOString().split('T')[0]}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="guests-input-group">
+                      <label>GUESTS</label>
+                      <select
+                        value={guests}
+                        onChange={(e) => setGuests(parseInt(e.target.value))}
+                        required
+                      >
+                        {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                          <option key={num} value={num}>
+                            {num} {num === 1 ? 'guest' : 'guests'}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <button type="submit" className="reserve-button" disabled={isBooking}>
+                      {isBooking ? 'Processing...' : 'Reserve'}
+                    </button>
+
+                    {startDate && endDate && calculateTotal() > 0 && (
+                      <div className="booking-summary">
+                        <div className="summary-row">
+                          <span>
+                            ${selectedProperty.pricing?.perNight || 0} x{' '}
+                            {Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24))}{' '}
+                            nights
+                          </span>
+                          <span>${calculateTotal().toFixed(2)}</span>
+                        </div>
+                        <div className="summary-divider"></div>
+                        <div className="summary-row total">
+                          <span>Total</span>
+                          <span>${calculateTotal().toFixed(2)}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    <p className="booking-note">You won't be charged yet</p>
+                  </form>
+                </div>
+              </div>
             )}
           </div>
-
-          {isAuthenticated && user?.role === 'traveler' && (
-            <div className="booking-section">
-              <h2>Book this property</h2>
-              <form onSubmit={handleBooking}>
-                <div className="form-group">
-                  <label>Check-in</label>
-                  <input
-                    type="date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    required
-                    min={new Date().toISOString().split('T')[0]}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Check-out</label>
-                  <input
-                    type="date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    required
-                    min={startDate || new Date().toISOString().split('T')[0]}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Guests</label>
-                  <input
-                    type="number"
-                    value={guests}
-                    onChange={(e) => setGuests(parseInt(e.target.value))}
-                    min="1"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isBooking}
-                >
-                  {isBooking ? 'Booking...' : 'Request to Book'}
-                </button>
-              </form>
-            </div>
-          )}
         </div>
       </div>
     </div>
@@ -174,4 +304,3 @@ const PropertyDetails = () => {
 }
 
 export default PropertyDetails
-

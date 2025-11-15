@@ -1,103 +1,298 @@
-.hero {
-  background: linear-gradient(135deg, #e31c5f 0%, #b91c5f 100%);
-  color: white;
-  padding: 80px 0;
-  text-align: center;
+.home {
+  padding-top: 80px;
 }
 
-.hero h1 {
-  font-size: 48px;
-  margin-bottom: 20px;
+/* Search Section - Airbnb Style */
+.search-section {
+  background: linear-gradient(to bottom, #ff385c 0%, #d70466 100%);
+  padding: 60px 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.hero-subtitle {
-  font-size: 24px;
-  margin-bottom: 20px;
-  font-weight: 300;
+.search-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.hero-description {
-  font-size: 18px;
-  margin-bottom: 40px;
-  opacity: 0.9;
-}
-
-.hero-actions {
+.search-bar {
   display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
+  background: white;
+  border-radius: 40px;
+  padding: 8px 8px 8px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  gap: 0;
+  max-width: 850px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
 }
 
-.features {
-  padding: 60px 0;
-  background-color: white;
+.search-bar:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
 }
 
-.features h2 {
-  text-align: center;
-  margin-bottom: 40px;
-  font-size: 36px;
+.search-field {
+  flex: 1;
+  padding: 16px 24px;
+  border-right: 1px solid #e0e0e0;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.search-field:hover {
+  background-color: #f7f7f7;
+  border-radius: 40px;
+}
+
+.search-field:first-child {
+  border-radius: 40px 0 0 40px;
+}
+
+.search-field:last-of-type {
+  border-right: none;
+}
+
+.search-field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
   color: #333;
+  margin-bottom: 4px;
 }
 
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.feature-card {
-  background: #f9f9f9;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.feature-card h3 {
-  color: #e31c5f;
-  margin-bottom: 20px;
-  font-size: 24px;
-}
-
-.feature-card ul {
-  list-style: none;
+.search-field input {
+  border: none;
+  background: none;
+  font-size: 14px;
+  color: #333;
+  width: 100%;
   padding: 0;
+  outline: none;
+  cursor: pointer;
 }
 
-.feature-card li {
-  padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
+.search-field input::placeholder {
+  color: #717171;
 }
 
-.feature-card li:last-child {
-  border-bottom: none;
+.search-button {
+  background: #ff385c;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: auto;
+  transition: transform 0.2s;
 }
 
-.feature-card li::before {
-  content: '✓ ';
-  color: #e31c5f;
-  font-weight: bold;
-  margin-right: 10px;
+.search-button:hover {
+  transform: scale(1.05);
 }
 
+.search-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Properties Section */
+.properties-section {
+  padding: 60px 0;
+  background: white;
+}
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.property-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.property-card:hover {
+  transform: translateY(-4px);
+}
+
+.property-image-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.property-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.property-card:hover .property-image {
+  transform: scale(1.05);
+}
+
+.property-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #717171;
+}
+
+.property-image-placeholder svg {
+  width: 64px;
+  height: 64px;
+}
+
+/* Heart Icon for Favorites */
+.favorite-heart {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 2;
+}
+
+.favorite-heart:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.favorite-heart svg {
+  width: 18px;
+  height: 18px;
+  color: #222;
+}
+
+.favorite-heart.favorited svg {
+  color: #ff385c;
+  fill: #ff385c;
+}
+
+.property-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.property-header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.property-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.property-type-badge {
+  font-size: 12px;
+  color: #717171;
+  background: #f7f7f7;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.property-name {
+  font-size: 15px;
+  color: #222;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.property-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.property-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+
+.price-period {
+  font-weight: 400;
+  color: #717171;
+}
+
+.loading,
+.no-properties {
+  text-align: center;
+  padding: 60px 20px;
+  color: #717171;
+  font-size: 18px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .hero h1 {
-    font-size: 32px;
-  }
-
-  .hero-subtitle {
-    font-size: 20px;
-  }
-
-  .hero-actions {
+  .search-bar {
     flex-direction: column;
-    align-items: center;
+    padding: 16px;
+    border-radius: 12px;
   }
 
-  .hero-actions .btn {
-    width: 100%;
-    max-width: 300px;
+  .search-field {
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 12px 0;
+  }
+
+  .search-field:last-of-type {
+    border-bottom: none;
+  }
+
+  .search-field:first-child {
+    border-radius: 0;
+  }
+
+  .search-button {
+        width: 100%;
+        border-radius: 8px;
+        margin-left: 0;
+        margin-top: 12px;
+      }
+
+  .properties-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
   }
 }
-

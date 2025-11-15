@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, verifyToken } from '../../store/slices/authSlice'
@@ -9,6 +9,8 @@ const Layout = ({ children }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const userMenuRef = useRef(null)
 
   useEffect(() => {
     // Verify token on mount if user is authenticated
@@ -17,10 +19,25 @@ const Layout = ({ children }) => {
     }
   }, [dispatch, isAuthenticated])
 
+  useEffect(() => {
+    // Close user menu when clicking outside
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   const handleLogout = () => {
     dispatch(logout())
     navigate('/')
     setMenuOpen(false)
+    setUserMenuOpen(false)
   }
 
   return (
@@ -29,64 +46,215 @@ const Layout = ({ children }) => {
         <div className="container">
           <div className="header-content">
             <Link to="/" className="logo">
+              <span className="logo-icon">🏠</span>
               <span className="logo-text">RedNest</span>
             </Link>
 
+            {/* Desktop Navigation */}
             <nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
-              <Link to="/" onClick={() => setMenuOpen(false)}>
-                Home
-              </Link>
-              <Link to="/properties" onClick={() => setMenuOpen(false)}>
-                Browse Properties
-              </Link>
-
-              {isAuthenticated ? (
+              {isAuthenticated && (
                 <>
                   {user?.role === 'traveler' && (
-                    <>
-                      <Link to="/traveler/bookings" onClick={() => setMenuOpen(false)}>
-                        My Trips
-                      </Link>
-                      <Link to="/traveler/favorites" onClick={() => setMenuOpen(false)}>
-                        Favorites
-                      </Link>
-                    </>
+                    <Link to="/traveler/bookings" onClick={() => setMenuOpen(false)}>
+                      My Trips
+                    </Link>
                   )}
                   {user?.role === 'owner' && (
                     <>
                       <Link to="/owner/dashboard" onClick={() => setMenuOpen(false)}>
                         Dashboard
                       </Link>
-                      <Link to="/owner/bookings" onClick={() => setMenuOpen(false)}>
-                        Bookings
-                      </Link>
                       <Link
                         to="/owner/properties/create"
                         onClick={() => setMenuOpen(false)}
+                        className="host-link"
                       >
-                        List Property
+                        List your property
                       </Link>
                     </>
                   )}
-                  <Link to={`/${user?.role}/profile`} onClick={() => setMenuOpen(false)}>
-                    Profile
-                  </Link>
-                  <button onClick={handleLogout} className="btn-logout">
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" onClick={() => setMenuOpen(false)}>
-                    Login
-                  </Link>
-                  <Link to="/register" onClick={() => setMenuOpen(false)}>
-                    Sign Up
-                  </Link>
                 </>
               )}
             </nav>
 
+            {/* User Menu Button - Airbnb Style */}
+            <div className="user-menu-wrapper" ref={userMenuRef}>
+              {isAuthenticated ? (
+                <button
+                  className="user-menu-button"
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  aria-label="User menu"
+                >
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="16" fill="currentColor" />
+                    <path
+                      d="M16 16C18.2091 16 20 14.2091 20 12C20 9.79086 18.2091 8 16 8C13.7909 8 12 9.79086 12 12C12 14.2091 13.7909 16 16 16Z"
+                      fill="white"
+                    />
+                    <path
+                      d="M16 18C11.5817 18 8 19.7909 8 22V24H24V22C24 19.7909 20.4183 18 16 18Z"
+                      fill="white"
+                    />
+                  </svg>
+                  <svg
+                    className={`menu-arrow ${userMenuOpen ? 'open' : ''}`}
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 6L8 10L12 6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              ) : (
+                <button
+                  className="user-menu-button"
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  aria-label="User menu"
+                >
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="16" fill="currentColor" />
+                    <line
+                      x1="10"
+                      y1="16"
+                      x2="22"
+                      y2="16"
+                      stroke="white"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <line
+                      x1="10"
+                      y1="11"
+                      x2="22"
+                      y2="11"
+                      stroke="white"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <line
+                      x1="10"
+                      y1="21"
+                      x2="22"
+                      y2="21"
+                      stroke="white"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <svg
+                    className={`menu-arrow ${userMenuOpen ? 'open' : ''}`}
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 6L8 10L12 6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              )}
+
+              {/* User Menu Dropdown */}
+              {userMenuOpen && (
+                <div className="user-menu-dropdown">
+                  {isAuthenticated ? (
+                    <>
+                      <div className="user-menu-header">
+                        <div className="user-info">
+                          <p className="user-name">{user?.name || 'User'}</p>
+                          <p className="user-email">{user?.email}</p>
+                          <p className="user-role">{user?.role === 'traveler' ? 'Traveler' : 'Owner'}</p>
+                        </div>
+                      </div>
+                      <div className="menu-divider"></div>
+                      {user?.role === 'traveler' && (
+                        <>
+                          <Link
+                            to="/traveler/bookings"
+                            className="menu-item"
+                            onClick={() => setUserMenuOpen(false)}
+                          >
+                            My Trips
+                          </Link>
+                          <Link
+                            to="/traveler/favorites"
+                            className="menu-item"
+                            onClick={() => setUserMenuOpen(false)}
+                          >
+                            Favorites
+                          </Link>
+                        </>
+                      )}
+                      {user?.role === 'owner' && (
+                        <>
+                          <Link
+                            to="/owner/dashboard"
+                            className="menu-item"
+                            onClick={() => setUserMenuOpen(false)}
+                          >
+                            Dashboard
+                          </Link>
+                          <Link
+                            to="/owner/bookings"
+                            className="menu-item"
+                            onClick={() => setUserMenuOpen(false)}
+                          >
+                            My Bookings
+                          </Link>
+                          <Link
+                            to="/owner/properties/create"
+                            className="menu-item"
+                            onClick={() => setUserMenuOpen(false)}
+                          >
+                            List Property
+                          </Link>
+                        </>
+                      )}
+                      <Link
+                        to={`/${user?.role}/profile`}
+                        className="menu-item"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        Profile
+                      </Link>
+                      <div className="menu-divider"></div>
+                      <button onClick={handleLogout} className="menu-item logout">
+                        Log out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        className="menu-item"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        Log in
+                      </Link>
+                      <Link
+                        to="/register"
+                        className="menu-item"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        Sign up
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Menu Toggle */}
             <button
               className="menu-toggle"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -112,4 +280,3 @@ const Layout = ({ children }) => {
 }
 
 export default Layout
-
