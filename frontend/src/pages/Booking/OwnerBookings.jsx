@@ -58,6 +58,10 @@ const OwnerBookings = () => {
 
   if (loading) return <div className="loading">Loading bookings...</div>
 
+  // Debug: Log bookings data
+  console.log('OwnerBookings - items:', items);
+  console.log('OwnerBookings - filteredBookings:', filteredBookings);
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'accepted':
@@ -139,14 +143,45 @@ const OwnerBookings = () => {
           </div>
         ) : (
           <div className="bookings-list">
-            {filteredBookings.map((booking) => (
+            {filteredBookings.map((booking) => {
+              try {
+                // Safely extract property data
+                const property = typeof booking.propertyId === 'object' && booking.propertyId !== null 
+                  ? booking.propertyId 
+                  : null;
+                
+                const propertyId = property?._id || property || booking.propertyId || '';
+                const propertyName = property?.name || 'Property';
+                // Handle location - could be string or object
+                const propertyLocation = typeof property?.location === 'string' 
+                  ? property.location 
+                  : property?.location?.address 
+                    ? `${property.location.address}, ${property.location.city}, ${property.location.state}, ${property.location.country}`
+                    : null;
+                const propertyPhoto = property?.photos?.[0];
+                
+                // Debug logging for image issues
+                if (propertyName === 'Mumbai Villa' || propertyName === 'Mumbai apt') {
+                  console.log(`🔍 ${propertyName} - propertyPhoto:`, propertyPhoto);
+                  console.log(`🔍 ${propertyName} - property.photos:`, property?.photos);
+                  console.log(`🔍 ${propertyName} - full property:`, property);
+                }
+
+                // Safely extract traveler data
+                const traveler = typeof booking.travelerId === 'object' && booking.travelerId !== null
+                  ? booking.travelerId
+                  : null;
+                
+                const travelerName = traveler?.name || traveler?.email || 'Unknown';
+
+                return (
               <div key={booking._id} className="booking-card">
                 <div className="booking-card-content">
-                  {booking.propertyId?.photos && booking.propertyId.photos.length > 0 && (
+                  {propertyPhoto && (
                     <div className="booking-property-image">
                       <img
-                        src={getPropertyImageUrl(booking.propertyId.photos[0])}
-                        alt={booking.propertyId?.name || 'Property'}
+                        src={getPropertyImageUrl(propertyPhoto)}
+                        alt={propertyName}
                       />
                     </div>
                   )}
@@ -154,12 +189,12 @@ const OwnerBookings = () => {
                     <div className="booking-header">
                       <div>
                         <h3>
-                          <Link to={`/properties/${booking.propertyId?._id || booking.propertyId}`}>
-                            {booking.propertyId?.name || 'Property'}
+                          <Link to={`/properties/${propertyId}`}>
+                            {propertyName}
                           </Link>
                         </h3>
-                        {booking.propertyId?.location && (
-                          <p className="booking-property-location">{booking.propertyId.location}</p>
+                        {propertyLocation && (
+                          <p className="booking-property-location">{propertyLocation}</p>
                         )}
                       </div>
                       <span className={`status status-${getStatusColor(booking.status)}`}>
@@ -168,20 +203,7 @@ const OwnerBookings = () => {
                     </div>
                     <div className="booking-details">
                       <p>
-                        <strong>Traveler:</strong> {
-                          (() => {
-                            // Handle populated object
-                            if (typeof booking.travelerId === 'object' && booking.travelerId !== null) {
-                              // Check if it has _id (populated) or is just an ID string
-                              if (booking.travelerId._id || booking.travelerId.name || booking.travelerId.email) {
-                                return booking.travelerId.name || booking.travelerId.email || 'Unknown';
-                              }
-                            }
-                            // If it's a string ID, we can't get the name without fetching
-                            console.warn('Traveler not populated:', booking.travelerId);
-                            return 'Unknown';
-                          })()
-                        }
+                        <strong>Traveler:</strong> {travelerName}
                       </p>
                   <p>
                     <strong>Check-in:</strong>{' '}
@@ -221,7 +243,18 @@ const OwnerBookings = () => {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+              } catch (error) {
+                console.error('Error rendering booking card:', error, booking);
+                return (
+                  <div key={booking._id} className="booking-card">
+                    <div className="booking-card-content">
+                      <p>Error loading booking: {error.message}</p>
+                    </div>
+                  </div>
+                );
+              }
+            })}
           </div>
         )}
       </div>

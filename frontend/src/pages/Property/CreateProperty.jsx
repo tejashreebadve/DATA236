@@ -165,7 +165,15 @@ const CreateProperty = () => {
   return (
     <div className="property-form-page">
       <div className="container">
-        <h1>List Your Property</h1>
+        <button onClick={() => navigate('/owner/properties')} className="back-button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back to My Properties
+        </button>
+        <div className="header-content">
+          <h1>List Your Property</h1>
+        </div>
         
         {errorMessage && (
           <div className="alert alert-error">
