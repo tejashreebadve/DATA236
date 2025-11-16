@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
+import os
 
 
 class Settings(BaseSettings):
@@ -24,9 +25,26 @@ class Settings(BaseSettings):
     CORS_ORIGIN: str = "http://localhost:3000"
     
     class Config:
+        # Read from environment variables first (Docker sets these from .env file in root)
+        # Environment variables take precedence over .env file
         env_file = ".env"
         case_sensitive = True
+        env_file_encoding = 'utf-8'
+        # Pydantic Settings automatically reads from environment variables first
 
 
+# Initialize settings
 settings = Settings()
+
+# Debug: Log if API keys are loaded (but don't log the actual keys)
+logger = __import__('logging').getLogger(__name__)
+if settings.ANTHROPIC_API_KEY:
+    logger.info("Anthropic API key loaded (length: {})".format(len(settings.ANTHROPIC_API_KEY)))
+else:
+    logger.warning("Anthropic API key NOT loaded!")
+    
+if settings.TAVILY_API_KEY:
+    logger.info("Tavily API key loaded (length: {})".format(len(settings.TAVILY_API_KEY)))
+else:
+    logger.warning("Tavily API key NOT loaded!")
 

@@ -160,12 +160,12 @@ services:
     container_name: rednest-ai-agent-service
     ports:
       - "3006:3006"
+    env_file:
+      - ./services/ai-agent-service/.env
     environment:
       PORT: 3006
       ENVIRONMENT: development
       MONGODB_URI: mongodb+srv://dygandole_db_user:dygandole_db_pass@rednest.yv8hxk8.mongodb.net/rednest?appName=Rednest&retryWrites=true&w=majority
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
-      TAVILY_API_KEY: ${TAVILY_API_KEY}
       BOOKING_SERVICE_URL: http://booking-service:3005
       PROPERTY_SERVICE_URL: http://property-service:3004
       TRAVELER_SERVICE_URL: http://traveler-service:3002

@@ -4,13 +4,30 @@ from src.models.itinerary import (
     GenerateItineraryRequest,
     ItineraryResponse,
     ChatRequest,
-    ChatResponse
+    ChatResponse,
+    Preferences
 )
 from src.services.booking_service import get_traveler_bookings, get_booking_by_id
 from src.services.property_service import get_property_by_id
+from src.agents.trip_agent import TripAgent
 import logging
 
 logger = logging.getLogger(__name__)
+
+# Lazy initialization of agent (only when first used)
+_trip_agent = None
+
+def get_trip_agent():
+    """Get or create the trip agent (singleton)"""
+    global _trip_agent
+    if _trip_agent is None:
+        try:
+            _trip_agent = TripAgent()
+            logger.info("TripAgent initialized successfully")
+        except Exception as e:
+            logger.error(f"Error initializing TripAgent: {e}", exc_info=True)
+            raise
+    return _trip_agent
 
 
 async def get_traveler_upcoming_bookings(traveler_id: str) -> List[Dict]:
@@ -50,70 +67,95 @@ async def get_traveler_upcoming_bookings(traveler_id: str) -> List[Dict]:
 
 async def generate_itinerary(request: GenerateItineraryRequest) -> ItineraryResponse:
     """
-    Generate itinerary based on booking or manual input
-    TODO: Implement actual AI agent logic in Phase 2
+    Generate itinerary based on booking or manual input using AI agent
     """
-    # Placeholder implementation - will be replaced in Phase 2
-    if request.bookingId:
-        booking = await get_booking_by_id(request.bookingId)
-        if not booking:
-            raise HTTPException(status_code=404, detail="Booking not found")
-        
-        property_id = booking.get("propertyId")
-        if isinstance(property_id, str):
-            property_data = await get_property_by_id(property_id)
+    try:
+        # Extract booking context if bookingId provided
+        booking = None
+        if request.bookingId:
+            booking = await get_booking_by_id(request.bookingId)
+            if not booking:
+                raise HTTPException(status_code=404, detail="Booking not found")
+            
+            property_id = booking.get("propertyId")
+            if isinstance(property_id, str):
+                property_data = await get_property_by_id(property_id)
+            else:
+                property_data = property_id
+            
+            location = property_data.get("location", {}) if property_data else {}
+            location_str = f"{location.get('city', '')}, {location.get('country', '')}"
+            start_date = booking.get("startDate")
+            end_date = booking.get("endDate")
+            guests = booking.get("guests", 1)
         else:
-            property_data = property_id
+            # Manual input
+            if not all([request.location, request.startDate, request.endDate, request.guests]):
+                raise HTTPException(
+                    status_code=400,
+                    detail="location, startDate, endDate, and guests are required when bookingId is not provided"
+                )
+            
+            location_str = request.location
+            start_date = request.startDate
+            end_date = request.endDate
+            guests = request.guests
         
-        location = property_data.get("location", {}) if property_data else {}
-        location_str = f"{location.get('city', '')}, {location.get('country', '')}"
+        # Extract preferences from natural language input if provided
+        preferences_dict = {
+            "budget": request.preferences.budget,
+            "interests": request.preferences.interests or [],
+            "mobilityNeeds": request.preferences.mobilityNeeds,
+            "dietaryFilters": request.preferences.dietaryFilters or [],
+            "familyFriendly": request.preferences.familyFriendly
+        }
         
-        return ItineraryResponse(
-            itinerary={
-                "days": [],
-                "restaurants": [],
-                "packingChecklist": []
-            },
-            metadata={
-                "location": location_str,
-                "dates": {
-                    "start": booking.get("startDate"),
-                    "end": booking.get("endDate")
-                }
-            }
+        # If natural language input provided, extract additional preferences
+        if request.preferences.naturalLanguageInput:
+            agent = get_trip_agent()
+            extracted = agent.extract_preferences(request.preferences.naturalLanguageInput)
+            # Merge extracted preferences (extracted takes precedence)
+            preferences_dict.update(extracted)
+            # Merge arrays
+            if extracted.get("interests"):
+                preferences_dict["interests"] = list(set(preferences_dict["interests"] + extracted["interests"]))
+            if extracted.get("dietaryFilters"):
+                preferences_dict["dietaryFilters"] = list(set(preferences_dict["dietaryFilters"] + extracted["dietaryFilters"]))
+        
+        # Generate itinerary using AI agent
+        agent = get_trip_agent()
+        result = await agent.generate_itinerary(
+            location=location_str,
+            start_date=start_date,
+            end_date=end_date,
+            guests=guests,
+            preferences=preferences_dict,
+            booking_context=booking
         )
-    else:
-        # Manual input
-        if not all([request.location, request.startDate, request.endDate, request.guests]):
-            raise HTTPException(
-                status_code=400,
-                detail="location, startDate, endDate, and guests are required when bookingId is not provided"
-            )
         
-        return ItineraryResponse(
-            itinerary={
-                "days": [],
-                "restaurants": [],
-                "packingChecklist": []
-            },
-            metadata={
-                "location": request.location,
-                "dates": {
-                    "start": request.startDate,
-                    "end": request.endDate
-                }
-            }
-        )
+        return ItineraryResponse(**result)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generating itinerary: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to generate itinerary: {str(e)}")
 
 
 async def chat(request: ChatRequest) -> ChatResponse:
     """
-    Handle general chat requests
-    TODO: Implement actual AI agent logic in Phase 2
+    Handle general chat requests using AI agent
     """
-    # Placeholder implementation - will be replaced in Phase 2
-    return ChatResponse(
-        response=f"Thank you for your question: {request.message}. This feature will be available in Phase 2.",
-        sources=[]
-    )
+    try:
+        agent = get_trip_agent()
+        result = await agent.chat(
+            message=request.message,
+            context=request.context
+        )
+        
+        return ChatResponse(**result)
+        
+    except Exception as e:
+        logger.error(f"Error in chat: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to process chat: {str(e)}")
 
