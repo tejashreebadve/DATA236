@@ -2,10 +2,13 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout, verifyToken } from '../../store/slices/authSlice'
+import { fetchProfile } from '../../store/slices/profileSlice'
+import { getProfilePictureUrl } from '../../utils/imageUtils'
 import './Layout.css'
 
 const Layout = ({ children }) => {
   const { isAuthenticated, user } = useSelector((state) => state.auth)
+  const { traveler, owner } = useSelector((state) => state.profile)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -18,6 +21,17 @@ const Layout = ({ children }) => {
       dispatch(verifyToken())
     }
   }, [dispatch, isAuthenticated])
+
+  useEffect(() => {
+    // Fetch profile data when user is authenticated
+    if (isAuthenticated && user?.role) {
+      dispatch(fetchProfile(user.role))
+    }
+  }, [dispatch, isAuthenticated, user?.role])
+
+  // Get profile data and photo based on user role
+  const profile = user?.role === 'traveler' ? traveler : owner
+  const profilePhoto = profile?.profilePicture
 
   useEffect(() => {
     // Close user menu when clicking outside
@@ -63,7 +77,24 @@ const Layout = ({ children }) => {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   aria-label="User menu"
                 >
-                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {profilePhoto ? (
+                    <img 
+                      src={getProfilePictureUrl(profilePhoto, user?.role)} 
+                      alt="Profile" 
+                      className="user-profile-photo"
+                      onError={(e) => {
+                        // Fallback to default icon if image fails to load
+                        e.target.style.display = 'none'
+                        e.target.nextElementSibling.style.display = 'block'
+                      }}
+                    />
+                  ) : null}
+                  <svg 
+                    viewBox="0 0 32 32" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ display: profilePhoto ? 'none' : 'block' }}
+                  >
                     <rect width="32" height="32" rx="16" fill="currentColor" />
                     <path
                       d="M16 16C18.2091 16 20 14.2091 20 12C20 9.79086 18.2091 8 16 8C13.7909 8 12 9.79086 12 12C12 14.2091 13.7909 16 16 16Z"
@@ -148,6 +179,16 @@ const Layout = ({ children }) => {
                   {isAuthenticated ? (
                     <>
                       <div className="user-menu-header">
+                        {profilePhoto && (
+                          <img 
+                            src={getProfilePictureUrl(profilePhoto, user?.role)} 
+                            alt="Profile" 
+                            className="user-menu-profile-photo"
+                            onError={(e) => {
+                              e.target.style.display = 'none'
+                            }}
+                          />
+                        )}
                         <div className="user-info">
                           <p className="user-name">{user?.name || 'User'}</p>
                           <p className="user-email">{user?.email}</p>

@@ -337,6 +337,7 @@
   border-radius: 8px;
   overflow: hidden;
   background: #f5f5f5;
+  cursor: default;
 }
 
 .existing-photo-item img {
@@ -344,6 +345,7 @@
   height: 150px;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
 .remove-photo-btn {
@@ -351,18 +353,25 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 0, 0, 0.8);
+  background: rgba(255, 0, 0, 0.9);
   color: white;
   border: none;
   padding: 0.5rem;
   cursor: pointer;
   font-size: 0.875rem;
+  font-weight: 600;
   transition: background 0.2s;
   width: 100%;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .remove-photo-btn:hover {
-  background: rgba(255, 0, 0, 1);
+  background: rgba(220, 0, 0, 1);
+}
+
+.remove-photo-btn:active {
+  background: rgba(180, 0, 0, 1);
 }
 
 .no-photos {

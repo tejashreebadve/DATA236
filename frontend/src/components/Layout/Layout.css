@@ -10,16 +10,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 24px 0;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 28px;
+  font-weight: 700;
   color: #ff385c;
   transition: opacity 0.2s;
 }
@@ -29,7 +29,7 @@
 }
 
 .logo-icon {
-  font-size: 24px;
+  font-size: 36px;
 }
 
 .logo-text {
@@ -90,7 +90,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 12px;
+  padding: 6px 6px 6px 12px;
   border: 1px solid #ddd;
   border-radius: 24px;
   background: white;
@@ -99,13 +99,24 @@
 }
 
 .user-menu-button:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .user-menu-button svg:first-child {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   color: #717171;
+  flex-shrink: 0;
+}
+
+.user-profile-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .menu-arrow {
@@ -146,12 +157,26 @@
 
 .user-menu-header {
   padding: 16px 16px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-menu-profile-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .user-info {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1;
 }
 
 .user-name {

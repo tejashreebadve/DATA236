@@ -39,6 +39,8 @@ services:
       PROPERTY_SERVICE_URL: http://property-service:3004
       KAFKA_BROKERS: kafka:9092
       CORS_ORIGIN: http://localhost:3000
+    volumes:
+      - traveler-uploads:/app/uploads
     depends_on:
       - auth-service
       - kafka
@@ -63,6 +65,8 @@ services:
       PROPERTY_SERVICE_URL: http://property-service:3004
       KAFKA_BROKERS: kafka:9092
       CORS_ORIGIN: http://localhost:3000
+    volumes:
+      - owner-uploads:/app/uploads
     depends_on:
       - auth-service
       - kafka
@@ -85,6 +89,8 @@ services:
       JWT_SECRET: ${JWT_SECRET:-Yu3UjJv4/iUH4ykcI6q9aA==}
       KAFKA_BROKERS: kafka:9092
       CORS_ORIGIN: http://localhost:3000
+    volumes:
+      - property-uploads:/app/uploads
     depends_on:
       - auth-service
       - kafka
@@ -145,6 +151,14 @@ services:
     networks:
       - rednest-network
     restart: unless-stopped
+
+volumes:
+  traveler-uploads:
+    driver: local
+  owner-uploads:
+    driver: local
+  property-uploads:
+    driver: local
 
 networks:
   rednest-network:

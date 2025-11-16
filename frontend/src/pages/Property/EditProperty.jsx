@@ -117,8 +117,27 @@ const EditProperty = () => {
     setFiles(Array.from(e.target.files))
   }
 
-  const handleRemoveExistingPhoto = (index) => {
-    setExistingPhotos(existingPhotos.filter((_, i) => i !== index))
+  const handleRemoveExistingPhoto = (e, index) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    if (index < 0 || index >= existingPhotos.length) {
+      console.error('Invalid photo index:', index)
+      return
+    }
+    
+    console.log('Removing photo at index:', index, 'Current photos:', existingPhotos)
+    const updatedPhotos = existingPhotos.filter((_, i) => i !== index)
+    console.log('Updated photos (length:', updatedPhotos.length, '):', updatedPhotos)
+    
+    // Always allow removal, even if it results in 0 photos
+    setExistingPhotos(updatedPhotos)
+    
+    // Force a re-render by updating the key
+    // This ensures React properly handles the state change
+    if (updatedPhotos.length === 0) {
+      console.log('All photos removed - property will have no photos')
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -168,12 +187,19 @@ const EditProperty = () => {
       }
 
       // Add existing photos (that weren't removed) as URLs
+      // Always send photos[] even if empty, to indicate we're managing photos
       existingPhotos.forEach(photo => {
         const photoUrl = typeof photo === 'string' ? photo : photo.url || photo
-        data.append('photos[]', photoUrl)
+        if (photoUrl) {
+          data.append('photos[]', photoUrl)
+        }
       })
+      
+      // Always send photos_updated flag to indicate we're managing photos section
+      // This helps backend distinguish between "no photos sent" vs "empty photos array sent"
+      data.append('photos_updated', 'true')
 
-      // Add new file uploads
+      // Add new file uploads (different key: 'photos' for files vs 'photos[]' for URLs)
       if (files.length > 0) {
         files.forEach((file) => {
           data.append('photos', file)
@@ -394,18 +420,29 @@ const EditProperty = () => {
             <label>Existing Photos</label>
             {existingPhotos.length > 0 ? (
               <div className="existing-photos">
-                {existingPhotos.map((photo, index) => (
-                  <div key={index} className="existing-photo-item">
-                    <img src={getPropertyImageUrl(photo)} alt={`Property ${index + 1}`} />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveExistingPhoto(index)}
-                      className="remove-photo-btn"
-                    >
-                      × Remove
-                    </button>
-                  </div>
-                ))}
+                {existingPhotos.map((photo, index) => {
+                  const photoUrl = typeof photo === 'string' ? photo : photo.url || photo
+                  // Use photo URL as key for better stability, fallback to index
+                  const photoKey = photoUrl ? `photo-${photoUrl}-${index}` : `photo-${index}`
+                  return (
+                    <div key={photoKey} className="existing-photo-item">
+                      <img src={getPropertyImageUrl(photo)} alt={`Property ${index + 1}`} onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/150x150?text=Image+Not+Found'
+                      }} />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          console.log('Remove button clicked for photo at index:', index)
+                          handleRemoveExistingPhoto(e, index)
+                        }}
+                        className="remove-photo-btn"
+                        aria-label={`Remove photo ${index + 1}`}
+                      >
+                        × Remove
+                      </button>
+                    </div>
+                  )
+                })}
               </div>
             ) : (
               <p className="no-photos">No photos currently</p>

@@ -218,6 +218,15 @@ const parseNestedFormData = (body) => {
     amenityKeys.forEach(key => delete parsed[key]);
   }
   
+  // Parse photos[] into photos: [url1, url2, ...]
+  // Note: photos[] contains existing photo URLs (strings), not files
+  // Files are handled separately via req.files
+  const photoKeys = Object.keys(body).filter(key => key === 'photos[]' || key.startsWith('photos['));
+  if (photoKeys.length > 0) {
+    parsed.photos = photoKeys.map(key => body[key]).filter(v => v);
+    photoKeys.forEach(key => delete parsed[key]);
+  }
+  
   return parsed;
 };
 
@@ -296,19 +305,26 @@ const updateProperty = async (req, res, next) => {
     }
 
     // Handle photos - prioritize new file uploads, then existing photos from body
-    if (req.files && req.files.length > 0) {
-      // If new files are uploaded, combine with existing photos from body
+    // parsedBody.photos contains existing photo URLs from photos[] in FormData
+    const existingPhotoUrls = parsedBody.photos || [];
+    const photosUpdated = parsedBody.photos_updated === 'true' || parsedBody.photos_updated === true;
+    
+    // Only update photos if photos_updated flag is set (meaning user intentionally managed photos)
+    if (photosUpdated) {
+      if (req.files && req.files.length > 0) {
+        // If new files are uploaded, combine with existing photos from body
+        const newPhotos = req.files.map((file) => file.path || `/uploads/${file.filename}`);
+        property.photos = [...existingPhotoUrls, ...newPhotos];
+      } else {
+        // If no new files, use only existing photos (which might be empty if user removed all)
+        property.photos = existingPhotoUrls.filter(p => p); // Remove empty values
+      }
+    } else if (req.files && req.files.length > 0) {
+      // If photos_updated flag not set but new files uploaded, append to existing photos
       const newPhotos = req.files.map((file) => file.path || `/uploads/${file.filename}`);
-      const existingPhotos = req.body.photos 
-        ? (Array.isArray(req.body.photos) ? req.body.photos : [req.body.photos])
-        : property.photos || [];
-      property.photos = [...existingPhotos, ...newPhotos];
-    } else if (req.body.photos) {
-      // If photos are provided in body (existing photos to keep), use them
-      const photosArray = Array.isArray(req.body.photos) ? req.body.photos : [req.body.photos];
-      property.photos = photosArray.filter(p => p); // Remove empty values
+      property.photos = [...(property.photos || []), ...newPhotos];
     }
-    // If neither, keep existing photos (already set)
+    // If neither files nor photos_updated flag, keep existing photos (already set)
 
     await property.save();
 
