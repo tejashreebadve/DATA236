@@ -24,8 +24,35 @@ const PropertyDetails = () => {
   const [showAllPhotos, setShowAllPhotos] = useState(false)
   const [bookingError, setBookingError] = useState(null)
   const [bookingSuccess, setBookingSuccess] = useState(null)
+  const [availabilityMessage, setAvailabilityMessage] = useState(null)
 
   const isFavorite = favorites.some((fav) => fav._id === selectedProperty?._id)
+
+  // Calculate available dates and show message
+  useEffect(() => {
+    if (selectedProperty?.availability) {
+      const avail = selectedProperty.availability
+      if (avail.startDate && avail.endDate) {
+        const start = new Date(avail.startDate)
+        const end = new Date(avail.endDate)
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+        
+        // Only show if availability window is in the future
+        if (end >= today) {
+          const startStr = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          const endStr = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          setAvailabilityMessage(`Available from ${startStr} to ${endStr}`)
+        } else {
+          setAvailabilityMessage('This property is currently not available for booking')
+        }
+      } else {
+        setAvailabilityMessage(null)
+      }
+    } else {
+      setAvailabilityMessage(null)
+    }
+  }, [selectedProperty])
 
   useEffect(() => {
     dispatch(fetchPropertyById(id))
@@ -33,6 +60,40 @@ const PropertyDetails = () => {
       dispatch(fetchFavorites())
     }
   }, [dispatch, id, isAuthenticated, user])
+
+  // Check if dates are within availability window and not blocked
+  const checkDateAvailability = (start, end) => {
+    if (!selectedProperty?.availability) return { available: true }
+    
+    const avail = selectedProperty.availability
+    const startDateObj = new Date(start)
+    const endDateObj = new Date(end)
+    
+    // Check availability window
+    if (avail.startDate && avail.endDate) {
+      const availStart = new Date(avail.startDate)
+      const availEnd = new Date(avail.endDate)
+      
+      if (startDateObj < availStart || endDateObj > availEnd) {
+        return { available: false, reason: 'Selected dates are outside the available date range' }
+      }
+    }
+    
+    // Check blocked dates
+    if (avail.blockedDates && avail.blockedDates.length > 0) {
+      for (const block of avail.blockedDates) {
+        const blockStart = new Date(block.startDate)
+        const blockEnd = new Date(block.endDate)
+        
+        // Check if there's any overlap
+        if (startDateObj <= blockEnd && endDateObj >= blockStart) {
+          return { available: false, reason: 'Selected dates overlap with blocked dates' }
+        }
+      }
+    }
+    
+    return { available: true }
+  }
 
   const handleBooking = async (e) => {
     e.preventDefault()
@@ -46,6 +107,13 @@ const PropertyDetails = () => {
 
     if (!startDate || !endDate) {
       setBookingError('Please select check-in and check-out dates')
+      return
+    }
+
+    // Check date availability
+    const availabilityCheck = checkDateAvailability(startDate, endDate)
+    if (!availabilityCheck.available) {
+      setBookingError(availabilityCheck.reason || 'Property is not available for the selected dates')
       return
     }
 
@@ -263,6 +331,14 @@ const PropertyDetails = () => {
                 </div>
 
                 <form onSubmit={handleBooking} className="booking-form">
+                  {availabilityMessage && (
+                    <div className={`availability-message ${selectedProperty?.availability?.startDate && new Date(selectedProperty.availability.endDate) >= new Date() ? 'available' : 'unavailable'}`}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M8 7V3M16 7V3M3 11H21M5 5H19C20.1046 5 21 5.89543 21 7V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V7C3 5.89543 3.89543 5 5 5Z" />
+                      </svg>
+                      {availabilityMessage}
+                    </div>
+                  )}
                   {bookingError && (
                     <div className="alert alert-error">
                       {bookingError}
@@ -279,9 +355,25 @@ const PropertyDetails = () => {
                       <input
                         type="date"
                         value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        onChange={(e) => {
+                          setStartDate(e.target.value)
+                          setBookingError(null) // Clear error when user changes date
+                          // If end date is before new start date, clear it
+                          if (endDate && e.target.value && new Date(e.target.value) >= new Date(endDate)) {
+                            setEndDate('')
+                          }
+                        }}
                         required
-                        min={new Date().toISOString().split('T')[0]}
+                        min={
+                          selectedProperty?.availability?.startDate 
+                            ? new Date(Math.max(new Date(), new Date(selectedProperty.availability.startDate))).toISOString().split('T')[0]
+                            : new Date().toISOString().split('T')[0]
+                        }
+                        max={
+                          selectedProperty?.availability?.endDate 
+                            ? new Date(selectedProperty.availability.endDate).toISOString().split('T')[0]
+                            : undefined
+                        }
                       />
                     </div>
                     <div className="date-input-group">
@@ -289,9 +381,30 @@ const PropertyDetails = () => {
                       <input
                         type="date"
                         value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
+                        onChange={(e) => {
+                          setEndDate(e.target.value)
+                          setBookingError(null) // Clear error when user changes date
+                          // Validate dates when end date is selected
+                          if (e.target.value && startDate) {
+                            const check = checkDateAvailability(startDate, e.target.value)
+                            if (!check.available) {
+                              setBookingError(check.reason || 'Property is not available for the selected dates')
+                            }
+                          }
+                        }}
                         required
-                        min={startDate || new Date().toISOString().split('T')[0]}
+                        min={
+                          startDate 
+                            ? startDate
+                            : selectedProperty?.availability?.startDate 
+                              ? new Date(Math.max(new Date(), new Date(selectedProperty.availability.startDate))).toISOString().split('T')[0]
+                              : new Date().toISOString().split('T')[0]
+                        }
+                        max={
+                          selectedProperty?.availability?.endDate 
+                            ? new Date(selectedProperty.availability.endDate).toISOString().split('T')[0]
+                            : undefined
+                        }
                       />
                     </div>
                   </div>

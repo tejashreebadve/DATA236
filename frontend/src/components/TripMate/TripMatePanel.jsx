@@ -425,9 +425,7 @@ const TripMatePanel = () => {
               {chatMessages.length === 0 && !itinerary && (
                 <div className="trip-mate-welcome">
                   <p>👋 Hi! I'm TripMate, your AI travel assistant.</p>
-                  {!isAuthenticated && (
-                    <p>Ask me anything about travel! For example: "Is July good for a NYC trip?"</p>
-                  )}
+                  
                   {isAuthenticated && user?.role === 'traveler' && !selectedBookingId && (
                     <p>Select a trip above to generate a personalized itinerary, or ask me general travel questions!</p>
                   )}

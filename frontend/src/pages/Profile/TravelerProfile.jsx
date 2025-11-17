@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProfile, updateProfile, uploadProfilePicture } from '../../store/slices/profileSlice'
 import { COUNTRIES, US_STATES } from '../../utils/constants'
@@ -6,6 +7,7 @@ import { getProfilePictureUrl } from '../../utils/imageUtils'
 import './Profile.css'
 
 const TravelerProfile = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { traveler, loading } = useSelector((state) => state.profile)
   const fileInputRef = useRef(null)
@@ -143,6 +145,12 @@ const TravelerProfile = () => {
   return (
     <div className="profile-page">
       <div className="container">
+        <button onClick={() => navigate('/')} className="back-button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </button>
         <h1>My Profile</h1>
         <button
           onClick={() => isEditing ? handleCancelEdit() : setIsEditing(true)}
