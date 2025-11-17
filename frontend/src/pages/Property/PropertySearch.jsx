@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { fetchProperties, updateSearchFilters } from '../../store/slices/propertiesSlice'
+import { getPropertyImageUrl } from '../../utils/imageUtils'
 import './Property.css'
 
 const PropertySearch = () => {
@@ -151,12 +152,22 @@ const PropertySearch = () => {
               to={`/properties/${property._id}`}
               className="property-card"
             >
-              {property.photos && property.photos.length > 0 && (
+              {property.photos && property.photos.length > 0 ? (
                 <img
-                  src={property.photos[0]}
+                  src={getPropertyImageUrl(property.photos[0])}
                   alt={property.name}
                   className="property-image"
                 />
+              ) : (
+                <div className="property-image-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M4 16L8.586 11.414C9.367 10.633 10.633 10.633 11.414 11.414L16 16M14 14L15.586 12.414C16.367 11.633 17.633 11.633 18.414 12.414L20 14M14 8H14.01M6 20H18C19.105 20 20 19.105 20 18V6C20 4.895 19.105 4 18 4H6C4.895 4 4 4.895 4 6V18C4 19.105 4.895 20 6 20Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                </div>
               )}
               <div className="property-info">
                 <h3>{property.name}</h3>
