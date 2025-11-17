@@ -2,7 +2,7 @@ import httpx
 from typing import List, Dict, Optional
 from src.config.settings import settings
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from dateutil import parser as date_parser
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,8 @@ async def get_traveler_bookings(traveler_id: str, status: Optional[str] = None) 
             # Filter for future bookings only (accepted or pending)
             # Use UTC timezone-aware datetime for comparison
             now = datetime.now(timezone.utc)
-            today = now.date()  # Get today's date for comparison
+            # Only include bookings starting from today onwards (not past dates)
+            cutoff_date = now.date()
             future_bookings = []
             
             for booking in bookings:
@@ -36,7 +37,7 @@ async def get_traveler_bookings(traveler_id: str, status: Optional[str] = None) 
                 if booking.get("status") not in ["accepted", "pending"]:
                     continue
                 
-                # Check if booking is in the future (or today)
+                # Check if booking is in the future (or from yesterday onwards)
                 start_date_str = booking.get("startDate")
                 if start_date_str:
                     try:
@@ -57,9 +58,9 @@ async def get_traveler_bookings(traveler_id: str, status: Optional[str] = None) 
                             # If naive, assume UTC
                             start_date = start_date.replace(tzinfo=timezone.utc)
                         
-                        # Compare dates only (not times) - include today and future bookings
+                        # Compare dates only (not times) - only include bookings from today onwards
                         start_date_only = start_date.date()
-                        if start_date_only >= today:
+                        if start_date_only >= cutoff_date:
                             future_bookings.append(booking)
                     except Exception as e:
                         logger.warning(f"Error parsing date for booking {booking.get('_id')}: {e}")

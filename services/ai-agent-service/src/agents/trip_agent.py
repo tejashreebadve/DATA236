@@ -30,11 +30,27 @@ class TripAgent:
         # Initialize tools
         self.tavily_tool = get_tavily_tool()
         
+        # Create weather tool wrapper that handles LangChain's argument format
+        def weather_tool_wrapper(input_str):
+            """Wrapper to handle LangChain's tool calling format"""
+            # Handle different input formats from LangChain
+            if isinstance(input_str, list):
+                # If it's a list, take the first element
+                input_str = input_str[0] if input_str else ""
+            elif isinstance(input_str, dict):
+                # If it's a dict, try to extract the string value
+                input_str = input_str.get("input", input_str.get("query", str(input_str)))
+            # Ensure it's a string
+            input_str = str(input_str) if input_str else ""
+            return weather_summary(input_str)
+        
         # Create weather tool for LangChain
         self.weather_tool = Tool(
             name="get_weather_forecast",
-            description="Get weather forecast and packing suggestions for a city and date range. Input format: 'City, CountryCode | YYYY-MM-DD to YYYY-MM-DD'",
-            func=weather_summary
+            description="""Get weather forecast and packing suggestions for a city and date range. 
+            Input should be a single string in the format: 'City, CountryCode | YYYY-MM-DD to YYYY-MM-DD'
+            Example: 'Chicago, US | 2025-11-27 to 2025-11-29'""",
+            func=weather_tool_wrapper
         )
         
         # Combine all tools
@@ -226,14 +242,98 @@ Format your response as a detailed JSON structure matching this schema:
                 "chat_history": []
             })
             
-            # Parse response
-            response_text = result.get("output", "")
+            # Parse response - handle different output formats from LangChain
+            output = result.get("output", "")
+            
+            logger.info(f"Raw output type: {type(output)}, value preview: {str(output)[:200] if output else 'None'}")
+            
+            # Convert output to string if it's a list (LangChain message format)
+            if isinstance(output, list):
+                # Extract text from content blocks
+                text_parts = []
+                for item in output:
+                    if isinstance(item, dict):
+                        if "text" in item:
+                            text_value = item["text"]
+                            # Handle case where text itself might be a list
+                            if isinstance(text_value, list):
+                                text_parts.append(" ".join(str(t) for t in text_value))
+                            else:
+                                text_parts.append(str(text_value))
+                        elif "content" in item:
+                            content_value = item["content"]
+                            if isinstance(content_value, list):
+                                text_parts.append(" ".join(str(c) for c in content_value))
+                            else:
+                                text_parts.append(str(content_value))
+                        else:
+                            text_parts.append(str(item))
+                    elif hasattr(item, "content"):
+                        # AIMessage object
+                        content = item.content
+                        if isinstance(content, list):
+                            text_parts.append(" ".join(str(c) for c in content))
+                        else:
+                            text_parts.append(str(content))
+                    else:
+                        text_parts.append(str(item))
+                response_text = " ".join(text_parts).strip()
+            elif hasattr(output, "content"):
+                # AIMessage object directly
+                content = output.content
+                if isinstance(content, list):
+                    response_text = " ".join(str(c) for c in content).strip()
+                else:
+                    response_text = str(content) if content else ""
+            elif isinstance(output, dict):
+                # If it's a dict, try to get text or convert to string
+                text_or_content = output.get("text", output.get("content", str(output)))
+                if isinstance(text_or_content, list):
+                    response_text = " ".join(str(t) for t in text_or_content).strip()
+                else:
+                    response_text = str(text_or_content)
+            else:
+                # It's already a string (or convert to string to be safe)
+                response_text = str(output) if output else ""
+            
+            # Final safety check - ensure response_text is definitely a string
+            if not isinstance(response_text, str):
+                logger.error(f"response_text is still not a string after conversion! type: {type(response_text)}, value: {response_text}")
+                # Force conversion
+                if isinstance(response_text, list):
+                    response_text = " ".join(str(item) for item in response_text).strip()
+                else:
+                    response_text = str(response_text)
+            
+            logger.info(f"Final response_text type: {type(response_text)}, length: {len(response_text) if isinstance(response_text, str) else 'N/A'}")
+            
+            # Normalize date formats to YYYY-MM-DD for weather API
+            from datetime import datetime
+            def normalize_date(date_str):
+                """Convert ISO date string to YYYY-MM-DD format"""
+                if not date_str:
+                    return None
+                try:
+                    if isinstance(date_str, str) and 'T' in date_str:
+                        dt = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+                        return dt.strftime('%Y-%m-%d')
+                    elif isinstance(date_str, str) and len(date_str) == 10:
+                        return date_str
+                    else:
+                        return str(date_str)[:10]
+                except:
+                    return str(date_str)[:10] if date_str else None
+            
+            start_date_normalized = normalize_date(start_date)
+            end_date_normalized = normalize_date(end_date)
             
             # Try to extract JSON from response
+            logger.info(f"Attempting to extract JSON from response_text (first 500 chars): {response_text[:500]}")
             itinerary_json = self._extract_json_from_response(response_text)
+            logger.info(f"Extracted itinerary_json keys: {list(itinerary_json.keys()) if isinstance(itinerary_json, dict) else 'Not a dict'}")
             
-            # Get weather forecast
-            weather_data = get_weather_forecast(location, start_date, end_date)
+            # Get weather forecast (use normalized dates)
+            weather_data = get_weather_forecast(location, start_date_normalized or start_date, end_date_normalized or end_date)
             
             return {
                 "itinerary": itinerary_json,
@@ -256,6 +356,11 @@ Format your response as a detailed JSON structure matching this schema:
         Extract JSON from agent response (may be wrapped in markdown or text)
         """
         try:
+            # Ensure response_text is a string
+            if not isinstance(response_text, str):
+                logger.warning(f"response_text is not a string in _extract_json_from_response, type: {type(response_text)}")
+                response_text = str(response_text)
+            
             # Try to find JSON in the response
             if "```json" in response_text:
                 json_str = response_text.split("```json")[1].split("```")[0].strip()
@@ -270,10 +375,94 @@ Format your response as a detailed JSON structure matching this schema:
                 else:
                     json_str = response_text
             
-            return json.loads(json_str)
-        except json.JSONDecodeError as e:
+            # Clean up common JSON issues from LLM output
+            import re
+            # Fix unquoted numeric values with temperature units
+            # The issue: "high": 48°F, needs to become "high": "48°F",
+            # First, let's find and fix temperature values more aggressively
+            # Pattern: Match any number followed by any degree symbol (various Unicode) and F/C
+            # Match: colon, whitespace, number, degree symbol (any variant), F or C, then comma or closing brace
+            # Use a more permissive pattern that handles various degree symbols
+            degree_symbols = r'[°º\u00B0\u02DA\u2218]'  # Various degree symbol Unicode variants
+            json_str = re.sub(
+                rf':\s*(\d+(?:\.\d+)?)({degree_symbols})([CF])(?=\s*[,}}])',
+                r': "\1\2\3"',
+                json_str,
+                flags=re.UNICODE
+            )
+            # Also handle cases without degree symbol: numberF or numberC
+            json_str = re.sub(
+                r':\s*(\d+(?:\.\d+)?)([CF])(?=\s*[,}])',
+                r': "\1\2"',
+                json_str
+            )
+            
+            # Log cleaned JSON for debugging
+            logger.info(f"Cleaned JSON (first 1000 chars): {json_str[:1000]}")
+            # Check if temperature values are still unquoted (check for pattern without quotes)
+            if re.search(r':\s*\d+[°º\u00B0\u02DA\u2218]?[CF](?=\s*[,}])', json_str):
+                logger.warning(f"Temperature values may still be unquoted! Checking snippet: {json_str[200:600]}")
+            
+            # Try to parse JSON
+            try:
+                parsed = json.loads(json_str)
+                
+                # Map LLM output structure to our expected structure
+                # LLM might return different keys, so we need to map them
+                result = {
+                    "days": [],
+                    "restaurants": [],
+                    "packingChecklist": []
+                }
+                
+                # Extract days if present
+                if "days" in parsed:
+                    result["days"] = parsed["days"]
+                elif "itinerary" in parsed and "days" in parsed["itinerary"]:
+                    result["days"] = parsed["itinerary"]["days"]
+                
+                # Extract restaurants if present
+                if "restaurants" in parsed:
+                    result["restaurants"] = parsed["restaurants"]
+                elif "itinerary" in parsed and "restaurants" in parsed["itinerary"]:
+                    result["restaurants"] = parsed["itinerary"]["restaurants"]
+                
+                # Extract packing checklist if present
+                if "packingChecklist" in parsed:
+                    result["packingChecklist"] = parsed["packingChecklist"]
+                elif "packing" in parsed:
+                    result["packingChecklist"] = parsed["packing"]
+                elif "itinerary" in parsed and "packingChecklist" in parsed["itinerary"]:
+                    result["packingChecklist"] = parsed["itinerary"]["packingChecklist"]
+                
+                return result
+                
+            except json.JSONDecodeError as parse_error:
+                logger.warning(f"JSON parse error after cleanup, trying to fix: {parse_error}")
+                # Try a more aggressive cleanup
+                # Remove any text before first { and after last }
+                start = json_str.find('{')
+                end = json_str.rfind('}') + 1
+                if start >= 0 and end > start:
+                    json_str = json_str[start:end]
+                
+                # Try parsing again
+                try:
+                    parsed = json.loads(json_str)
+                    # Map structure as above
+                    result = {
+                        "days": parsed.get("days", []),
+                        "restaurants": parsed.get("restaurants", []),
+                        "packingChecklist": parsed.get("packingChecklist", [])
+                    }
+                    return result
+                except:
+                    logger.error(f"Failed to parse JSON even after aggressive cleanup")
+                    raise parse_error
+                    
+        except Exception as e:
             logger.error(f"Error parsing JSON from response: {e}")
-            logger.error(f"Response text: {response_text[:500]}")
+            logger.error(f"Response text (first 1000 chars): {response_text[:1000]}")
             # Return empty structure
             return {
                 "days": [],

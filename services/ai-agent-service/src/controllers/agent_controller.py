@@ -122,12 +122,34 @@ async def generate_itinerary(request: GenerateItineraryRequest) -> ItineraryResp
             if extracted.get("dietaryFilters"):
                 preferences_dict["dietaryFilters"] = list(set(preferences_dict["dietaryFilters"] + extracted["dietaryFilters"]))
         
+        # Normalize date formats to YYYY-MM-DD for weather API
+        from datetime import datetime
+        def normalize_date(date_str):
+            """Convert ISO date string to YYYY-MM-DD format"""
+            if not date_str:
+                return None
+            try:
+                # Try parsing ISO format
+                if isinstance(date_str, str) and 'T' in date_str:
+                    dt = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+                    return dt.strftime('%Y-%m-%d')
+                # If already in YYYY-MM-DD format, return as is
+                elif isinstance(date_str, str) and len(date_str) == 10:
+                    return date_str
+                else:
+                    return str(date_str)[:10]  # Take first 10 chars
+            except:
+                return str(date_str)[:10] if date_str else None
+        
+        start_date_normalized = normalize_date(start_date)
+        end_date_normalized = normalize_date(end_date)
+        
         # Generate itinerary using AI agent
         agent = get_trip_agent()
         result = await agent.generate_itinerary(
             location=location_str,
-            start_date=start_date,
-            end_date=end_date,
+            start_date=start_date_normalized or start_date,
+            end_date=end_date_normalized or end_date,
             guests=guests,
             preferences=preferences_dict,
             booking_context=booking

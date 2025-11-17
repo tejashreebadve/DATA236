@@ -50,6 +50,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/property-uploads/, '/uploads'),
       },
+      // Proxy for AI agent service
+      '/api/ai-agent': {
+        target: 'http://localhost:3006',
+        changeOrigin: true,
+        rewrite: (path) => path,
+      },
     },
   },
 })

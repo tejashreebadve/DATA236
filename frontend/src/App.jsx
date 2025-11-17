@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Layout from './components/Layout/Layout'
+import { TripMateButton, TripMatePanel } from './components/TripMate'
 import Home from './pages/Home'
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register'
@@ -32,8 +33,18 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
 }
 
 function App() {
+  const { user } = useSelector((state) => state.auth)
+  
   return (
     <Layout>
+      {/* TripMate AI Assistant - Show on traveler pages or for non-logged-in users */}
+      {(user?.role === 'traveler' || !user) && (
+        <>
+          <TripMateButton />
+          <TripMatePanel />
+        </>
+      )}
+      
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />

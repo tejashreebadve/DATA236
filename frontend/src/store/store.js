@@ -4,6 +4,7 @@ import propertiesReducer from './slices/propertiesSlice'
 import bookingsReducer from './slices/bookingsSlice'
 import favoritesReducer from './slices/favoritesSlice'
 import profileReducer from './slices/profileSlice'
+import aiAgentReducer from './slices/aiAgentSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     bookings: bookingsReducer,
     favorites: favoritesReducer,
     profile: profileReducer,
+    aiAgent: aiAgentReducer,
   },
 })
 

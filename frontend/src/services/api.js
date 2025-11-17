@@ -160,5 +160,15 @@ export const bookingAPI = {
   getById: (id) => api.get(`/api/booking/${id}`),
 }
 
+// AI Agent API (TripMate)
+export const aiAgentAPI = {
+  chat: (message, context) => 
+    api.post('/api/ai-agent/chat', { message, context }),
+  generateItinerary: (data) => 
+    api.post('/api/ai-agent/generate-itinerary', data),
+  getTravelerBookings: (travelerId) => 
+    api.get(`/api/ai-agent/bookings/${travelerId}`),
+}
+
 export default api
 

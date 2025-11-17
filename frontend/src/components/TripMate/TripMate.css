@@ -1,0 +1,802 @@
+/* TripMate Floating Button */
+.trip-mate-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ff385c 0%, #e61e4d 100%);
+  color: white;
+  border: none;
+  border-radius: 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 56, 92, 0.4);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.trip-mate-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 56, 92, 0.5);
+}
+
+.trip-mate-button:active {
+  transform: translateY(0);
+}
+
+.trip-mate-button svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.trip-mate-button-text {
+  white-space: nowrap;
+}
+
+/* TripMate Panel Overlay */
+.trip-mate-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* TripMate Panel */
+.trip-mate-panel {
+  width: 100%;
+  max-width: 600px;
+  height: calc(100vh - 40px);
+  max-height: 90vh;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Header */
+.trip-mate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(135deg, #ff385c 0%, #e61e4d 100%);
+  color: white;
+}
+
+.trip-mate-header-content h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.trip-mate-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.trip-mate-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+}
+
+.trip-mate-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Content */
+.trip-mate-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 0; /* Important for flex scrolling */
+}
+
+/* Custom scrollbar for content */
+.trip-mate-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.trip-mate-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.trip-mate-content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.trip-mate-content::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Trip Selection */
+.trip-mate-trip-selection {
+  margin-bottom: 24px;
+}
+
+.trip-mate-trip-selection h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.trip-mate-bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom scrollbar for bookings list */
+.trip-mate-bookings-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.trip-mate-bookings-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.trip-mate-bookings-list::-webkit-scrollbar-thumb {
+  background: #ff385c;
+  border-radius: 10px;
+}
+
+.trip-mate-bookings-list::-webkit-scrollbar-thumb:hover {
+  background: #e61e4d;
+}
+
+.trip-mate-booking-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.trip-mate-booking-card:hover {
+  border-color: #ff385c;
+  background: #fff5f7;
+}
+
+.trip-mate-booking-card.selected {
+  border-color: #ff385c;
+  background: #fff5f7;
+}
+
+.trip-mate-booking-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.trip-mate-booking-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trip-mate-booking-info h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.trip-mate-booking-location {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.trip-mate-booking-dates {
+  margin: 0;
+  font-size: 13px;
+  color: #888;
+}
+
+.trip-mate-booking-status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+  width: fit-content;
+}
+
+.trip-mate-booking-status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.trip-mate-booking-status.accepted {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* Itinerary Section */
+.trip-mate-itinerary-section {
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  flex-shrink: 0; /* Don't shrink */
+}
+
+.trip-mate-itinerary-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.trip-mate-selected-trip {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+}
+
+.trip-mate-preferences-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 12px;
+}
+
+.trip-mate-generate-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ff385c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.trip-mate-generate-btn:hover:not(:disabled) {
+  background: #e61e4d;
+}
+
+.trip-mate-generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.trip-mate-itinerary-display {
+  margin-top: 16px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.trip-mate-itinerary-display h4 {
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  border-bottom: 2px solid #ff385c;
+  padding-bottom: 8px;
+}
+
+/* Days Section */
+.itinerary-days {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.itinerary-day-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  border-left: 4px solid #ff385c;
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day-header h5 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff385c;
+}
+
+.day-date {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.time-block-card {
+  margin-bottom: 16px;
+}
+
+.time-label {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.activity-card {
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #e0e0e0;
+  transition: box-shadow 0.2s;
+}
+
+.activity-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.activity-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.price-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left: 8px;
+}
+
+.price-badge.low {
+  background: #d4edda;
+  color: #155724;
+}
+
+.price-badge.medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.price-badge.high {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.price-badge.luxury {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.activity-address {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.activity-duration {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #888;
+}
+
+.activity-description {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.activity-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.tag {
+  padding: 4px 8px;
+  background: #e9ecef;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #495057;
+}
+
+.activity-features {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.feature-badge {
+  padding: 4px 8px;
+  background: #e7f3ff;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #0066cc;
+}
+
+/* Restaurants Section */
+.itinerary-restaurants {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.section-title {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.restaurant-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-left: 3px solid #ff385c;
+}
+
+.restaurant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.restaurant-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.restaurant-rating {
+  font-size: 14px;
+  color: #ffc107;
+  font-weight: 600;
+}
+
+.restaurant-cuisine {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.restaurant-address {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.restaurant-description {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.dietary-options {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+/* Packing Checklist Section */
+.itinerary-packing {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.packing-category {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.packing-category-title {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weather-badge {
+  padding: 2px 6px;
+  background: #e7f3ff;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #0066cc;
+  font-weight: 500;
+}
+
+.packing-items {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.packing-items li {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+  position: relative;
+}
+
+.packing-items li:before {
+  content: "✓";
+  position: absolute;
+  left: -18px;
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Chat Interface */
+.trip-mate-chat-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: auto; /* Push to bottom */
+}
+
+.trip-mate-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.trip-mate-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trip-mate-welcome {
+  text-align: center;
+  padding: 24px;
+  color: #666;
+}
+
+.trip-mate-welcome p {
+  margin: 8px 0;
+}
+
+.trip-mate-message {
+  display: flex;
+  max-width: 80%;
+}
+
+.trip-mate-message.user {
+  align-self: flex-end;
+}
+
+.trip-mate-message.assistant {
+  align-self: flex-start;
+}
+
+.trip-mate-message-content {
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.trip-mate-message.user .trip-mate-message-content {
+  background: #ff385c;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.trip-mate-message.assistant .trip-mate-message-content {
+  background: #f0f0f0;
+  color: #333;
+  border-bottom-left-radius: 4px;
+}
+
+.trip-mate-typing {
+  color: #888;
+  font-style: italic;
+}
+
+.trip-mate-chat-input {
+  display: flex;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.trip-mate-chat-input input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.trip-mate-chat-input input:focus {
+  outline: none;
+  border-color: #ff385c;
+}
+
+.trip-mate-chat-input button {
+  padding: 12px 24px;
+  background: #ff385c;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.trip-mate-chat-input button:hover:not(:disabled) {
+  background: #e61e4d;
+}
+
+.trip-mate-chat-input button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.trip-mate-empty-state {
+  text-align: center;
+  padding: 24px;
+  color: #666;
+}
+
+.trip-mate-empty-hint {
+  font-size: 13px;
+  color: #888;
+  margin-top: 8px;
+}
+
+/* Chat Messages */
+.trip-mate-sources {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 11px;
+}
+
+.trip-mate-sources ul {
+  margin: 4px 0 0 0;
+  padding-left: 16px;
+  list-style: none;
+}
+
+.trip-mate-sources li {
+  margin: 2px 0;
+}
+
+.trip-mate-sources a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: underline;
+}
+
+.trip-mate-message.assistant .trip-mate-sources {
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+.trip-mate-message.assistant .trip-mate-sources a {
+  color: #0066cc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .trip-mate-panel {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .trip-mate-overlay {
+    padding: 0;
+  }
+
+  .trip-mate-button {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
