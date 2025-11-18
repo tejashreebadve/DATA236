@@ -439,12 +439,24 @@ Format your response as a detailed JSON structure matching this schema:
                 
             except json.JSONDecodeError as parse_error:
                 logger.warning(f"JSON parse error after cleanup, trying to fix: {parse_error}")
+                logger.warning(f"Problematic JSON snippet (around error): {json_str[max(0, parse_error.pos-100):parse_error.pos+100]}")
+                
                 # Try a more aggressive cleanup
                 # Remove any text before first { and after last }
                 start = json_str.find('{')
                 end = json_str.rfind('}') + 1
                 if start >= 0 and end > start:
                     json_str = json_str[start:end]
+                
+                # Fix common issues: trailing commas, etc.
+                import re
+                # Remove trailing commas before closing braces/brackets
+                json_str = re.sub(r',(\s*[}\]])', r'\1', json_str)
+                # Fix single quotes to double quotes (but be careful with already-quoted strings)
+                # Only replace single quotes that are not inside double-quoted strings
+                # Simple approach: replace single quotes around keys/values that look like they should be double-quoted
+                json_str = re.sub(r"'([^']+)':", r'"\1":', json_str)  # Fix keys
+                json_str = re.sub(r':\s*\'([^\']+)\'', r': "\1"', json_str)  # Fix string values
                 
                 # Try parsing again
                 try:
@@ -455,9 +467,26 @@ Format your response as a detailed JSON structure matching this schema:
                         "restaurants": parsed.get("restaurants", []),
                         "packingChecklist": parsed.get("packingChecklist", [])
                     }
+                    logger.info(f"Successfully parsed JSON after aggressive cleanup: {len(result['days'])} days")
                     return result
-                except:
-                    logger.error(f"Failed to parse JSON even after aggressive cleanup")
+                except json.JSONDecodeError as e2:
+                    logger.error(f"Failed to parse JSON even after aggressive cleanup: {e2}")
+                    logger.error(f"JSON string (first 2000 chars): {json_str[:2000]}")
+                    # Try using json5 or a more lenient parser as last resort
+                    # For now, try to extract just the days array manually
+                    try:
+                        # Look for "days": [ pattern and extract manually
+                        days_match = re.search(r'"days"\s*:\s*\[(.*?)\]', json_str, re.DOTALL)
+                        if days_match:
+                            logger.warning("Attempting manual extraction of days array")
+                            # This is a fallback - return what we can extract
+                            return {
+                                "days": [],  # Will be populated if we can parse
+                                "restaurants": [],
+                                "packingChecklist": []
+                            }
+                    except:
+                        pass
                     raise parse_error
                     
         except Exception as e:

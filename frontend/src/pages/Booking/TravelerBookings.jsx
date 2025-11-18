@@ -27,7 +27,7 @@ const TravelerBookings = () => {
         if (!booking.propertyId) continue
         
         // If propertyId is an object (already populated), use it directly
-        if (typeof booking.propertyId === 'object' && booking.propertyId._id) {
+        if (typeof booking.propertyId === 'object' && booking.propertyId !== null && booking.propertyId._id) {
           const propId = booking.propertyId._id.toString()
           if (booking.propertyId.photos && booking.propertyId.photos.length > 0) {
             imageMap[propId] = getPropertyImageUrl(booking.propertyId.photos[0])
@@ -79,29 +79,29 @@ const TravelerBookings = () => {
 
   const getPropertyImage = (booking) => {
     // Check if propertyId is populated object
-    if (typeof booking.propertyId === 'object' && booking.propertyId.photos) {
+    if (typeof booking.propertyId === 'object' && booking.propertyId !== null && booking.propertyId.photos) {
       const photo = booking.propertyId.photos[0]
       return photo ? getPropertyImageUrl(photo) : null
     }
     // Check cached images (already converted to URLs in imageMap)
-    const propertyId = typeof booking.propertyId === 'object' 
+    const propertyId = typeof booking.propertyId === 'object' && booking.propertyId !== null
       ? booking.propertyId._id 
       : booking.propertyId
-    return propertyImages[propertyId] || null
+    return propertyId ? (propertyImages[propertyId] || null) : null
   }
 
   const getPropertyName = (booking) => {
-    if (typeof booking.propertyId === 'object' && booking.propertyId.name) {
+    if (typeof booking.propertyId === 'object' && booking.propertyId !== null && booking.propertyId.name) {
       return booking.propertyId.name
     }
     return booking.propertyId?.name || 'Property'
   }
 
   const getPropertyId = (booking) => {
-    if (typeof booking.propertyId === 'object') {
+    if (typeof booking.propertyId === 'object' && booking.propertyId !== null) {
       return booking.propertyId._id
     }
-    return booking.propertyId
+    return booking.propertyId || null
   }
 
   if (loading) return <div className="loading">Loading bookings...</div>

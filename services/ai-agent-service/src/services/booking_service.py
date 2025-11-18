@@ -20,10 +20,13 @@ async def get_traveler_bookings(traveler_id: str, status: Optional[str] = None) 
         if status:
             url += f"?status={status}"
         
+        logger.info(f"Fetching bookings from: {url}")
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.get(url)
+            logger.info(f"Booking service response status: {response.status_code}")
             response.raise_for_status()
             bookings = response.json()
+            logger.info(f"Received {len(bookings)} bookings from booking service")
             
             # Filter for future bookings only (accepted or pending)
             # Use UTC timezone-aware datetime for comparison
@@ -76,10 +79,14 @@ async def get_traveler_bookings(traveler_id: str, status: Optional[str] = None) 
             return future_bookings
             
     except httpx.HTTPError as e:
-        logger.error(f"Error fetching bookings from booking-service: {e}")
+        logger.error(f"HTTP error fetching bookings from booking-service: {e}")
+        logger.error(f"URL was: {url}")
+        if hasattr(e, 'response') and e.response is not None:
+            logger.error(f"Response status: {e.response.status_code}")
+            logger.error(f"Response text: {e.response.text[:500]}")
         raise
     except Exception as e:
-        logger.error(f"Unexpected error fetching bookings: {e}")
+        logger.error(f"Unexpected error fetching bookings: {e}", exc_info=True)
         raise
 
 

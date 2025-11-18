@@ -61,8 +61,8 @@ async def get_traveler_upcoming_bookings(traveler_id: str) -> List[Dict]:
         return enriched_bookings
         
     except Exception as e:
-        logger.error(f"Error getting traveler bookings: {e}")
-        raise HTTPException(status_code=500, detail="Failed to fetch bookings")
+        logger.error(f"Error getting traveler bookings: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to fetch bookings: {str(e)}")
 
 
 async def generate_itinerary(request: GenerateItineraryRequest) -> ItineraryResponse:
@@ -155,7 +155,18 @@ async def generate_itinerary(request: GenerateItineraryRequest) -> ItineraryResp
             booking_context=booking
         )
         
-        return ItineraryResponse(**result)
+        logger.info(f"Generated itinerary result keys: {list(result.keys()) if isinstance(result, dict) else 'Not a dict'}")
+        logger.info(f"Itinerary days count: {len(result.get('itinerary', {}).get('days', [])) if isinstance(result.get('itinerary'), dict) else 0}")
+        
+        try:
+            response = ItineraryResponse(**result)
+            logger.info(f"Successfully created ItineraryResponse with {len(response.itinerary.days)} days")
+            return response
+        except Exception as e:
+            logger.error(f"Error creating ItineraryResponse: {e}", exc_info=True)
+            logger.error(f"Result structure: {result}")
+            # Return the result as-is if validation fails (let FastAPI handle it)
+            raise HTTPException(status_code=500, detail=f"Failed to validate itinerary response: {str(e)}")
         
     except HTTPException:
         raise

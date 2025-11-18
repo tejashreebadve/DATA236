@@ -15,7 +15,7 @@ import './TripMate.css'
 
 const TripMatePanel = () => {
   const dispatch = useDispatch()
-  const { isOpen, selectedBookingId, chatMessages, chatLoading, itinerary, itineraryLoading, bookings, bookingsLoading, bookingsError } = useSelector((state) => state.aiAgent)
+  const { isOpen, selectedBookingId, chatMessages, chatLoading, itinerary, itineraryLoading, itineraryError, bookings, bookingsLoading, bookingsError } = useSelector((state) => state.aiAgent)
   const { isAuthenticated, user } = useSelector((state) => state.auth)
   const { traveler } = useSelector((state) => state.profile)
   
@@ -133,12 +133,18 @@ const TripMatePanel = () => {
     }
 
     try {
-      await dispatch(generateItinerary({
+      const result = await dispatch(generateItinerary({
         bookingId: selectedBookingId,
         preferences: {
           naturalLanguageInput: itineraryPreferences.trim(),
         },
       }))
+      console.log('✅ Itinerary generation result:', result)
+      if (result.type === 'aiAgent/generateItinerary/fulfilled') {
+        console.log('✅ Itinerary payload:', result.payload)
+      } else if (result.type === 'aiAgent/generateItinerary/rejected') {
+        console.error('❌ Itinerary generation failed:', result.error)
+      }
     } catch (error) {
       console.error('Error generating itinerary:', error)
     }
@@ -263,9 +269,28 @@ const TripMatePanel = () => {
                 {itineraryLoading ? 'Generating...' : 'Generate Itinerary'}
               </button>
 
-              {itinerary && (
+              {itineraryLoading && (
+                <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+                  Generating your personalized itinerary...
+                </div>
+              )}
+
+              {itineraryError && (
+                <div className="trip-mate-error" style={{ color: 'red', padding: '10px', margin: '10px 0', background: '#ffe6e6', borderRadius: '4px' }}>
+                  <strong>Error:</strong> {itineraryError}
+                </div>
+              )}
+              
+              {itinerary && !itineraryLoading && (
                 <div className="trip-mate-itinerary-display">
                   <h4>Your Itinerary</h4>
+                  {console.log('🔍 Rendering itinerary:', itinerary)}
+                  {console.log('🔍 Itinerary structure:', {
+                    hasItinerary: !!itinerary.itinerary,
+                    hasDays: !!itinerary.days,
+                    hasItineraryDays: !!itinerary.itinerary?.days,
+                    daysLength: itinerary.days?.length || itinerary.itinerary?.days?.length || 0
+                  })}
                   
                   {/* Days - handle both itinerary.itinerary.days and itinerary.days */}
                   {((itinerary.itinerary?.days && itinerary.itinerary.days.length > 0) || 

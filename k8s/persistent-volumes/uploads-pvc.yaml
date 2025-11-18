@@ -9,7 +9,7 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: standard
+  storageClassName: hostpath
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -22,7 +22,7 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: standard
+  storageClassName: hostpath
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -35,5 +35,5 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  storageClassName: standard
+  storageClassName: hostpath
 

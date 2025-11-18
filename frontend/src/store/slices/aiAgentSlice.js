@@ -143,7 +143,19 @@ const aiAgentSlice = createSlice({
       })
       .addCase(generateItinerary.fulfilled, (state, action) => {
         state.itineraryLoading = false
-        state.itinerary = action.payload
+        console.log('📦 Redux: Setting itinerary payload:', action.payload)
+        // Handle different response structures
+        if (action.payload?.itinerary) {
+          // Response has nested itinerary object
+          state.itinerary = action.payload
+        } else if (action.payload?.days || action.payload?.restaurants || action.payload?.packingChecklist) {
+          // Response is the itinerary object directly
+          state.itinerary = { itinerary: action.payload }
+        } else {
+          // Use payload as-is
+          state.itinerary = action.payload
+        }
+        console.log('📦 Redux: Final itinerary state:', state.itinerary)
       })
       .addCase(generateItinerary.rejected, (state, action) => {
         state.itineraryLoading = false
