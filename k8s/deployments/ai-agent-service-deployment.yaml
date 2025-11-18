@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-agent-service
+  namespace: rednest
+  labels:
+    app: ai-agent-service
+    service: ai-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-agent-service
+  template:
+    metadata:
+      labels:
+        app: ai-agent-service
+    spec:
+      containers:
+      - name: ai-agent-service
+        image: rednest-ai-agent-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3006
+          name: http
+        env:
+        - name: PORT
+          value: "3006"
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: node-env
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: rednest-secrets
+              key: mongodb-uri
+        - name: BOOKING_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: booking-service-url
+        - name: PROPERTY_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: property-service-url
+        - name: TRAVELER_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: traveler-service-url
+        - name: ANTHROPIC_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: rednest-secrets
+              key: anthropic-api-key
+        - name: TAVILY_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: rednest-secrets
+              key: tavily-api-key
+        - name: CORS_ORIGIN
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: cors-origin
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3006
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3006
+          initialDelaySeconds: 30
+          periodSeconds: 10
+

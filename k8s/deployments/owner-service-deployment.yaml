@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: owner-service
+  namespace: rednest
+  labels:
+    app: owner-service
+    service: owner
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: owner-service
+  template:
+    metadata:
+      labels:
+        app: owner-service
+    spec:
+      containers:
+      - name: owner-service
+        image: rednest-owner-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3003
+          name: http
+        env:
+        - name: PORT
+          value: "3003"
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: node-env
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: rednest-secrets
+              key: mongodb-uri
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: rednest-secrets
+              key: jwt-secret
+        - name: BOOKING_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: booking-service-url
+        - name: PROPERTY_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: property-service-url
+        - name: KAFKA_BROKERS
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: kafka-brokers
+        - name: CORS_ORIGIN
+          valueFrom:
+            configMapKeyRef:
+              name: rednest-config
+              key: cors-origin
+        volumeMounts:
+        - name: owner-uploads
+          mountPath: /app/uploads
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3003
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3003
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: owner-uploads
+        persistentVolumeClaim:
+          claimName: owner-uploads-pvc
+

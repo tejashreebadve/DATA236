@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rednest-config
+  namespace: rednest
+data:
+  # Common Configuration
+  node-env: "production"
+  cors-origin: "http://localhost:3000"
+  
+  # JWT Configuration
+  jwt-expires-in: "24h"
+  jwt-refresh-expires-in: "7d"
+  
+  # Service URLs (for inter-service communication)
+  auth-service-url: "http://auth-service:3001"
+  booking-service-url: "http://booking-service:3005"
+  property-service-url: "http://property-service:3004"
+  traveler-service-url: "http://traveler-service:3002"
+  owner-service-url: "http://owner-service:3003"
+  ai-agent-service-url: "http://ai-agent-service:3006"
+  
+  # Kafka Configuration
+  kafka-brokers: "kafka-service:9092"
+  
+  # Ports
+  auth-service-port: "3001"
+  traveler-service-port: "3002"
+  owner-service-port: "3003"
+  property-service-port: "3004"
+  booking-service-port: "3005"
+  ai-agent-service-port: "3006"
+
