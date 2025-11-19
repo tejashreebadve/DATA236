@@ -296,15 +296,7 @@ const TripMatePanel = () => {
                     return null
                   })()}
                   
-                  {/* Debug: Always show raw data for troubleshooting */}
-                  <details style={{ marginBottom: '20px', padding: '10px', background: '#f8f9fa', borderRadius: '4px' }}>
-                    <summary style={{ cursor: 'pointer', color: '#666', fontSize: '14px' }}>🔍 Debug: View raw itinerary data</summary>
-                    <pre style={{ background: '#fff', padding: '10px', marginTop: '10px', overflow: 'auto', fontSize: '11px', maxHeight: '300px', border: '1px solid #ddd' }}>
-                      {JSON.stringify(itinerary, null, 2)}
-                    </pre>
-                  </details>
-                  
-                  {/* Debug: Show raw itinerary if empty */}
+                  {/* Show warning if itinerary appears empty */}
                   {(!itinerary.itinerary?.days?.length && !itinerary.days?.length && 
                     !itinerary.itinerary?.restaurants?.length && !itinerary.restaurants?.length &&
                     !itinerary.itinerary?.packingChecklist?.length && !itinerary.packingChecklist?.length) && (
@@ -312,7 +304,7 @@ const TripMatePanel = () => {
                       <p><strong>⚠️ Itinerary received but appears empty.</strong></p>
                       <p style={{ fontSize: '14px', color: '#856404', marginTop: '10px' }}>
                         The API returned data, but no days, restaurants, or packing checklist were found. 
-                        Check the debug section above to see the actual data structure.
+                        Please try generating the itinerary again.
                       </p>
                     </div>
                   )}
