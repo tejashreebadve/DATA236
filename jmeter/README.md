@@ -1,136 +1,175 @@
-# JMeter Load Testing for RedNest
+# RedNest JMeter Load Testing
 
-This directory contains JMeter test plans for load testing RedNest microservices.
+This directory contains JMeter test plans and scripts for load testing the RedNest application.
+
+## Files
+
+- `rednest-load-test.jmx` - Main load test plan (Property Search API)
+- `rednest-final-test.jmx` - Comprehensive test plan (Auth + Property + Booking)
+- `run-all-tests.sh` - Script to run tests for 100, 200, 300, 400, 500 users
+- `generate-graphs.sh` - Script to generate performance graphs from results
+- `generate-analysis.sh` - Script to generate analysis report template
 
 ## Prerequisites
 
-1. Install Apache JMeter: https://jmeter.apache.org/download_jmeter.cgi
-2. Ensure all services are running (Docker or Kubernetes)
-3. Update the `host` variable in each test plan to match your deployment
+1. **Apache JMeter** (5.6+)
+   ```bash
+   # macOS
+   brew install jmeter
+   
+   # Or download from: https://jmeter.apache.org/download_jmeter.cgi
+   ```
+
+2. **Python 3** (for graph generation)
+   ```bash
+   pip3 install matplotlib pandas
+   ```
+
+3. **RedNest Services Running**
+   - Ensure all services are running on localhost (or update host/ports in scripts)
+   - Auth Service: port 3001
+   - Property Service: port 3004
+   - Booking Service: port 3005
+
+## Quick Start
+
+### 1. Run All Load Tests
+
+```bash
+cd jmeter
+./run-all-tests.sh
+```
+
+This will:
+- Run tests for 100, 200, 300, 400, and 500 concurrent users
+- Generate HTML reports for each test
+- Save results in `results/` directory
+
+### 2. Generate Graphs
+
+```bash
+./generate-graphs.sh
+```
+
+This will:
+- Parse all test results
+- Generate performance graphs (Response Time, Throughput, Error Rate)
+- Save graphs to `graphs/performance-analysis.png`
+- Save data to `graphs/performance-data.json`
+
+### 3. Generate Analysis Report
+
+```bash
+./generate-analysis.sh
+```
+
+This will:
+- Create an analysis report template
+- Save to `analysis/performance-analysis-<timestamp>.md`
+
+## Manual Test Execution
+
+### Run Single Test
+
+```bash
+# Test with 100 users, 30s ramp-up
+jmeter -n -t rednest-load-test.jmx \
+  -Jusers=100 \
+  -Jrampup=30 \
+  -l results/100-users/results.jtl \
+  -e -o results/100-users/report/
+```
+
+### View Results
+
+1. **HTML Report**: Open `results/<user-count>/report-*/index.html` in a browser
+2. **JTL File**: Raw results in CSV format at `results/<user-count>/results-*.jtl`
 
 ## Test Plans
 
-### 1. Authentication Test Plan (`auth-test-plan.jmx`)
-- Tests user registration (traveler and owner)
-- Tests login endpoints
-- Tests token verification
-- Simulates concurrent user authentication
+### rednest-load-test.jmx
+- **Focus**: Property Search API
+- **Endpoints**: GET /api/property/search
+- **Use Case**: High-volume read operations
+- **Status**: ✅ Working
 
-### 2. Property Test Plan (`property-test-plan.jmx`)
-- Tests property search
-- Tests property fetching by ID
-- Tests property creation (requires owner authentication)
-- Simulates concurrent property browsing
+### rednest-final-test.jmx
+- **Focus**: Full user flow
+- **Endpoints**: 
+  - POST /api/auth/register/traveler
+  - POST /api/auth/login/traveler
+  - GET /api/property/search
+  - POST /api/booking
+- **Use Case**: Complete booking flow
+- **Status**: ⚠️ Auth endpoints need test user setup
 
-### 3. Booking Flow Test Plan (`booking-test-plan.jmx`)
-- Tests booking creation (traveler)
-- Tests booking acceptance/cancellation (owner)
-- Simulates concurrent booking requests
-- Tests Kafka integration flow
+## Results Structure
 
-### 4. Load Test Scripts
-- `load-test-100-users.sh` - 100 concurrent users
-- `load-test-200-users.sh` - 200 concurrent users
-- `load-test-300-users.sh` - 300 concurrent users
-- `load-test-400-users.sh` - 400 concurrent users
-- `load-test-500-users.sh` - 500 concurrent users
-
-## Running Tests
-
-### Manual Execution
-
-1. Open JMeter GUI:
-   ```bash
-   jmeter
-   ```
-
-2. Load a test plan:
-   - File → Open → Select `.jmx` file
-
-3. Configure:
-   - Update `host` variable (default: `localhost`)
-   - Update port numbers if needed
-   - Adjust thread counts for concurrent users
-
-4. Run test:
-   - Click green "Play" button
-   - View results in "View Results Tree" or "Summary Report"
-
-### Command Line Execution
-
-```bash
-# Run a test plan
-jmeter -n -t auth-test-plan.jmx -l results/auth-results.jtl -e -o results/auth-report/
-
-# Run with specific number of users
-jmeter -n -t property-test-plan.jmx -l results/property-results.jtl -e -o results/property-report/ -Jusers=200
+```
+results/
+├── 100-users/
+│   ├── results-<timestamp>.jtl
+│   ├── report-<timestamp>/
+│   │   └── index.html
+│   └── jmeter.log
+├── 200-users/
+│   └── ...
+└── ...
 ```
 
-### Using Load Test Scripts
+## Performance Metrics
 
+The tests measure:
+- **Response Time**: Average and 95th percentile
+- **Throughput**: Requests per second (RPS)
+- **Error Rate**: Percentage of failed requests
+- **Latency**: Time to first byte
+- **Connect Time**: Time to establish connection
+
+## Graph Generation
+
+The `generate-graphs.sh` script creates 4 graphs:
+
+1. **Response Time vs Concurrent Users**
+   - Shows average and 95th percentile response times
+   
+2. **Throughput vs Concurrent Users**
+   - Shows requests per second at different load levels
+   
+3. **Error Rate vs Concurrent Users**
+   - Shows percentage of errors at different load levels
+   
+4. **Performance Overview**
+   - Combined view of response time and throughput
+
+## Troubleshooting
+
+### JMeter Out of Memory
 ```bash
-# Make scripts executable
-chmod +x load-test-*.sh
-
-# Run a specific load test
-./load-test-100-users.sh
+export HEAP="-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m"
+jmeter -n -t rednest-load-test.jmx ...
 ```
 
-## Results Analysis
+### Connection Refused
+- Verify services are running: `curl http://localhost:3004/api/property/search`
+- Check ports in test plan match your service ports
 
-After running tests, JMeter generates:
-- `.jtl` files: Raw test results
-- HTML reports: Detailed analysis (if `-e -o` flags used)
+### No Results in Report
+- Check JMeter log: `results/<user-count>/jmeter.log`
+- Verify test completed successfully
+- Check if services responded correctly
 
-### Key Metrics to Analyze
+## Next Steps
 
-1. **Response Time**:
-   - Average response time
-   - Median response time
-   - 90th/95th/99th percentile
-
-2. **Throughput**:
-   - Requests per second
-   - Transactions per second
-
-3. **Error Rate**:
-   - Percentage of failed requests
-   - Error types and frequencies
-
-4. **Resource Utilization**:
-   - CPU usage
-   - Memory usage
-   - Network I/O
-
-## Test Scenarios
-
-### Scenario 1: Light Load (100 users)
-- Expected: All requests should succeed
-- Response time: < 500ms average
-- Error rate: < 1%
-
-### Scenario 2: Medium Load (200-300 users)
-- Expected: Most requests succeed
-- Response time: < 1000ms average
-- Error rate: < 5%
-
-### Scenario 3: Heavy Load (400-500 users)
-- Expected: Some degradation acceptable
-- Response time: < 2000ms average
-- Error rate: < 10%
-
-## Generating Reports
-
-```bash
-# Generate HTML report from existing results
-jmeter -g results/auth-results.jtl -o results/auth-report/
-```
+1. ✅ Run all load tests (100-500 users)
+2. ✅ Generate graphs
+3. ✅ Review HTML reports
+4. ✅ Fill in analysis report with findings
+5. ✅ Identify bottlenecks and optimization opportunities
 
 ## Notes
 
-- Update host/port in test plans before running
-- Ensure services are running and accessible
-- Start with lower user counts and gradually increase
-- Monitor system resources during tests
-- Kafka topics should be created before running booking tests
-
+- Tests use hardcoded `localhost` - update for different environments
+- Property search test works without authentication
+- For auth/booking tests, ensure test users exist or modify test plan
+- Ramp-up times: 30s (100), 60s (200), 90s (300), 120s (400), 150s (500)

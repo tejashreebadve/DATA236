@@ -144,18 +144,30 @@ const aiAgentSlice = createSlice({
       .addCase(generateItinerary.fulfilled, (state, action) => {
         state.itineraryLoading = false
         console.log('📦 Redux: Setting itinerary payload:', action.payload)
-        // Handle different response structures
-        if (action.payload?.itinerary) {
-          // Response has nested itinerary object
-          state.itinerary = action.payload
-        } else if (action.payload?.days || action.payload?.restaurants || action.payload?.packingChecklist) {
-          // Response is the itinerary object directly
-          state.itinerary = { itinerary: action.payload }
+        console.log('📦 Redux: Payload type:', typeof action.payload)
+        console.log('📦 Redux: Payload keys:', action.payload ? Object.keys(action.payload) : 'null')
+        
+        // API returns: { itinerary: { days: [], restaurants: [], packingChecklist: [] }, metadata: {} }
+        // Store it exactly as received - don't double-wrap
+        if (action.payload) {
+          // If payload already has itinerary property, use it as-is
+          if (action.payload.itinerary && typeof action.payload.itinerary === 'object') {
+            state.itinerary = action.payload
+          } 
+          // If payload has days/restaurants/packingChecklist directly (shouldn't happen, but handle it)
+          else if (action.payload.days || action.payload.restaurants || action.payload.packingChecklist) {
+            state.itinerary = { itinerary: action.payload }
+          }
+          // Otherwise use payload as-is
+          else {
+            state.itinerary = action.payload
+          }
         } else {
-          // Use payload as-is
-          state.itinerary = action.payload
+          state.itinerary = null
         }
+        
         console.log('📦 Redux: Final itinerary state:', state.itinerary)
+        console.log('📦 Redux: Days count:', state.itinerary?.itinerary?.days?.length || state.itinerary?.days?.length || 0)
       })
       .addCase(generateItinerary.rejected, (state, action) => {
         state.itineraryLoading = false

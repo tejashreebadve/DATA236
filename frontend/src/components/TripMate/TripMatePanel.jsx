@@ -284,13 +284,38 @@ const TripMatePanel = () => {
               {itinerary && !itineraryLoading && (
                 <div className="trip-mate-itinerary-display">
                   <h4>Your Itinerary</h4>
-                  {console.log('🔍 Rendering itinerary:', itinerary)}
-                  {console.log('🔍 Itinerary structure:', {
-                    hasItinerary: !!itinerary.itinerary,
-                    hasDays: !!itinerary.days,
-                    hasItineraryDays: !!itinerary.itinerary?.days,
-                    daysLength: itinerary.days?.length || itinerary.itinerary?.days?.length || 0
-                  })}
+                  {(() => {
+                    console.log('🔍 Rendering itinerary:', itinerary)
+                    console.log('🔍 Itinerary structure:', {
+                      hasItinerary: !!itinerary.itinerary,
+                      hasDays: !!itinerary.days,
+                      hasItineraryDays: !!itinerary.itinerary?.days,
+                      daysLength: itinerary.days?.length || itinerary.itinerary?.days?.length || 0,
+                      fullStructure: JSON.stringify(itinerary, null, 2)
+                    })
+                    return null
+                  })()}
+                  
+                  {/* Debug: Always show raw data for troubleshooting */}
+                  <details style={{ marginBottom: '20px', padding: '10px', background: '#f8f9fa', borderRadius: '4px' }}>
+                    <summary style={{ cursor: 'pointer', color: '#666', fontSize: '14px' }}>🔍 Debug: View raw itinerary data</summary>
+                    <pre style={{ background: '#fff', padding: '10px', marginTop: '10px', overflow: 'auto', fontSize: '11px', maxHeight: '300px', border: '1px solid #ddd' }}>
+                      {JSON.stringify(itinerary, null, 2)}
+                    </pre>
+                  </details>
+                  
+                  {/* Debug: Show raw itinerary if empty */}
+                  {(!itinerary.itinerary?.days?.length && !itinerary.days?.length && 
+                    !itinerary.itinerary?.restaurants?.length && !itinerary.restaurants?.length &&
+                    !itinerary.itinerary?.packingChecklist?.length && !itinerary.packingChecklist?.length) && (
+                    <div style={{ padding: '20px', background: '#fff3cd', borderRadius: '8px', margin: '10px 0', border: '2px solid #ffc107' }}>
+                      <p><strong>⚠️ Itinerary received but appears empty.</strong></p>
+                      <p style={{ fontSize: '14px', color: '#856404', marginTop: '10px' }}>
+                        The API returned data, but no days, restaurants, or packing checklist were found. 
+                        Check the debug section above to see the actual data structure.
+                      </p>
+                    </div>
+                  )}
                   
                   {/* Days - handle both itinerary.itinerary.days and itinerary.days */}
                   {((itinerary.itinerary?.days && itinerary.itinerary.days.length > 0) || 
@@ -436,6 +461,24 @@ const TripMatePanel = () => {
                           </ul>
                         </div>
                       ))}
+                    </div>
+                  )}
+                  
+                  {/* Fallback: Show message if no content rendered */}
+                  {!((itinerary.itinerary?.days && itinerary.itinerary.days.length > 0) || 
+                      (itinerary.days && itinerary.days.length > 0) ||
+                      (itinerary.itinerary?.restaurants && itinerary.itinerary.restaurants.length > 0) ||
+                      (itinerary.restaurants && itinerary.restaurants.length > 0) ||
+                      (itinerary.itinerary?.packingChecklist && itinerary.itinerary.packingChecklist.length > 0) ||
+                      (itinerary.packingChecklist && itinerary.packingChecklist.length > 0)) && (
+                    <div style={{ padding: '20px', textAlign: 'center', color: '#666', background: '#f8f9fa', borderRadius: '8px' }}>
+                      <p>✅ Itinerary generated successfully!</p>
+                      <p style={{ fontSize: '14px', marginTop: '10px' }}>
+                        However, the itinerary appears to be empty. Please check the debug section above to see the raw data structure.
+                      </p>
+                      <p style={{ fontSize: '12px', marginTop: '10px', color: '#999' }}>
+                        If you see data in the debug section but nothing renders, there may be a data structure mismatch.
+                      </p>
                     </div>
                   )}
                 </div>

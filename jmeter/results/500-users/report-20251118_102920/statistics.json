@@ -1,0 +1,34 @@
+{
+  "Property Search" : {
+    "transaction" : "Property Search",
+    "sampleCount" : 500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 104.18200000000013,
+    "medianResTime" : 101.0,
+    "minResTime" : 83.0,
+    "maxResTime" : 592.0,
+    "pct1ResTime" : 113.0,
+    "pct2ResTime" : 116.0,
+    "pct3ResTime" : 168.95000000000005,
+    "throughput" : 3.3384745841929906,
+    "receivedKBytesPerSec" : 26.114434979868996,
+    "sentKBytesPerSec" : 0.4401309266270056
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 104.18200000000013,
+    "medianResTime" : 101.0,
+    "minResTime" : 83.0,
+    "maxResTime" : 592.0,
+    "pct1ResTime" : 113.0,
+    "pct2ResTime" : 116.0,
+    "pct3ResTime" : 168.95000000000005,
+    "throughput" : 3.3384745841929906,
+    "receivedKBytesPerSec" : 26.114434979868996,
+    "sentKBytesPerSec" : 0.4401309266270056
+  }
+}

@@ -1,0 +1,16 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1763496579233,218,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-1,text,true,,1597,259,1,1,http://localhost:3001/api/auth/login/traveler,215,0,7
+1763496579453,95,2. Property Search,200,OK,Combined Load Test Thread Group 1-1,text,true,,8010,135,1,1,http://localhost:3004/api/property/search,95,0,0
+1763496579872,162,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-2,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,162,0,0
+1763496580035,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-2,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,88,0,1
+1763496579559,618,3. Create Booking,201,Created,Combined Load Test Thread Group 1-1,text,true,,1348,608,2,2,http://localhost:3005/api/booking,618,0,274
+1763496580178,165,4. Login Owner,200,OK,Combined Load Test Thread Group 1-1,text,true,,1576,253,2,2,http://localhost:3001/api/auth/login/owner,165,0,0
+1763496580345,89,5. Owner Accept Booking,200,OK,Combined Load Test Thread Group 1-1,text,true,,1344,490,2,2,http://localhost:3005/api/booking/691cd284eaaec6ae095cbcbc/status,89,0,0
+1763496580126,335,3. Create Booking,201,Created,Combined Load Test Thread Group 1-2,text,true,,1348,608,1,1,http://localhost:3005/api/booking,335,0,2
+1763496580462,166,4. Login Owner,200,OK,Combined Load Test Thread Group 1-2,text,true,,1576,253,2,2,http://localhost:3001/api/auth/login/owner,166,0,0
+1763496580629,88,5. Owner Accept Booking,200,OK,Combined Load Test Thread Group 1-2,text,true,,1344,490,2,2,http://localhost:3005/api/booking/691cd284eaaec6ae095cbcbf/status,88,0,0
+1763496580535,192,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-3,text,true,,1597,259,1,1,http://localhost:3001/api/auth/login/traveler,192,0,0
+1763496580728,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-3,text,true,,8010,135,1,1,http://localhost:3004/api/property/search,91,0,0
+1763496580820,343,3. Create Booking,201,Created,Combined Load Test Thread Group 1-3,text,true,,1348,608,1,1,http://localhost:3005/api/booking,342,0,1
+1763496581164,186,4. Login Owner,200,OK,Combined Load Test Thread Group 1-3,text,true,,1576,253,1,1,http://localhost:3001/api/auth/login/owner,186,0,0
+1763496581352,92,5. Owner Accept Booking,200,OK,Combined Load Test Thread Group 1-3,text,true,,1344,490,1,1,http://localhost:3005/api/booking/691cd285eaaec6ae095cbcc2/status,92,0,0

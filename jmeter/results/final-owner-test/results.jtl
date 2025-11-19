@@ -1,0 +1,13 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1763495212877,257,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-1,text,true,,1597,259,1,1,http://localhost:3001/api/auth/login/traveler,251,0,8
+1763495213140,94,2. Property Search,200,OK,Combined Load Test Thread Group 1-1,text,true,,8010,135,1,1,http://localhost:3004/api/property/search,94,0,0
+1763495213244,647,3. Create Booking,201,Created,Combined Load Test Thread Group 1-1,text,true,,1348,608,2,2,http://localhost:3005/api/booking,647,0,265
+1763495213853,179,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-2,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,179,0,1
+1763495214033,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-2,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,90,0,1
+1763495213893,239,4. Login Owner,200,OK,Combined Load Test Thread Group 1-1,text,true,,1576,253,2,2,http://localhost:3001/api/auth/login/owner,239,0,0
+1763495214132,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-1,text,false,,1065,402,2,2,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495214136,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-1,text,false,,1059,465,2,2,http://localhost:3005/api/booking//status,1,0,0
+1763495214124,759,3. Create Booking,201,Created,Combined Load Test Thread Group 1-2,text,true,,1348,608,1,1,http://localhost:3005/api/booking,759,0,0
+1763495214890,255,4. Login Owner,200,OK,Combined Load Test Thread Group 1-2,text,true,,1576,253,1,1,http://localhost:3001/api/auth/login/owner,255,0,0
+1763495215146,15,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-2,text,false,,1065,402,1,1,http://localhost:3005/api/booking/owner/?status=pending,15,0,0
+1763495215161,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-2,text,false,,1059,465,1,1,http://localhost:3005/api/booking//status,3,0,0

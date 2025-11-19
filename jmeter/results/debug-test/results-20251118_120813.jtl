@@ -1,0 +1,6 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1763496494405,216,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-1,text,true,,1597,259,1,1,http://localhost:3001/api/auth/login/traveler,213,0,8
+1763496494624,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-1,text,true,,8010,135,1,1,http://localhost:3004/api/property/search,93,0,0
+1763496494728,636,3. Create Booking,201,Created,Combined Load Test Thread Group 1-1,text,true,,1348,608,1,1,http://localhost:3005/api/booking,636,0,282
+1763496495365,175,4. Login Owner,200,OK,Combined Load Test Thread Group 1-1,text,true,,1576,253,1,1,http://localhost:3001/api/auth/login/owner,175,0,0
+1763496495541,2,5. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-1,text,false,,1059,465,1,1,http://localhost:3005/api/booking//status,2,0,0

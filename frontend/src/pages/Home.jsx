@@ -14,11 +14,7 @@ const Home = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth)
   const { items: favorites } = useSelector((state) => state.favorites)
 
-  // Show owner-specific homepage for owners
-  if (isAuthenticated && user?.role === 'owner') {
-    return <OwnerHome />
-  }
-
+  // ALL HOOKS MUST BE CALLED BEFORE ANY CONDITIONAL RETURNS
   const [searchFilters, setSearchFilters] = useState({
     location: '',
     startDate: '',
@@ -34,6 +30,11 @@ const Home = () => {
       dispatch(fetchFavorites())
     }
   }, [dispatch, isAuthenticated, user])
+
+  // Show owner-specific homepage for owners (AFTER all hooks)
+  if (isAuthenticated && user?.role === 'owner') {
+    return <OwnerHome />
+  }
 
   const handleSearchChange = (e) => {
     const { name, value } = e.target

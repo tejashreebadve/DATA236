@@ -1,0 +1,50 @@
+{
+  "Login Traveler" : {
+    "transaction" : "Login Traveler",
+    "sampleCount" : 10,
+    "errorCount" : 10,
+    "errorPct" : 100.0,
+    "meanResTime" : 91.30000000000001,
+    "medianResTime" : 90.5,
+    "minResTime" : 87.0,
+    "maxResTime" : 100.0,
+    "pct1ResTime" : 99.4,
+    "pct2ResTime" : 100.0,
+    "pct3ResTime" : 100.0,
+    "throughput" : 2.0665426741062203,
+    "receivedKBytesPerSec" : 2.1835929427567677,
+    "sentKBytesPerSec" : 0.5065451281256458
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 20,
+    "errorCount" : 19,
+    "errorPct" : 95.0,
+    "meanResTime" : 72.1,
+    "medianResTime" : 87.5,
+    "minResTime" : 11.0,
+    "maxResTime" : 325.0,
+    "pct1ResTime" : 99.4,
+    "pct2ResTime" : 313.74999999999983,
+    "pct3ResTime" : 325.0,
+    "throughput" : 4.091653027823241,
+    "receivedKBytesPerSec" : 4.651458290711948,
+    "sentKBytesPerSec" : 1.1493788998567922
+  },
+  "Register Traveler" : {
+    "transaction" : "Register Traveler",
+    "sampleCount" : 10,
+    "errorCount" : 9,
+    "errorPct" : 90.0,
+    "meanResTime" : 52.9,
+    "medianResTime" : 19.0,
+    "minResTime" : 11.0,
+    "maxResTime" : 325.0,
+    "pct1ResTime" : 297.30000000000007,
+    "pct2ResTime" : 325.0,
+    "pct3ResTime" : 325.0,
+    "throughput" : 2.0855057351407718,
+    "receivedKBytesPerSec" : 2.538044186652763,
+    "sentKBytesPerSec" : 0.6604780370177268
+  }
+}

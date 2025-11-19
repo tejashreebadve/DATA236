@@ -1,0 +1,1201 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1763495748328,198,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-1,text,true,,1597,259,1,1,http://localhost:3001/api/auth/login/traveler,195,0,8
+1763495748528,105,2. Property Search,200,OK,Combined Load Test Thread Group 1-1,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,105,0,0
+1763495748590,146,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-2,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,146,0,0
+1763495748737,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-2,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,86,0,0
+1763495748887,148,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-3,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,148,0,0
+1763495749035,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-3,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,86,0,1
+1763495748824,455,3. Create Booking,201,Created,Combined Load Test Thread Group 1-2,text,true,,1348,608,4,4,http://localhost:3005/api/booking,454,0,84
+1763495748644,642,3. Create Booking,201,Created,Combined Load Test Thread Group 1-1,text,true,,1348,608,4,4,http://localhost:3005/api/booking,642,0,264
+1763495749189,130,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-4,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,130,0,0
+1763495749320,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-4,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,86,0,1
+1763495749123,344,3. Create Booking,201,Created,Combined Load Test Thread Group 1-3,text,true,,1348,608,4,4,http://localhost:3005/api/booking,344,0,2
+1763495749279,217,4. Login Owner,200,OK,Combined Load Test Thread Group 1-2,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,217,0,0
+1763495749497,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-2,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495749500,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-2,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,2,0,0
+1763495749286,228,4. Login Owner,200,OK,Combined Load Test Thread Group 1-1,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,228,0,0
+1763495749514,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-1,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495749516,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-1,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495749467,233,4. Login Owner,200,OK,Combined Load Test Thread Group 1-3,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,233,0,0
+1763495749701,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-3,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495749704,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-3,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495749488,227,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-5,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,227,0,1
+1763495749408,350,3. Create Booking,201,Created,Combined Load Test Thread Group 1-4,text,true,,1348,608,2,2,http://localhost:3005/api/booking,350,0,2
+1763495749716,84,2. Property Search,200,OK,Combined Load Test Thread Group 1-5,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,84,0,0
+1763495749759,170,4. Login Owner,200,OK,Combined Load Test Thread Group 1-4,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,170,0,0
+1763495749929,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-4,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495749931,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-4,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495749790,226,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-6,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,226,0,0
+1763495750017,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-6,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,91,0,0
+1763495749801,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-5,text,true,,1348,608,3,3,http://localhost:3005/api/booking,340,0,0
+1763495750086,134,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-7,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,134,0,0
+1763495750221,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-7,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,0
+1763495750141,178,4. Login Owner,200,OK,Combined Load Test Thread Group 1-5,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,178,0,0
+1763495750319,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-5,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495750322,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-5,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495750108,336,3. Create Booking,201,Created,Combined Load Test Thread Group 1-6,text,true,,1348,608,3,3,http://localhost:3005/api/booking,336,0,1
+1763495750391,231,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-8,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,231,0,1
+1763495750311,344,3. Create Booking,201,Created,Combined Load Test Thread Group 1-7,text,true,,1348,608,3,3,http://localhost:3005/api/booking,344,0,0
+1763495750444,268,4. Login Owner,200,OK,Combined Load Test Thread Group 1-6,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,268,0,0
+1763495750713,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-6,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495750715,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-6,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495750623,110,2. Property Search,200,OK,Combined Load Test Thread Group 1-8,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,110,0,0
+1763495750656,244,4. Login Owner,200,OK,Combined Load Test Thread Group 1-7,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,244,0,0
+1763495750900,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-7,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495750904,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-7,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495750691,226,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-9,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,226,0,0
+1763495750918,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-9,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,0
+1763495750734,356,3. Create Booking,201,Created,Combined Load Test Thread Group 1-8,text,true,,1348,608,3,3,http://localhost:3005/api/booking,356,0,1
+1763495750987,147,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-10,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,147,0,1
+1763495751135,83,2. Property Search,200,OK,Combined Load Test Thread Group 1-10,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,83,0,1
+1763495751091,150,4. Login Owner,200,OK,Combined Load Test Thread Group 1-8,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,150,0,0
+1763495751242,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-8,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495751244,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-8,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495751008,352,3. Create Booking,201,Created,Combined Load Test Thread Group 1-9,text,true,,1348,608,3,3,http://localhost:3005/api/booking,352,0,1
+1763495751288,142,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-11,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,142,0,0
+1763495751431,94,2. Property Search,200,OK,Combined Load Test Thread Group 1-11,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,94,0,1
+1763495751360,176,4. Login Owner,200,OK,Combined Load Test Thread Group 1-9,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,176,0,0
+1763495751536,6,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-9,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,6,0,0
+1763495751542,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-9,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,3,0,0
+1763495751219,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-10,text,true,,1348,608,2,2,http://localhost:3005/api/booking,339,0,1
+1763495751560,953,4. Login Owner,200,OK,Combined Load Test Thread Group 1-10,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,953,0,0
+1763495751589,933,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-12,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,932,0,0
+1763495752514,22,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-10,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,22,0,0
+1763495752537,6,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-10,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,6,0,0
+1763495751526,1023,3. Create Booking,201,Created,Combined Load Test Thread Group 1-11,text,true,,1348,608,5,5,http://localhost:3005/api/booking,1022,0,1
+1763495752523,124,2. Property Search,200,OK,Combined Load Test Thread Group 1-12,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,124,0,1
+1763495751898,1123,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-13,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,1123,0,4
+1763495752650,372,3. Create Booking,201,Created,Combined Load Test Thread Group 1-12,text,true,,1348,608,6,6,http://localhost:3005/api/booking,372,0,12
+1763495752189,923,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-14,text,true,,1597,259,7,7,http://localhost:3001/api/auth/login/traveler,923,0,2
+1763495752488,626,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-15,text,true,,1597,259,7,7,http://localhost:3001/api/auth/login/traveler,626,0,1
+1763495752549,566,4. Login Owner,200,OK,Combined Load Test Thread Group 1-11,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,566,0,0
+1763495753116,5,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-11,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,5,0,0
+1763495753121,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-11,text,false,,1059,465,7,7,http://localhost:3005/api/booking//status,3,0,0
+1763495753022,103,2. Property Search,200,OK,Combined Load Test Thread Group 1-13,text,true,,8010,135,7,7,http://localhost:3004/api/property/search,103,0,0
+1763495753115,101,2. Property Search,200,OK,Combined Load Test Thread Group 1-15,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,101,0,0
+1763495753112,106,2. Property Search,200,OK,Combined Load Test Thread Group 1-14,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,106,0,1
+1763495752790,534,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-16,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,534,0,0
+1763495753325,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-16,text,true,,8010,135,7,7,http://localhost:3004/api/property/search,90,0,1
+1763495753091,334,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-17,text,true,,1597,259,7,7,http://localhost:3001/api/auth/login/traveler,334,0,1
+1763495753023,405,4. Login Owner,200,OK,Combined Load Test Thread Group 1-12,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,405,0,0
+1763495753429,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-12,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495753432,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-12,text,false,,1059,465,7,7,http://localhost:3005/api/booking//status,2,0,0
+1763495753126,345,3. Create Booking,201,Created,Combined Load Test Thread Group 1-13,text,true,,1348,608,6,6,http://localhost:3005/api/booking,345,0,1
+1763495753425,94,2. Property Search,200,OK,Combined Load Test Thread Group 1-17,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,94,0,1
+1763495753388,158,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-18,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,158,0,1
+1763495753219,335,3. Create Booking,201,Created,Combined Load Test Thread Group 1-14,text,true,,1348,608,6,6,http://localhost:3005/api/booking,335,0,0
+1763495753217,354,3. Create Booking,201,Created,Combined Load Test Thread Group 1-15,text,true,,1348,608,6,6,http://localhost:3005/api/booking,354,0,1
+1763495753546,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-18,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,87,0,1
+1763495753472,170,4. Login Owner,200,OK,Combined Load Test Thread Group 1-13,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,170,0,0
+1763495753642,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-13,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495753645,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-13,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,1,0,0
+1763495753416,345,3. Create Booking,201,Created,Combined Load Test Thread Group 1-16,text,true,,1348,608,6,6,http://localhost:3005/api/booking,345,0,1
+1763495753520,332,3. Create Booking,201,Created,Combined Load Test Thread Group 1-17,text,true,,1348,608,6,6,http://localhost:3005/api/booking,332,0,1
+1763495753572,325,4. Login Owner,200,OK,Combined Load Test Thread Group 1-15,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,325,0,0
+1763495753897,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-15,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495753899,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-15,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,2,0,0
+1763495753554,357,4. Login Owner,200,OK,Combined Load Test Thread Group 1-14,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,357,0,0
+1763495753912,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-14,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495753914,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-14,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,1,0,0
+1763495753634,330,3. Create Booking,201,Created,Combined Load Test Thread Group 1-18,text,true,,1348,608,4,4,http://localhost:3005/api/booking,330,0,1
+1763495753688,426,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-19,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,426,0,0
+1763495754115,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-19,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,91,0,1
+1763495753763,551,4. Login Owner,200,OK,Combined Load Test Thread Group 1-16,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,551,0,0
+1763495754315,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-16,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495754319,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-16,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,2,0,0
+1763495753852,545,4. Login Owner,200,OK,Combined Load Test Thread Group 1-17,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,545,0,0
+1763495754397,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-17,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495754400,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-17,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,1,0,0
+1763495753993,523,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-20,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,523,0,1
+1763495753965,554,4. Login Owner,200,OK,Combined Load Test Thread Group 1-18,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,554,0,0
+1763495754520,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-18,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495754523,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-18,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495754207,356,3. Create Booking,201,Created,Combined Load Test Thread Group 1-19,text,true,,1348,608,3,3,http://localhost:3005/api/booking,356,0,1
+1763495754517,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-20,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,93,0,1
+1763495754286,332,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-21,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,332,0,1
+1763495754619,85,2. Property Search,200,OK,Combined Load Test Thread Group 1-21,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,85,0,1
+1763495754564,247,4. Login Owner,200,OK,Combined Load Test Thread Group 1-19,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,247,0,0
+1763495754812,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-19,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495754814,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-19,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495754593,224,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-22,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,224,0,1
+1763495754817,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-22,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,90,0,1
+1763495754611,342,3. Create Booking,201,Created,Combined Load Test Thread Group 1-20,text,true,,1348,608,4,4,http://localhost:3005/api/booking,342,0,2
+1763495754893,142,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-23,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,142,0,1
+1763495754706,334,3. Create Booking,201,Created,Combined Load Test Thread Group 1-21,text,true,,1348,608,4,4,http://localhost:3005/api/booking,334,0,1
+1763495755036,83,2. Property Search,200,OK,Combined Load Test Thread Group 1-23,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,83,0,1
+1763495754954,241,4. Login Owner,200,OK,Combined Load Test Thread Group 1-20,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,241,0,0
+1763495755195,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-20,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495755197,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-20,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,1,0,0
+1763495754908,333,3. Create Booking,201,Created,Combined Load Test Thread Group 1-22,text,true,,1348,608,4,4,http://localhost:3005/api/booking,332,0,1
+1763495755041,201,4. Login Owner,200,OK,Combined Load Test Thread Group 1-21,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,201,0,0
+1763495755243,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-21,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495755246,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-21,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495755190,224,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-24,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,224,0,1
+1763495755120,366,3. Create Booking,201,Created,Combined Load Test Thread Group 1-23,text,true,,1348,608,3,3,http://localhost:3005/api/booking,366,0,1
+1763495755241,255,4. Login Owner,200,OK,Combined Load Test Thread Group 1-22,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,255,0,0
+1763495755497,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-22,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495755500,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-22,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495755415,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-24,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,93,0,0
+1763495755487,137,4. Login Owner,200,OK,Combined Load Test Thread Group 1-23,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,137,0,0
+1763495755625,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-23,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495755627,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-23,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495755487,151,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-25,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,151,0,1
+1763495755639,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-25,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,87,0,1
+1763495755508,336,3. Create Booking,201,Created,Combined Load Test Thread Group 1-24,text,true,,1348,608,3,3,http://localhost:3005/api/booking,336,0,1
+1763495755791,146,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-26,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,146,0,2
+1763495755938,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-26,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,1
+1763495755845,190,4. Login Owner,200,OK,Combined Load Test Thread Group 1-24,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,190,0,0
+1763495756035,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-24,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495756037,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-24,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495755727,337,3. Create Booking,201,Created,Combined Load Test Thread Group 1-25,text,true,,1348,608,2,2,http://localhost:3005/api/booking,337,0,2
+1763495756065,159,4. Login Owner,200,OK,Combined Load Test Thread Group 1-25,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,159,0,0
+1763495756224,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-25,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495756227,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-25,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495756089,157,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-27,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,157,0,1
+1763495756247,85,2. Property Search,200,OK,Combined Load Test Thread Group 1-27,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,85,0,1
+1763495756028,336,3. Create Booking,201,Created,Combined Load Test Thread Group 1-26,text,true,,1348,608,2,2,http://localhost:3005/api/booking,336,0,2
+1763495756365,155,4. Login Owner,200,OK,Combined Load Test Thread Group 1-26,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,155,0,0
+1763495756521,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-26,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495756523,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-26,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495756391,156,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-28,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,156,0,1
+1763495756548,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-28,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,89,0,1
+1763495756332,325,3. Create Booking,201,Created,Combined Load Test Thread Group 1-27,text,true,,1348,608,2,2,http://localhost:3005/api/booking,325,0,1
+1763495756658,161,4. Login Owner,200,OK,Combined Load Test Thread Group 1-27,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,161,0,0
+1763495756819,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-27,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495756821,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-27,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495756692,204,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-29,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,204,0,1
+1763495756638,329,3. Create Booking,201,Created,Combined Load Test Thread Group 1-28,text,true,,1348,608,2,2,http://localhost:3005/api/booking,329,0,2
+1763495756897,82,2. Property Search,200,OK,Combined Load Test Thread Group 1-29,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,82,0,0
+1763495756967,165,4. Login Owner,200,OK,Combined Load Test Thread Group 1-28,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,165,0,0
+1763495757133,6,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-28,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,6,0,0
+1763495757140,6,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-28,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,6,0,0
+1763495756992,236,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-30,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,236,0,1
+1763495757228,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-30,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,90,0,1
+1763495756980,370,3. Create Booking,201,Created,Combined Load Test Thread Group 1-29,text,true,,1348,608,3,3,http://localhost:3005/api/booking,370,0,0
+1763495757287,278,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-31,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,277,0,1
+1763495757351,742,4. Login Owner,200,OK,Combined Load Test Thread Group 1-29,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,742,0,0
+1763495758096,48,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-29,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,48,0,0
+1763495758145,5,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-29,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,5,0,0
+1763495757576,707,2. Property Search,200,OK,Combined Load Test Thread Group 1-31,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,707,0,4
+1763495757322,1021,3. Create Booking,201,Created,Combined Load Test Thread Group 1-30,text,true,,1348,608,5,5,http://localhost:3005/api/booking,1021,0,1
+1763495757895,728,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-33,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,728,0,1
+1763495757647,977,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-32,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,977,0,20
+1763495758188,637,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-34,text,true,,1597,259,7,7,http://localhost:3001/api/auth/login/traveler,637,0,1
+1763495758345,572,4. Login Owner,200,OK,Combined Load Test Thread Group 1-30,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,572,0,0
+1763495758918,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-30,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495758921,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-30,text,false,,1059,465,7,7,http://localhost:3005/api/booking//status,2,0,0
+1763495758284,640,3. Create Booking,201,Created,Combined Load Test Thread Group 1-31,text,true,,1348,608,6,6,http://localhost:3005/api/booking,640,0,2
+1763495758623,319,2. Property Search,200,OK,Combined Load Test Thread Group 1-33,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,319,0,1
+1763495758489,455,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-35,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,455,0,0
+1763495758625,327,2. Property Search,200,OK,Combined Load Test Thread Group 1-32,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,327,0,0
+1763495758825,161,2. Property Search,200,OK,Combined Load Test Thread Group 1-34,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,161,0,1
+1763495758791,257,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-36,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,257,0,1
+1763495758944,149,2. Property Search,200,OK,Combined Load Test Thread Group 1-35,text,true,,8010,135,7,7,http://localhost:3004/api/property/search,149,0,0
+1763495758924,225,4. Login Owner,200,OK,Combined Load Test Thread Group 1-31,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,225,0,0
+1763495759149,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-31,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495759152,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-31,text,false,,1059,465,7,7,http://localhost:3005/api/booking//status,1,0,0
+1763495759050,161,2. Property Search,200,OK,Combined Load Test Thread Group 1-36,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,161,0,0
+1763495759090,205,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-37,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,205,0,0
+1763495759296,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-37,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,93,0,0
+1763495758942,478,3. Create Booking,201,Created,Combined Load Test Thread Group 1-33,text,true,,1348,608,7,7,http://localhost:3005/api/booking,478,0,2
+1763495758952,505,3. Create Booking,201,Created,Combined Load Test Thread Group 1-32,text,true,,1348,608,7,7,http://localhost:3005/api/booking,505,0,1
+1763495758987,480,3. Create Booking,201,Created,Combined Load Test Thread Group 1-34,text,true,,1348,608,7,7,http://localhost:3005/api/booking,480,0,0
+1763495759094,424,3. Create Booking,201,Created,Combined Load Test Thread Group 1-35,text,true,,1348,608,7,7,http://localhost:3005/api/booking,424,0,0
+1763495759390,136,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-38,text,true,,1597,259,7,7,http://localhost:3001/api/auth/login/traveler,136,0,1
+1763495759211,379,3. Create Booking,201,Created,Combined Load Test Thread Group 1-36,text,true,,1348,608,7,7,http://localhost:3005/api/booking,379,0,1
+1763495759526,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-38,text,true,,8010,135,7,7,http://localhost:3004/api/property/search,86,0,0
+1763495759390,360,3. Create Booking,201,Created,Combined Load Test Thread Group 1-37,text,true,,1348,608,8,8,http://localhost:3005/api/booking,360,0,1
+1763495759421,390,4. Login Owner,200,OK,Combined Load Test Thread Group 1-33,text,true,,1576,253,8,8,http://localhost:3001/api/auth/login/owner,390,0,0
+1763495759811,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-33,text,false,,1065,402,8,8,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495759814,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-33,text,false,,1059,465,8,8,http://localhost:3005/api/booking//status,2,0,0
+1763495759613,332,3. Create Booking,201,Created,Combined Load Test Thread Group 1-38,text,true,,1348,608,7,7,http://localhost:3005/api/booking,332,0,1
+1763495759458,539,4. Login Owner,200,OK,Combined Load Test Thread Group 1-32,text,true,,1576,253,8,8,http://localhost:3001/api/auth/login/owner,539,0,0
+1763495759997,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-32,text,false,,1065,402,8,8,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495760005,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-32,text,false,,1059,465,8,8,http://localhost:3005/api/booking//status,2,0,0
+1763495759519,597,4. Login Owner,200,OK,Combined Load Test Thread Group 1-35,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,597,0,0
+1763495759467,650,4. Login Owner,200,OK,Combined Load Test Thread Group 1-34,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,650,0,0
+1763495760117,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-35,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495760117,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-34,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495760120,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-35,text,false,,1059,465,7,7,http://localhost:3005/api/booking//status,1,0,0
+1763495760120,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-34,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,2,0,0
+1763495759591,805,4. Login Owner,200,OK,Combined Load Test Thread Group 1-36,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,805,0,0
+1763495760397,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-36,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495760400,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-36,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,1,0,0
+1763495759688,823,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-39,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,823,0,1
+1763495760512,129,2. Property Search,200,OK,Combined Load Test Thread Group 1-39,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,129,0,0
+1763495759751,946,4. Login Owner,200,OK,Combined Load Test Thread Group 1-37,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,946,0,0
+1763495759945,753,4. Login Owner,200,OK,Combined Load Test Thread Group 1-38,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,753,0,0
+1763495760698,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-37,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495760699,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-38,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495760701,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-37,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,1,0,0
+1763495760701,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-38,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,2,0,0
+1763495759992,725,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-40,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,725,0,1
+1763495760286,518,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-41,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,518,0,0
+1763495760718,142,2. Property Search,200,OK,Combined Load Test Thread Group 1-40,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,142,0,0
+1763495760805,224,2. Property Search,200,OK,Combined Load Test Thread Group 1-41,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,224,0,0
+1763495760590,448,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-42,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,448,0,1
+1763495760642,478,3. Create Booking,201,Created,Combined Load Test Thread Group 1-39,text,true,,1348,608,5,5,http://localhost:3005/api/booking,478,0,0
+1763495760891,239,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-43,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,239,0,1
+1763495761038,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-42,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,92,0,0
+1763495761131,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-43,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,88,0,1
+1763495761120,125,4. Login Owner,200,OK,Combined Load Test Thread Group 1-39,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,125,0,0
+1763495761246,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-39,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495761248,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-39,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,2,0,0
+1763495760861,409,3. Create Booking,201,Created,Combined Load Test Thread Group 1-40,text,true,,1348,608,5,5,http://localhost:3005/api/booking,409,0,1
+1763495761189,152,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-44,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,152,0,1
+1763495761030,341,3. Create Booking,201,Created,Combined Load Test Thread Group 1-41,text,true,,1348,608,5,5,http://localhost:3005/api/booking,341,0,1
+1763495761342,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-44,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,86,0,0
+1763495761271,167,4. Login Owner,200,OK,Combined Load Test Thread Group 1-40,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,167,0,0
+1763495761439,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-40,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495761440,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-40,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,2,0,0
+1763495761131,355,3. Create Booking,201,Created,Combined Load Test Thread Group 1-42,text,true,,1348,608,5,5,http://localhost:3005/api/booking,354,0,1
+1763495761371,164,4. Login Owner,200,OK,Combined Load Test Thread Group 1-41,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,164,0,0
+1763495761536,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-41,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495761539,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-41,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,2,0,0
+1763495761220,347,3. Create Booking,201,Created,Combined Load Test Thread Group 1-43,text,true,,1348,608,4,4,http://localhost:3005/api/booking,347,0,0
+1763495761486,231,4. Login Owner,200,OK,Combined Load Test Thread Group 1-42,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,231,0,0
+1763495761718,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-42,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495761721,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-42,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495761429,329,3. Create Booking,201,Created,Combined Load Test Thread Group 1-44,text,true,,1348,608,3,3,http://localhost:3005/api/booking,329,0,2
+1763495761486,326,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-45,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,326,0,0
+1763495761567,268,4. Login Owner,200,OK,Combined Load Test Thread Group 1-43,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,268,0,0
+1763495761835,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-43,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495761837,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-43,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495761813,84,2. Property Search,200,OK,Combined Load Test Thread Group 1-45,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,84,0,0
+1763495761759,268,4. Login Owner,200,OK,Combined Load Test Thread Group 1-44,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,268,0,0
+1763495761789,239,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-46,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,239,0,1
+1763495762027,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-44,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495762029,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-44,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495762028,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-46,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,86,0,0
+1763495761898,335,3. Create Booking,201,Created,Combined Load Test Thread Group 1-45,text,true,,1348,608,3,3,http://localhost:3005/api/booking,335,0,1
+1763495762091,143,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-47,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,143,0,1
+1763495762235,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-47,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,86,0,0
+1763495762234,125,4. Login Owner,200,OK,Combined Load Test Thread Group 1-45,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,125,0,0
+1763495762359,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-45,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495762361,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-45,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495762115,328,3. Create Booking,201,Created,Combined Load Test Thread Group 1-46,text,true,,1348,608,3,3,http://localhost:3005/api/booking,328,0,1
+1763495762388,139,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-48,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,138,0,1
+1763495762527,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-48,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,87,0,0
+1763495762443,180,4. Login Owner,200,OK,Combined Load Test Thread Group 1-46,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,180,0,0
+1763495762624,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-46,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495762626,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-46,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495762321,330,3. Create Booking,201,Created,Combined Load Test Thread Group 1-47,text,true,,1348,608,2,2,http://localhost:3005/api/booking,330,0,1
+1763495762652,127,4. Login Owner,200,OK,Combined Load Test Thread Group 1-47,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,127,0,0
+1763495762780,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-47,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495762783,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-47,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495762692,162,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-49,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,162,0,1
+1763495762856,105,2. Property Search,200,OK,Combined Load Test Thread Group 1-49,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,105,0,0
+1763495762615,409,3. Create Booking,201,Created,Combined Load Test Thread Group 1-48,text,true,,1348,608,3,3,http://localhost:3005/api/booking,409,0,1
+1763495762990,229,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-50,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,229,0,1
+1763495763025,275,4. Login Owner,200,OK,Combined Load Test Thread Group 1-48,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,275,0,0
+1763495763300,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-48,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495763304,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-48,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495763220,125,2. Property Search,200,OK,Combined Load Test Thread Group 1-50,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,125,0,0
+1763495762963,420,3. Create Booking,201,Created,Combined Load Test Thread Group 1-49,text,true,,1348,608,3,3,http://localhost:3005/api/booking,420,0,2
+1763495763290,326,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-51,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,326,0,0
+1763495763384,234,4. Login Owner,200,OK,Combined Load Test Thread Group 1-49,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,234,0,0
+1763495763619,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-49,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495763622,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-49,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495763616,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-51,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,93,0,1
+1763495763346,418,3. Create Booking,201,Created,Combined Load Test Thread Group 1-50,text,true,,1348,608,3,3,http://localhost:3005/api/booking,418,0,2
+1763495763591,229,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-52,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,229,0,1
+1763495763765,156,4. Login Owner,200,OK,Combined Load Test Thread Group 1-50,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,156,0,0
+1763495763922,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-50,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495763924,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-50,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495763821,108,2. Property Search,200,OK,Combined Load Test Thread Group 1-52,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,108,0,0
+1763495763892,143,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-53,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,143,0,0
+1763495763710,424,3. Create Booking,201,Created,Combined Load Test Thread Group 1-51,text,true,,1348,608,3,3,http://localhost:3005/api/booking,424,0,1
+1763495764037,136,2. Property Search,200,OK,Combined Load Test Thread Group 1-53,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,136,0,0
+1763495764135,180,4. Login Owner,200,OK,Combined Load Test Thread Group 1-51,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,180,0,0
+1763495764315,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-51,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495764319,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-51,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495764191,162,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-54,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,162,0,1
+1763495763930,449,3. Create Booking,201,Created,Combined Load Test Thread Group 1-52,text,true,,1348,608,3,3,http://localhost:3005/api/booking,449,0,1
+1763495764354,95,2. Property Search,200,OK,Combined Load Test Thread Group 1-54,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,95,0,0
+1763495764379,131,4. Login Owner,200,OK,Combined Load Test Thread Group 1-52,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,131,0,0
+1763495764511,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-52,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495764513,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-52,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495764175,371,3. Create Booking,201,Created,Combined Load Test Thread Group 1-53,text,true,,1348,608,3,3,http://localhost:3005/api/booking,371,0,2
+1763495764492,144,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-55,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,144,0,1
+1763495764636,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-55,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,85,0,1
+1763495764547,181,4. Login Owner,200,OK,Combined Load Test Thread Group 1-53,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,181,0,0
+1763495764729,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-53,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495764731,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-53,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495764450,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-54,text,true,,1348,608,3,3,http://localhost:3005/api/booking,340,0,1
+1763495764788,225,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-56,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,225,0,1
+1763495764790,227,4. Login Owner,200,OK,Combined Load Test Thread Group 1-54,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,227,0,0
+1763495765018,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-54,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495765020,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-54,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495764723,334,3. Create Booking,201,Created,Combined Load Test Thread Group 1-55,text,true,,1348,608,2,2,http://localhost:3005/api/booking,334,0,1
+1763495765014,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-56,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,90,0,0
+1763495765058,155,4. Login Owner,200,OK,Combined Load Test Thread Group 1-55,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,155,0,0
+1763495765214,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-55,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495765216,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-55,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495765089,166,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-57,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,166,0,1
+1763495765256,82,2. Property Search,200,OK,Combined Load Test Thread Group 1-57,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,82,0,0
+1763495765105,335,3. Create Booking,201,Created,Combined Load Test Thread Group 1-56,text,true,,1348,608,3,3,http://localhost:3005/api/booking,335,0,1
+1763495765391,144,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-58,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,144,0,1
+1763495765535,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-58,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,86,0,1
+1763495765440,193,4. Login Owner,200,OK,Combined Load Test Thread Group 1-56,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,193,0,0
+1763495765634,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-56,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495765636,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-56,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495765339,358,3. Create Booking,201,Created,Combined Load Test Thread Group 1-57,text,true,,1348,608,3,3,http://localhost:3005/api/booking,358,0,1
+1763495765692,223,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-59,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,223,0,1
+1763495765697,220,4. Login Owner,200,OK,Combined Load Test Thread Group 1-57,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,220,0,0
+1763495765917,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-57,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495765920,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-57,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495765622,338,3. Create Booking,201,Created,Combined Load Test Thread Group 1-58,text,true,,1348,608,2,2,http://localhost:3005/api/booking,338,0,0
+1763495765915,84,2. Property Search,200,OK,Combined Load Test Thread Group 1-59,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,84,0,1
+1763495765961,158,4. Login Owner,200,OK,Combined Load Test Thread Group 1-58,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,158,0,0
+1763495766120,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-58,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495766122,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-58,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495765992,154,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-60,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,154,0,1
+1763495766146,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-60,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,89,0,1
+1763495766000,352,3. Create Booking,201,Created,Combined Load Test Thread Group 1-59,text,true,,1348,608,3,3,http://localhost:3005/api/booking,352,0,1
+1763495766287,142,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-61,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,141,0,0
+1763495766430,84,2. Property Search,200,OK,Combined Load Test Thread Group 1-61,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,84,0,0
+1763495766353,167,4. Login Owner,200,OK,Combined Load Test Thread Group 1-59,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,167,0,0
+1763495766521,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-59,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495766523,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-59,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495766237,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-60,text,true,,1348,608,2,2,http://localhost:3005/api/booking,339,0,2
+1763495766577,153,4. Login Owner,200,OK,Combined Load Test Thread Group 1-60,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,153,0,0
+1763495766730,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-60,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495766732,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-60,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495766588,226,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-62,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,226,0,1
+1763495766515,323,3. Create Booking,201,Created,Combined Load Test Thread Group 1-61,text,true,,1348,608,2,2,http://localhost:3005/api/booking,323,0,1
+1763495766815,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-62,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,90,0,0
+1763495766839,174,4. Login Owner,200,OK,Combined Load Test Thread Group 1-61,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,174,0,0
+1763495767014,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-61,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495767016,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-61,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495766888,225,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-63,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,225,0,1
+1763495767114,94,2. Property Search,200,OK,Combined Load Test Thread Group 1-63,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,94,0,1
+1763495766906,337,3. Create Booking,201,Created,Combined Load Test Thread Group 1-62,text,true,,1348,608,3,3,http://localhost:3005/api/booking,337,0,2
+1763495767192,147,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-64,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,147,0,1
+1763495767340,83,2. Property Search,200,OK,Combined Load Test Thread Group 1-64,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,83,0,0
+1763495767244,195,4. Login Owner,200,OK,Combined Load Test Thread Group 1-62,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,195,0,0
+1763495767440,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-62,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495767442,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-62,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495767210,342,3. Create Booking,201,Created,Combined Load Test Thread Group 1-63,text,true,,1348,608,3,3,http://localhost:3005/api/booking,342,0,1
+1763495767491,137,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-65,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,137,0,0
+1763495767629,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-65,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,87,0,1
+1763495767552,172,4. Login Owner,200,OK,Combined Load Test Thread Group 1-63,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,172,0,0
+1763495767725,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-63,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495767727,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-63,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495767424,327,3. Create Booking,201,Created,Combined Load Test Thread Group 1-64,text,true,,1348,608,2,2,http://localhost:3005/api/booking,327,0,2
+1763495767752,162,4. Login Owner,200,OK,Combined Load Test Thread Group 1-64,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,162,0,0
+1763495767914,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-64,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495767917,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-64,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495767791,164,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-66,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,164,0,1
+1763495767956,83,2. Property Search,200,OK,Combined Load Test Thread Group 1-66,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,83,0,1
+1763495767717,334,3. Create Booking,201,Created,Combined Load Test Thread Group 1-65,text,true,,1348,608,2,2,http://localhost:3005/api/booking,334,0,1
+1763495768051,173,4. Login Owner,200,OK,Combined Load Test Thread Group 1-65,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,173,0,0
+1763495768225,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-65,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495768227,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-65,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495768094,228,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-67,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,228,0,1
+1763495768040,329,3. Create Booking,201,Created,Combined Load Test Thread Group 1-66,text,true,,1348,608,2,2,http://localhost:3005/api/booking,329,0,1
+1763495768322,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-67,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,87,0,0
+1763495768370,155,4. Login Owner,200,OK,Combined Load Test Thread Group 1-66,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,155,0,0
+1763495768525,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-66,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495768527,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-66,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495768391,220,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-68,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,220,0,0
+1763495768612,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-68,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,91,0,1
+1763495768410,327,3. Create Booking,201,Created,Combined Load Test Thread Group 1-67,text,true,,1348,608,3,3,http://localhost:3005/api/booking,327,0,0
+1763495768693,225,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-69,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,224,0,1
+1763495768918,85,2. Property Search,200,OK,Combined Load Test Thread Group 1-69,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,85,0,0
+1763495768738,270,4. Login Owner,200,OK,Combined Load Test Thread Group 1-67,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,270,0,0
+1763495769009,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-67,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495769011,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-67,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495768704,324,3. Create Booking,201,Created,Combined Load Test Thread Group 1-68,text,true,,1348,608,3,3,http://localhost:3005/api/booking,324,0,1
+1763495768991,138,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-70,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,138,0,0
+1763495769130,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-70,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,88,0,0
+1763495769029,191,4. Login Owner,200,OK,Combined Load Test Thread Group 1-68,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,191,0,0
+1763495769220,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-68,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495769223,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-68,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495769004,337,3. Create Booking,201,Created,Combined Load Test Thread Group 1-69,text,true,,1348,608,3,3,http://localhost:3005/api/booking,337,0,1
+1763495769288,134,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-71,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,134,0,1
+1763495769423,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-71,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,86,0,0
+1763495769341,178,4. Login Owner,200,OK,Combined Load Test Thread Group 1-69,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,178,0,0
+1763495769520,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-69,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495769521,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-69,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495769218,335,3. Create Booking,201,Created,Combined Load Test Thread Group 1-70,text,true,,1348,608,2,2,http://localhost:3005/api/booking,335,0,1
+1763495769554,159,4. Login Owner,200,OK,Combined Load Test Thread Group 1-70,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,159,0,0
+1763495769714,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-70,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495769716,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-70,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495769590,161,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-72,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,161,0,1
+1763495769752,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-72,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,89,0,1
+1763495769510,331,3. Create Booking,201,Created,Combined Load Test Thread Group 1-71,text,true,,1348,608,2,2,http://localhost:3005/api/booking,331,0,1
+1763495769842,171,4. Login Owner,200,OK,Combined Load Test Thread Group 1-71,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,171,0,0
+1763495770014,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-71,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495770016,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-71,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495769893,203,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-73,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,203,0,1
+1763495770097,82,2. Property Search,200,OK,Combined Load Test Thread Group 1-73,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,82,0,1
+1763495769842,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-72,text,true,,1348,608,2,2,http://localhost:3005/api/booking,339,0,1
+1763495770182,150,4. Login Owner,200,OK,Combined Load Test Thread Group 1-72,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,150,0,0
+1763495770332,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-72,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495770334,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-72,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495770192,145,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-74,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,145,0,1
+1763495770337,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-74,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,89,0,1
+1763495770180,338,3. Create Booking,201,Created,Combined Load Test Thread Group 1-73,text,true,,1348,608,3,3,http://localhost:3005/api/booking,338,0,1
+1763495770489,207,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-75,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,207,0,0
+1763495770518,197,4. Login Owner,200,OK,Combined Load Test Thread Group 1-73,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,197,0,0
+1763495770715,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-73,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495770717,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-73,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495770428,336,3. Create Booking,201,Created,Combined Load Test Thread Group 1-74,text,true,,1348,608,2,2,http://localhost:3005/api/booking,336,0,1
+1763495770697,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-75,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,90,0,0
+1763495770765,155,4. Login Owner,200,OK,Combined Load Test Thread Group 1-74,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,155,0,0
+1763495770921,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-74,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495770923,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-74,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495770790,154,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-76,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,154,0,1
+1763495770945,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-76,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,89,0,1
+1763495770788,337,3. Create Booking,201,Created,Combined Load Test Thread Group 1-75,text,true,,1348,608,3,3,http://localhost:3005/api/booking,337,0,2
+1763495771092,219,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-77,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,219,0,1
+1763495771125,216,4. Login Owner,200,OK,Combined Load Test Thread Group 1-75,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,216,0,0
+1763495771341,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-75,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495771343,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-75,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495771035,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-76,text,true,,1348,608,2,2,http://localhost:3005/api/booking,340,0,2
+1763495771312,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-77,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,0
+1763495771376,235,4. Login Owner,200,OK,Combined Load Test Thread Group 1-76,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,235,0,0
+1763495771612,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-76,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495771614,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-76,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495771389,227,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-78,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,227,0,1
+1763495771616,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-78,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,1
+1763495771402,344,3. Create Booking,201,Created,Combined Load Test Thread Group 1-77,text,true,,1348,608,3,3,http://localhost:3005/api/booking,344,0,1
+1763495771691,139,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-79,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,139,0,1
+1763495771831,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-79,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,87,0,0
+1763495771746,182,4. Login Owner,200,OK,Combined Load Test Thread Group 1-77,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,182,0,0
+1763495771928,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-77,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495771930,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-77,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495771706,322,3. Create Booking,201,Created,Combined Load Test Thread Group 1-78,text,true,,1348,608,3,3,http://localhost:3005/api/booking,322,0,1
+1763495771991,221,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-80,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,221,0,1
+1763495772028,199,4. Login Owner,200,OK,Combined Load Test Thread Group 1-78,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,199,0,0
+1763495772228,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-78,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495772231,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-78,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495771919,335,3. Create Booking,201,Created,Combined Load Test Thread Group 1-79,text,true,,1348,608,2,2,http://localhost:3005/api/booking,335,0,1
+1763495772212,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-80,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,1
+1763495772255,156,4. Login Owner,200,OK,Combined Load Test Thread Group 1-79,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,156,0,0
+1763495772412,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-79,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495772414,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-79,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,0,0,0
+1763495772291,158,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-81,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,158,0,0
+1763495772450,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-81,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,92,0,1
+1763495772302,327,3. Create Booking,201,Created,Combined Load Test Thread Group 1-80,text,true,,1348,608,3,3,http://localhost:3005/api/booking,327,0,0
+1763495772544,330,3. Create Booking,201,Created,Combined Load Test Thread Group 1-81,text,true,,1348,608,3,3,http://localhost:3005/api/booking,330,0,1
+1763495772592,320,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-82,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,320,0,1
+1763495772630,287,4. Login Owner,200,OK,Combined Load Test Thread Group 1-80,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,287,0,0
+1763495772918,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-80,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495772920,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-80,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495772912,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-82,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,90,0,1
+1763495772875,155,4. Login Owner,200,OK,Combined Load Test Thread Group 1-81,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,155,0,0
+1763495773030,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-81,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495773033,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-81,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495772887,236,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-83,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,236,0,1
+1763495773124,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-83,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,88,0,1
+1763495773189,140,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-84,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,140,0,1
+1763495773003,331,3. Create Booking,201,Created,Combined Load Test Thread Group 1-82,text,true,,1348,608,3,3,http://localhost:3005/api/booking,331,0,1
+1763495773330,85,2. Property Search,200,OK,Combined Load Test Thread Group 1-84,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,85,0,0
+1763495773334,139,4. Login Owner,200,OK,Combined Load Test Thread Group 1-82,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,138,0,0
+1763495773473,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-82,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495773475,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-82,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495773213,329,3. Create Booking,201,Created,Combined Load Test Thread Group 1-83,text,true,,1348,608,3,3,http://localhost:3005/api/booking,329,0,2
+1763495773491,210,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-85,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,210,0,1
+1763495773542,191,4. Login Owner,200,OK,Combined Load Test Thread Group 1-83,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,191,0,0
+1763495773734,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-83,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495773736,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-83,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495773416,333,3. Create Booking,201,Created,Combined Load Test Thread Group 1-84,text,true,,1348,608,2,2,http://localhost:3005/api/booking,333,0,1
+1763495773701,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-85,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,87,0,1
+1763495773750,128,4. Login Owner,200,OK,Combined Load Test Thread Group 1-84,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,128,0,0
+1763495773879,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-84,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495773881,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-84,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495773789,163,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-86,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,163,0,1
+1763495773953,82,2. Property Search,200,OK,Combined Load Test Thread Group 1-86,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,82,0,0
+1763495773789,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-85,text,true,,1348,608,3,3,http://localhost:3005/api/booking,340,0,1
+1763495774093,219,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-87,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,219,0,1
+1763495774130,202,4. Login Owner,200,OK,Combined Load Test Thread Group 1-85,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,202,0,0
+1763495774333,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-85,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495774337,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-85,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495774037,337,3. Create Booking,201,Created,Combined Load Test Thread Group 1-86,text,true,,1348,608,2,2,http://localhost:3005/api/booking,337,0,1
+1763495774314,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-87,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,1
+1763495774375,154,4. Login Owner,200,OK,Combined Load Test Thread Group 1-86,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,154,0,0
+1763495774530,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-86,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495774532,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-86,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495774388,225,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-88,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,225,0,0
+1763495774614,94,2. Property Search,200,OK,Combined Load Test Thread Group 1-88,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,94,0,1
+1763495774404,351,3. Create Booking,201,Created,Combined Load Test Thread Group 1-87,text,true,,1348,608,3,3,http://localhost:3005/api/booking,351,0,2
+1763495774687,137,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-89,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,137,0,0
+1763495774824,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-89,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,87,0,1
+1763495774755,164,4. Login Owner,200,OK,Combined Load Test Thread Group 1-87,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,164,0,0
+1763495774920,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-87,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495774921,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-87,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495774709,343,3. Create Booking,201,Created,Combined Load Test Thread Group 1-88,text,true,,1348,608,3,3,http://localhost:3005/api/booking,343,0,2
+1763495774991,147,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-90,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,147,0,1
+1763495775139,84,2. Property Search,200,OK,Combined Load Test Thread Group 1-90,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,83,0,0
+1763495775053,188,4. Login Owner,200,OK,Combined Load Test Thread Group 1-88,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,188,0,0
+1763495775241,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-88,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495775243,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-88,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495774912,352,3. Create Booking,201,Created,Combined Load Test Thread Group 1-89,text,true,,1348,608,2,2,http://localhost:3005/api/booking,352,0,1
+1763495775265,151,4. Login Owner,200,OK,Combined Load Test Thread Group 1-89,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,151,0,0
+1763495775416,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-89,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495775418,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-89,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495775293,156,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-91,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,156,0,1
+1763495775450,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-91,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,87,0,0
+1763495775223,331,3. Create Booking,201,Created,Combined Load Test Thread Group 1-90,text,true,,1348,608,2,2,http://localhost:3005/api/booking,331,0,1
+1763495775554,125,4. Login Owner,200,OK,Combined Load Test Thread Group 1-90,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,125,0,0
+1763495775679,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-90,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495775681,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-90,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495775593,158,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-92,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,158,0,1
+1763495775751,84,2. Property Search,200,OK,Combined Load Test Thread Group 1-92,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,84,0,1
+1763495775537,332,3. Create Booking,201,Created,Combined Load Test Thread Group 1-91,text,true,,1348,608,2,2,http://localhost:3005/api/booking,332,0,1
+1763495775869,158,4. Login Owner,200,OK,Combined Load Test Thread Group 1-91,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,158,0,0
+1763495776027,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-91,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495776029,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-91,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495775891,229,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-93,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,229,0,1
+1763495775836,328,3. Create Booking,201,Created,Combined Load Test Thread Group 1-92,text,true,,1348,608,2,2,http://localhost:3005/api/booking,328,0,0
+1763495776121,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-93,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,91,0,1
+1763495776165,153,4. Login Owner,200,OK,Combined Load Test Thread Group 1-92,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,153,0,0
+1763495776319,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-92,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495776321,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-92,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495776191,156,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-94,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,156,0,1
+1763495776348,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-94,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,86,0,0
+1763495776213,337,3. Create Booking,201,Created,Combined Load Test Thread Group 1-93,text,true,,1348,608,3,3,http://localhost:3005/api/booking,337,0,1
+1763495776492,150,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-95,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,150,0,0
+1763495776642,84,2. Property Search,200,OK,Combined Load Test Thread Group 1-95,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,83,0,1
+1763495776551,191,4. Login Owner,200,OK,Combined Load Test Thread Group 1-93,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,191,0,0
+1763495776742,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-93,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495776744,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-93,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495776435,334,3. Create Booking,201,Created,Combined Load Test Thread Group 1-94,text,true,,1348,608,2,2,http://localhost:3005/api/booking,334,0,1
+1763495776770,153,4. Login Owner,200,OK,Combined Load Test Thread Group 1-94,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,153,0,0
+1763495776923,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-94,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495776925,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-94,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495776792,152,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-96,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,152,0,1
+1763495776945,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-96,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,88,0,0
+1763495776726,349,3. Create Booking,201,Created,Combined Load Test Thread Group 1-95,text,true,,1348,608,2,2,http://localhost:3005/api/booking,349,0,1
+1763495777076,155,4. Login Owner,200,OK,Combined Load Test Thread Group 1-95,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,155,0,0
+1763495777231,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-95,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495777233,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-95,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495777091,236,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-97,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,236,0,1
+1763495777034,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-96,text,true,,1348,608,2,2,http://localhost:3005/api/booking,340,0,2
+1763495777327,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-97,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,88,0,1
+1763495777375,220,4. Login Owner,200,OK,Combined Load Test Thread Group 1-96,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,220,0,0
+1763495777596,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-96,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495777599,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-96,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495777388,233,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-98,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,233,0,0
+1763495777622,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-98,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,87,0,1
+1763495777416,326,3. Create Booking,201,Created,Combined Load Test Thread Group 1-97,text,true,,1348,608,3,3,http://localhost:3005/api/booking,326,0,2
+1763495777691,132,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-99,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,132,0,1
+1763495777823,85,2. Property Search,200,OK,Combined Load Test Thread Group 1-99,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,85,0,1
+1763495777742,178,4. Login Owner,200,OK,Combined Load Test Thread Group 1-97,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,178,0,0
+1763495777920,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-97,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495777922,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-97,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495777711,326,3. Create Booking,201,Created,Combined Load Test Thread Group 1-98,text,true,,1348,608,3,3,http://localhost:3005/api/booking,326,0,1
+1763495777992,222,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-100,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,222,0,2
+1763495778037,203,4. Login Owner,200,OK,Combined Load Test Thread Group 1-98,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,203,0,0
+1763495778241,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-98,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495778243,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-98,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495777909,336,3. Create Booking,201,Created,Combined Load Test Thread Group 1-99,text,true,,1348,608,3,3,http://localhost:3005/api/booking,336,0,1
+1763495778214,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-100,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,90,0,1
+1763495778245,124,4. Login Owner,200,OK,Combined Load Test Thread Group 1-99,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,124,0,0
+1763495778369,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-99,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495778372,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-99,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495778290,159,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-101,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,159,0,0
+1763495778449,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-101,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,92,0,1
+1763495778304,319,3. Create Booking,201,Created,Combined Load Test Thread Group 1-100,text,true,,1348,608,3,3,http://localhost:3005/api/booking,319,0,1
+1763495778592,225,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-102,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,225,0,1
+1763495778542,328,3. Create Booking,201,Created,Combined Load Test Thread Group 1-101,text,true,,1348,608,3,3,http://localhost:3005/api/booking,328,0,1
+1763495778623,276,4. Login Owner,200,OK,Combined Load Test Thread Group 1-100,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,276,0,0
+1763495778899,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-100,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495778901,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-100,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495778818,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-102,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,88,0,0
+1763495778870,155,4. Login Owner,200,OK,Combined Load Test Thread Group 1-101,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,155,0,0
+1763495779026,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-101,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495779027,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-101,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495778892,210,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-103,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,210,0,0
+1763495779103,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-103,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,93,0,0
+1763495778907,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-102,text,true,,1348,608,3,3,http://localhost:3005/api/booking,339,0,0
+1763495779192,223,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-104,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,223,0,1
+1763495779247,262,4. Login Owner,200,OK,Combined Load Test Thread Group 1-102,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,262,0,0
+1763495779509,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-102,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495779511,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-102,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495779416,104,2. Property Search,200,OK,Combined Load Test Thread Group 1-104,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,104,0,0
+1763495779196,447,3. Create Booking,201,Created,Combined Load Test Thread Group 1-103,text,true,,1348,608,3,3,http://localhost:3005/api/booking,447,0,1
+1763495779492,222,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-105,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,222,0,1
+1763495779643,171,4. Login Owner,200,OK,Combined Load Test Thread Group 1-103,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,171,0,0
+1763495779814,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-103,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495779816,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-103,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495779715,127,2. Property Search,200,OK,Combined Load Test Thread Group 1-105,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,127,0,1
+1763495779792,134,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-106,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,134,0,0
+1763495779521,412,3. Create Booking,201,Created,Combined Load Test Thread Group 1-104,text,true,,1348,608,3,3,http://localhost:3005/api/booking,412,0,1
+1763495779927,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-106,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,86,0,1
+1763495779933,137,4. Login Owner,200,OK,Combined Load Test Thread Group 1-104,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,137,0,0
+1763495780071,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-104,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495780073,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-104,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495779843,363,3. Create Booking,201,Created,Combined Load Test Thread Group 1-105,text,true,,1348,608,3,3,http://localhost:3005/api/booking,363,0,1
+1763495780093,142,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-107,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,142,0,0
+1763495780236,85,2. Property Search,200,OK,Combined Load Test Thread Group 1-107,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,85,0,1
+1763495780206,127,4. Login Owner,200,OK,Combined Load Test Thread Group 1-105,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,127,0,0
+1763495780333,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-105,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495780334,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-105,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495780015,331,3. Create Booking,201,Created,Combined Load Test Thread Group 1-106,text,true,,1348,608,2,2,http://localhost:3005/api/booking,331,0,1
+1763495780346,127,4. Login Owner,200,OK,Combined Load Test Thread Group 1-106,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,127,0,0
+1763495780474,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-106,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495780476,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-106,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495780392,167,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-108,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,167,0,1
+1763495780561,83,2. Property Search,200,OK,Combined Load Test Thread Group 1-108,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,83,0,0
+1763495780321,333,3. Create Booking,201,Created,Combined Load Test Thread Group 1-107,text,true,,1348,608,2,2,http://localhost:3005/api/booking,333,0,0
+1763495780655,142,4. Login Owner,200,OK,Combined Load Test Thread Group 1-107,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,142,0,0
+1763495780798,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-107,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495780800,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-107,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495780690,159,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-109,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,159,0,1
+1763495780850,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-109,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,86,0,1
+1763495780645,333,3. Create Booking,201,Created,Combined Load Test Thread Group 1-108,text,true,,1348,608,2,2,http://localhost:3005/api/booking,333,0,1
+1763495780979,232,4. Login Owner,200,OK,Combined Load Test Thread Group 1-108,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,232,0,0
+1763495781211,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-108,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495781213,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-108,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495780992,230,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-110,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,230,0,1
+1763495780937,342,3. Create Booking,201,Created,Combined Load Test Thread Group 1-109,text,true,,1348,608,2,2,http://localhost:3005/api/booking,342,0,2
+1763495781223,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-110,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,88,0,0
+1763495781280,144,4. Login Owner,200,OK,Combined Load Test Thread Group 1-109,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,144,0,0
+1763495781424,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-109,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495781426,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-109,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495781292,227,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-111,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,227,0,1
+1763495781520,104,2. Property Search,200,OK,Combined Load Test Thread Group 1-111,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,104,0,0
+1763495781312,375,3. Create Booking,201,Created,Combined Load Test Thread Group 1-110,text,true,,1348,608,3,3,http://localhost:3005/api/booking,375,0,1
+1763495781589,134,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-112,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,134,0,0
+1763495781687,135,4. Login Owner,200,OK,Combined Load Test Thread Group 1-110,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,135,0,0
+1763495781822,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-110,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495781824,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-110,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495781724,139,2. Property Search,200,OK,Combined Load Test Thread Group 1-112,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,139,0,1
+1763495781625,338,3. Create Booking,201,Created,Combined Load Test Thread Group 1-111,text,true,,1348,608,3,3,http://localhost:3005/api/booking,338,0,0
+1763495781893,138,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-113,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,138,0,0
+1763495782031,84,2. Property Search,200,OK,Combined Load Test Thread Group 1-113,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,84,0,0
+1763495781963,168,4. Login Owner,200,OK,Combined Load Test Thread Group 1-111,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,168,0,0
+1763495782131,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-111,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495782133,0,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-111,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,0,0,0
+1763495781864,333,3. Create Booking,201,Created,Combined Load Test Thread Group 1-112,text,true,,1348,608,3,3,http://localhost:3005/api/booking,333,0,1
+1763495782187,145,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-114,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,145,0,0
+1763495782197,200,4. Login Owner,200,OK,Combined Load Test Thread Group 1-112,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,200,0,0
+1763495782398,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-112,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495782401,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-112,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495782333,95,2. Property Search,200,OK,Combined Load Test Thread Group 1-114,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,95,0,0
+1763495782116,334,3. Create Booking,201,Created,Combined Load Test Thread Group 1-113,text,true,,1348,608,2,2,http://localhost:3005/api/booking,334,0,0
+1763495782451,171,4. Login Owner,200,OK,Combined Load Test Thread Group 1-113,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,171,0,0
+1763495782623,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-113,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495782625,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-113,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495782490,154,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-115,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,154,0,1
+1763495782644,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-115,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,87,0,1
+1763495782428,346,3. Create Booking,201,Created,Combined Load Test Thread Group 1-114,text,true,,1348,608,2,2,http://localhost:3005/api/booking,346,0,1
+1763495782775,150,4. Login Owner,200,OK,Combined Load Test Thread Group 1-114,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,150,0,0
+1763495782925,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-114,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495782927,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-114,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495782788,226,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-116,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,226,0,1
+1763495782733,331,3. Create Booking,201,Created,Combined Load Test Thread Group 1-115,text,true,,1348,608,2,2,http://localhost:3005/api/booking,331,0,1
+1763495783015,85,2. Property Search,200,OK,Combined Load Test Thread Group 1-116,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,85,0,0
+1763495783065,156,4. Login Owner,200,OK,Combined Load Test Thread Group 1-115,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,156,0,0
+1763495783221,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-115,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495783223,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-115,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495783088,226,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-117,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,226,0,1
+1763495783314,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-117,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,88,0,1
+1763495783101,322,3. Create Booking,201,Created,Combined Load Test Thread Group 1-116,text,true,,1348,608,3,3,http://localhost:3005/api/booking,322,0,1
+1763495783393,220,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-118,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,220,0,0
+1763495783423,274,4. Login Owner,200,OK,Combined Load Test Thread Group 1-116,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,274,0,0
+1763495783698,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-116,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495783613,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-118,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,87,0,0
+1763495783700,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-116,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495783403,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-117,text,true,,1348,608,3,3,http://localhost:3005/api/booking,339,0,1
+1763495783688,143,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-119,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,143,0,1
+1763495783832,85,2. Property Search,200,OK,Combined Load Test Thread Group 1-119,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,85,0,0
+1763495783742,185,4. Login Owner,200,OK,Combined Load Test Thread Group 1-117,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,185,0,0
+1763495783928,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-117,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495783929,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-117,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495783701,360,3. Create Booking,201,Created,Combined Load Test Thread Group 1-118,text,true,,1348,608,3,3,http://localhost:3005/api/booking,360,0,0
+1763495783988,142,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-120,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,142,0,2
+1763495784130,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-120,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,1
+1763495784062,162,4. Login Owner,200,OK,Combined Load Test Thread Group 1-118,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,162,0,0
+1763495784225,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-118,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495784227,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-118,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495783918,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-119,text,true,,1348,608,2,2,http://localhost:3005/api/booking,339,0,1
+1763495784258,155,4. Login Owner,200,OK,Combined Load Test Thread Group 1-119,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,155,0,0
+1763495784413,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-119,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495784415,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-119,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495784286,160,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-121,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,160,0,0
+1763495784446,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-121,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,86,0,1
+1763495784219,341,3. Create Booking,201,Created,Combined Load Test Thread Group 1-120,text,true,,1348,608,2,2,http://localhost:3005/api/booking,341,0,1
+1763495784561,162,4. Login Owner,200,OK,Combined Load Test Thread Group 1-120,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,162,0,0
+1763495784723,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-120,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495784726,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-120,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495784592,226,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-122,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,226,0,0
+1763495784533,333,3. Create Booking,201,Created,Combined Load Test Thread Group 1-121,text,true,,1348,608,2,2,http://localhost:3005/api/booking,333,0,2
+1763495784819,88,2. Property Search,200,OK,Combined Load Test Thread Group 1-122,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,88,0,0
+1763495784866,152,4. Login Owner,200,OK,Combined Load Test Thread Group 1-121,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,152,0,0
+1763495785019,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-121,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495785021,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-121,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495784891,153,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-123,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,153,0,0
+1763495785044,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-123,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,86,0,0
+1763495784908,345,3. Create Booking,201,Created,Combined Load Test Thread Group 1-122,text,true,,1348,608,3,3,http://localhost:3005/api/booking,345,0,1
+1763495785131,346,3. Create Booking,201,Created,Combined Load Test Thread Group 1-123,text,true,,1348,608,3,3,http://localhost:3005/api/booking,346,0,1
+1763495785188,324,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-124,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,324,0,1
+1763495785253,275,4. Login Owner,200,OK,Combined Load Test Thread Group 1-122,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,275,0,0
+1763495785529,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-122,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495785532,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-122,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495785512,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-124,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,87,0,1
+1763495785478,223,4. Login Owner,200,OK,Combined Load Test Thread Group 1-123,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,223,0,0
+1763495785701,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-123,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495785703,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-123,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495785489,237,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-125,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,237,0,1
+1763495785727,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-125,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,91,0,1
+1763495785787,136,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-126,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,136,0,0
+1763495785600,341,3. Create Booking,201,Created,Combined Load Test Thread Group 1-124,text,true,,1348,608,3,3,http://localhost:3005/api/booking,341,0,0
+1763495785924,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-126,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,86,0,1
+1763495785941,125,4. Login Owner,200,OK,Combined Load Test Thread Group 1-124,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,125,0,0
+1763495786066,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-124,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495786068,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-124,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495785819,345,3. Create Booking,201,Created,Combined Load Test Thread Group 1-125,text,true,,1348,608,3,3,http://localhost:3005/api/booking,345,0,1
+1763495786092,133,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-127,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,133,0,1
+1763495786226,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-127,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,86,0,0
+1763495786165,156,4. Login Owner,200,OK,Combined Load Test Thread Group 1-125,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,156,0,0
+1763495786321,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-125,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495786324,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-125,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495786012,345,3. Create Booking,201,Created,Combined Load Test Thread Group 1-126,text,true,,1348,608,2,2,http://localhost:3005/api/booking,345,0,1
+1763495786357,157,4. Login Owner,200,OK,Combined Load Test Thread Group 1-126,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,157,0,0
+1763495786514,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-126,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495786516,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-126,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495786390,161,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-128,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,161,0,1
+1763495786552,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-128,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,89,0,1
+1763495786312,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-127,text,true,,1348,608,2,2,http://localhost:3005/api/booking,339,0,1
+1763495786651,172,4. Login Owner,200,OK,Combined Load Test Thread Group 1-127,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,172,0,0
+1763495786824,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-127,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495786826,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-127,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495786687,227,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-129,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,227,0,0
+1763495786642,328,3. Create Booking,201,Created,Combined Load Test Thread Group 1-128,text,true,,1348,608,2,2,http://localhost:3005/api/booking,328,0,2
+1763495786915,79,2. Property Search,200,OK,Combined Load Test Thread Group 1-129,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,79,0,0
+1763495786971,153,4. Login Owner,200,OK,Combined Load Test Thread Group 1-128,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,153,0,0
+1763495787125,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-128,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495787128,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-128,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495786988,151,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-130,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,151,0,1
+1763495787140,83,2. Property Search,200,OK,Combined Load Test Thread Group 1-130,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,83,0,0
+1763495786996,328,3. Create Booking,201,Created,Combined Load Test Thread Group 1-129,text,true,,1348,608,3,3,http://localhost:3005/api/booking,328,0,1
+1763495787225,333,3. Create Booking,201,Created,Combined Load Test Thread Group 1-130,text,true,,1348,608,3,3,http://localhost:3005/api/booking,333,0,1
+1763495787292,305,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-131,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,305,0,1
+1763495787324,285,4. Login Owner,200,OK,Combined Load Test Thread Group 1-129,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,285,0,0
+1763495787610,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-129,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495787612,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-129,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495787597,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-131,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,92,0,1
+1763495787558,240,4. Login Owner,200,OK,Combined Load Test Thread Group 1-130,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,240,0,0
+1763495787799,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-130,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495787801,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-130,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495787591,217,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-132,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,217,0,0
+1763495787808,104,2. Property Search,200,OK,Combined Load Test Thread Group 1-132,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,104,0,0
+1763495787689,355,3. Create Booking,201,Created,Combined Load Test Thread Group 1-131,text,true,,1348,608,3,3,http://localhost:3005/api/booking,355,0,1
+1763495787888,242,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-133,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,242,0,0
+1763495788131,94,2. Property Search,200,OK,Combined Load Test Thread Group 1-133,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,94,0,0
+1763495788045,185,4. Login Owner,200,OK,Combined Load Test Thread Group 1-131,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,185,0,0
+1763495788230,25,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-131,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,25,0,0
+1763495788259,25,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-131,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,25,0,0
+1763495787912,379,3. Create Booking,201,Created,Combined Load Test Thread Group 1-132,text,true,,1348,608,3,3,http://localhost:3005/api/booking,379,0,0
+1763495788190,207,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-134,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,207,0,1
+1763495788291,161,4. Login Owner,200,OK,Combined Load Test Thread Group 1-132,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,161,0,0
+1763495788453,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-132,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495788457,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-132,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495788398,104,2. Property Search,200,OK,Combined Load Test Thread Group 1-134,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,104,0,0
+1763495788226,428,3. Create Booking,201,Created,Combined Load Test Thread Group 1-133,text,true,,1348,608,3,3,http://localhost:3005/api/booking,428,0,3
+1763495788491,224,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-135,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,223,0,1
+1763495788715,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-135,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,89,0,0
+1763495788654,173,4. Login Owner,200,OK,Combined Load Test Thread Group 1-133,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,173,0,0
+1763495788827,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-133,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495788830,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-133,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495788503,356,3. Create Booking,201,Created,Combined Load Test Thread Group 1-134,text,true,,1348,608,3,3,http://localhost:3005/api/booking,356,0,1
+1763495788791,134,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-136,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,134,0,0
+1763495788926,99,2. Property Search,200,OK,Combined Load Test Thread Group 1-136,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,99,0,1
+1763495788859,239,4. Login Owner,200,OK,Combined Load Test Thread Group 1-134,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,239,0,0
+1763495789099,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-134,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495789102,7,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-134,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,7,0,0
+1763495788804,360,3. Create Booking,201,Created,Combined Load Test Thread Group 1-135,text,true,,1348,608,3,3,http://localhost:3005/api/booking,359,0,1
+1763495789091,157,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-137,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,157,0,1
+1763495789249,102,2. Property Search,200,OK,Combined Load Test Thread Group 1-137,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,102,0,0
+1763495789027,371,3. Create Booking,201,Created,Combined Load Test Thread Group 1-136,text,true,,1348,608,4,4,http://localhost:3005/api/booking,371,0,2
+1763495789164,236,4. Login Owner,200,OK,Combined Load Test Thread Group 1-135,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,236,0,0
+1763495789400,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-135,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495789403,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-135,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495789398,214,4. Login Owner,200,OK,Combined Load Test Thread Group 1-136,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,214,0,0
+1763495789612,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-136,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495789616,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-136,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495789392,227,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-138,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,227,0,1
+1763495789352,331,3. Create Booking,201,Created,Combined Load Test Thread Group 1-137,text,true,,1348,608,2,2,http://localhost:3005/api/booking,331,0,0
+1763495789620,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-138,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,92,0,0
+1763495789683,145,4. Login Owner,200,OK,Combined Load Test Thread Group 1-137,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,145,0,0
+1763495789828,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-137,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495789831,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-137,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495789691,228,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-139,text,true,,1597,259,2,2,http://localhost:3001/api/auth/login/traveler,228,0,1
+1763495789919,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-139,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,92,0,0
+1763495789712,330,3. Create Booking,201,Created,Combined Load Test Thread Group 1-138,text,true,,1348,608,3,3,http://localhost:3005/api/booking,330,0,0
+1763495789991,206,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-140,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,206,0,1
+1763495790042,192,4. Login Owner,200,OK,Combined Load Test Thread Group 1-138,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,192,0,0
+1763495790235,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-138,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495790238,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-138,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495790197,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-140,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,92,0,0
+1763495790015,333,3. Create Booking,201,Created,Combined Load Test Thread Group 1-139,text,true,,1348,608,3,3,http://localhost:3005/api/booking,333,0,1
+1763495790286,137,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-141,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,137,0,0
+1763495790423,528,2. Property Search,200,OK,Combined Load Test Thread Group 1-141,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,528,0,1
+1763495790348,633,4. Login Owner,200,OK,Combined Load Test Thread Group 1-139,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,633,0,0
+1763495790982,21,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-139,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,21,0,0
+1763495791003,18,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-139,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,17,0,0
+1763495790289,884,3. Create Booking,201,Created,Combined Load Test Thread Group 1-140,text,true,,1348,608,4,4,http://localhost:3005/api/booking,884,0,1
+1763495790597,801,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-142,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,801,0,3
+1763495790906,511,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-143,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,511,0,5
+1763495790955,507,3. Create Booking,201,Created,Combined Load Test Thread Group 1-141,text,true,,1348,608,5,5,http://localhost:3005/api/booking,507,0,4
+1763495791417,97,2. Property Search,200,OK,Combined Load Test Thread Group 1-143,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,97,0,1
+1763495791399,124,2. Property Search,200,OK,Combined Load Test Thread Group 1-142,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,124,0,0
+1763495791185,514,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-144,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,514,0,1
+1763495791173,529,4. Login Owner,200,OK,Combined Load Test Thread Group 1-140,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,529,0,0
+1763495791702,9,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-140,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,9,0,0
+1763495791711,5,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-140,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,5,0,0
+1763495791700,109,2. Property Search,200,OK,Combined Load Test Thread Group 1-144,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,109,0,1
+1763495791515,371,3. Create Booking,201,Created,Combined Load Test Thread Group 1-143,text,true,,1348,608,6,6,http://localhost:3005/api/booking,371,0,1
+1763495791524,375,3. Create Booking,201,Created,Combined Load Test Thread Group 1-142,text,true,,1348,608,6,6,http://localhost:3005/api/booking,375,0,0
+1763495791462,438,4. Login Owner,200,OK,Combined Load Test Thread Group 1-141,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,438,0,0
+1763495791901,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-141,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495791904,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-141,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,1,0,0
+1763495791487,421,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-145,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,421,0,0
+1763495791908,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-145,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,91,0,1
+1763495791790,325,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-146,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,325,0,1
+1763495791810,360,3. Create Booking,201,Created,Combined Load Test Thread Group 1-144,text,true,,1348,608,6,6,http://localhost:3005/api/booking,360,0,4
+1763495792116,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-146,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,89,0,0
+1763495791899,404,4. Login Owner,200,OK,Combined Load Test Thread Group 1-142,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,404,0,0
+1763495792303,5,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-142,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,5,0,0
+1763495791886,426,4. Login Owner,200,OK,Combined Load Test Thread Group 1-143,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,426,0,0
+1763495792308,6,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-142,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,6,0,0
+1763495792312,8,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-143,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,8,0,0
+1763495792321,11,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-143,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,11,0,0
+1763495792000,344,3. Create Booking,201,Created,Combined Load Test Thread Group 1-145,text,true,,1348,608,4,4,http://localhost:3005/api/booking,344,0,0
+1763495792087,413,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-147,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,413,0,1
+1763495792205,348,3. Create Booking,201,Created,Combined Load Test Thread Group 1-146,text,true,,1348,608,5,5,http://localhost:3005/api/booking,348,0,1
+1763495792501,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-147,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,91,0,0
+1763495792171,426,4. Login Owner,200,OK,Combined Load Test Thread Group 1-144,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,426,0,0
+1763495792597,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-144,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495792600,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-144,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,1,0,0
+1763495792391,406,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-148,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,406,0,1
+1763495792345,453,4. Login Owner,200,OK,Combined Load Test Thread Group 1-145,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,453,0,0
+1763495792798,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-145,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495792800,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-145,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,3,0,0
+1763495792798,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-148,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,91,0,0
+1763495792553,360,4. Login Owner,200,OK,Combined Load Test Thread Group 1-146,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,360,0,0
+1763495792914,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-146,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495792915,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-146,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495792593,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-147,text,true,,1348,608,3,3,http://localhost:3005/api/booking,340,0,0
+1763495792691,307,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-149,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,307,0,1
+1763495792998,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-149,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,90,0,1
+1763495792934,180,4. Login Owner,200,OK,Combined Load Test Thread Group 1-147,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,180,0,0
+1763495793115,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-147,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495793116,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-147,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495792989,207,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-150,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,207,0,1
+1763495792890,345,3. Create Booking,201,Created,Combined Load Test Thread Group 1-148,text,true,,1348,608,3,3,http://localhost:3005/api/booking,345,0,1
+1763495793197,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-150,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,91,0,0
+1763495793235,163,4. Login Owner,200,OK,Combined Load Test Thread Group 1-148,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,163,0,0
+1763495793399,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-148,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495793402,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-148,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495793090,338,3. Create Booking,201,Created,Combined Load Test Thread Group 1-149,text,true,,1348,608,3,3,http://localhost:3005/api/booking,338,0,0
+1763495793289,206,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-151,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,206,0,1
+1763495793428,123,4. Login Owner,200,OK,Combined Load Test Thread Group 1-149,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,123,0,0
+1763495793552,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-149,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495793554,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-149,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495793497,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-151,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,90,0,1
+1763495793289,336,3. Create Booking,201,Created,Combined Load Test Thread Group 1-150,text,true,,1348,608,3,3,http://localhost:3005/api/booking,336,0,1
+1763495793588,211,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-152,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,211,0,0
+1763495793626,195,4. Login Owner,200,OK,Combined Load Test Thread Group 1-150,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,195,0,0
+1763495793822,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-150,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495793824,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-150,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495793800,82,2. Property Search,200,OK,Combined Load Test Thread Group 1-152,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,82,0,0
+1763495793588,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-151,text,true,,1348,608,3,3,http://localhost:3005/api/booking,340,0,0
+1763495793887,209,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-153,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,209,0,0
+1763495793928,194,4. Login Owner,200,OK,Combined Load Test Thread Group 1-151,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,194,0,0
+1763495794123,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-151,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495794125,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-151,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495794096,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-153,text,true,,8010,135,2,2,http://localhost:3004/api/property/search,91,0,1
+1763495793882,351,3. Create Booking,201,Created,Combined Load Test Thread Group 1-152,text,true,,1348,608,3,3,http://localhost:3005/api/booking,351,0,1
+1763495794233,291,4. Login Owner,200,OK,Combined Load Test Thread Group 1-152,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,291,0,0
+1763495794188,337,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-154,text,true,,1597,259,4,4,http://localhost:3001/api/auth/login/traveler,337,0,0
+1763495794524,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-152,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495794528,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-152,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495794188,352,3. Create Booking,201,Created,Combined Load Test Thread Group 1-153,text,true,,1348,608,3,3,http://localhost:3005/api/booking,352,0,0
+1763495794525,95,2. Property Search,200,OK,Combined Load Test Thread Group 1-154,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,95,0,0
+1763495794491,237,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-155,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,237,0,0
+1763495794729,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-155,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,87,0,0
+1763495794540,278,4. Login Owner,200,OK,Combined Load Test Thread Group 1-153,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,278,0,0
+1763495794819,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-153,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495794821,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-153,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,2,0,0
+1763495794792,139,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-156,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,139,0,0
+1763495794620,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-154,text,true,,1348,608,3,3,http://localhost:3005/api/booking,340,0,1
+1763495794931,97,2. Property Search,200,OK,Combined Load Test Thread Group 1-156,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,97,0,1
+1763495794960,135,4. Login Owner,200,OK,Combined Load Test Thread Group 1-154,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,135,0,0
+1763495795095,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-154,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495795098,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-154,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,1,0,0
+1763495794816,331,3. Create Booking,201,Created,Combined Load Test Thread Group 1-155,text,true,,1348,608,3,3,http://localhost:3005/api/booking,331,0,1
+1763495795088,153,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-157,text,true,,1597,259,3,3,http://localhost:3001/api/auth/login/traveler,153,0,1
+1763495795241,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-157,text,true,,8010,135,3,3,http://localhost:3004/api/property/search,89,0,1
+1763495795148,191,4. Login Owner,200,OK,Combined Load Test Thread Group 1-155,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,191,0,0
+1763495795340,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-155,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495795342,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-155,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,1,0,0
+1763495795029,338,3. Create Booking,201,Created,Combined Load Test Thread Group 1-156,text,true,,1348,608,2,2,http://localhost:3005/api/booking,338,0,0
+1763495795367,658,4. Login Owner,200,OK,Combined Load Test Thread Group 1-156,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,658,0,0
+1763495795392,635,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-158,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,635,0,0
+1763495796026,11,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-156,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,11,0,0
+1763495796038,11,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-156,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,11,0,0
+1763495795330,743,3. Create Booking,201,Created,Combined Load Test Thread Group 1-157,text,true,,1348,608,4,4,http://localhost:3005/api/booking,743,0,0
+1763495796028,118,2. Property Search,200,OK,Combined Load Test Thread Group 1-158,text,true,,8010,135,4,4,http://localhost:3004/api/property/search,118,0,0
+1763495795694,827,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-159,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,826,0,1
+1763495795993,529,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-160,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,529,0,1
+1763495796147,452,3. Create Booking,201,Created,Combined Load Test Thread Group 1-158,text,true,,1348,608,6,6,http://localhost:3005/api/booking,452,0,2
+1763495796073,553,4. Login Owner,200,OK,Combined Load Test Thread Group 1-157,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,553,0,0
+1763495796523,108,2. Property Search,200,OK,Combined Load Test Thread Group 1-160,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,108,0,1
+1763495796523,120,2. Property Search,200,OK,Combined Load Test Thread Group 1-159,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,120,0,1
+1763495796627,24,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-157,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,24,0,0
+1763495796652,9,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-157,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,9,0,0
+1763495796286,726,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-161,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,726,0,0
+1763495796632,432,3. Create Booking,201,Created,Combined Load Test Thread Group 1-160,text,true,,1348,608,6,6,http://localhost:3005/api/booking,432,0,1
+1763495796644,421,3. Create Booking,201,Created,Combined Load Test Thread Group 1-159,text,true,,1348,608,6,6,http://localhost:3005/api/booking,421,0,1
+1763495797013,101,2. Property Search,200,OK,Combined Load Test Thread Group 1-161,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,101,0,1
+1763495796599,521,4. Login Owner,200,OK,Combined Load Test Thread Group 1-158,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,521,0,0
+1763495797120,7,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-158,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,7,0,0
+1763495797128,8,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-158,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,8,0,0
+1763495796591,822,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-162,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,822,0,0
+1763495796887,530,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-163,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,529,0,1
+1763495797114,363,3. Create Booking,201,Created,Combined Load Test Thread Group 1-161,text,true,,1348,608,6,6,http://localhost:3005/api/booking,363,0,3
+1763495797417,117,2. Property Search,200,OK,Combined Load Test Thread Group 1-163,text,true,,8010,135,7,7,http://localhost:3004/api/property/search,117,0,0
+1763495797414,122,2. Property Search,200,OK,Combined Load Test Thread Group 1-162,text,true,,8010,135,7,7,http://localhost:3004/api/property/search,122,0,1
+1763495797065,550,4. Login Owner,200,OK,Combined Load Test Thread Group 1-160,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,550,0,0
+1763495797615,5,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-160,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,5,0,0
+1763495797621,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-160,text,false,,1059,465,7,7,http://localhost:3005/api/booking//status,2,0,0
+1763495797065,646,4. Login Owner,200,OK,Combined Load Test Thread Group 1-159,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,646,0,0
+1763495797711,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-159,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495797715,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-159,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,3,0,0
+1763495797536,356,3. Create Booking,201,Created,Combined Load Test Thread Group 1-162,text,true,,1348,608,6,6,http://localhost:3005/api/booking,356,0,1
+1763495797186,710,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-164,text,true,,1597,259,6,6,http://localhost:3001/api/auth/login/traveler,710,0,0
+1763495797535,363,3. Create Booking,201,Created,Combined Load Test Thread Group 1-163,text,true,,1348,608,6,6,http://localhost:3005/api/booking,363,0,0
+1763495797478,441,4. Login Owner,200,OK,Combined Load Test Thread Group 1-161,text,true,,1576,253,6,6,http://localhost:3001/api/auth/login/owner,441,0,0
+1763495797919,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-161,text,false,,1065,402,6,6,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495797923,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-161,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,2,0,0
+1763495797897,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-164,text,true,,8010,135,5,5,http://localhost:3004/api/property/search,92,0,0
+1763495797491,521,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-165,text,true,,1597,259,5,5,http://localhost:3001/api/auth/login/traveler,521,0,0
+1763495798013,121,2. Property Search,200,OK,Combined Load Test Thread Group 1-165,text,true,,8010,135,6,6,http://localhost:3004/api/property/search,121,0,0
+1763495797898,523,4. Login Owner,200,OK,Combined Load Test Thread Group 1-163,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,523,0,0
+1763495797989,432,3. Create Booking,201,Created,Combined Load Test Thread Group 1-164,text,true,,1348,608,7,7,http://localhost:3005/api/booking,432,0,1
+1763495798422,32,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-163,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,32,0,0
+1763495798456,13,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-163,text,false,,1059,465,7,7,http://localhost:3005/api/booking//status,13,0,0
+1763495798135,1189,3. Create Booking,201,Created,Combined Load Test Thread Group 1-165,text,true,,1348,608,9,9,http://localhost:3005/api/booking,1189,0,2
+1763495797788,1636,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-166,text,true,,1597,259,9,9,http://localhost:3001/api/auth/login/traveler,1636,0,0
+1763495798090,1381,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-167,text,true,,1597,259,9,9,http://localhost:3001/api/auth/login/traveler,1381,0,1
+1763495797893,1578,4. Login Owner,200,OK,Combined Load Test Thread Group 1-162,text,true,,1576,253,9,9,http://localhost:3001/api/auth/login/owner,1578,0,0
+1763495799472,22,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-162,text,false,,1065,402,9,9,http://localhost:3005/api/booking/owner/?status=pending,22,0,0
+1763495799495,7,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-162,text,false,,1059,465,9,9,http://localhost:3005/api/booking//status,7,0,0
+1763495799472,186,2. Property Search,200,OK,Combined Load Test Thread Group 1-167,text,true,,8010,135,9,9,http://localhost:3004/api/property/search,186,0,0
+1763495799425,237,2. Property Search,200,OK,Combined Load Test Thread Group 1-166,text,true,,8010,135,9,9,http://localhost:3004/api/property/search,237,0,1
+1763495799659,1083,3. Create Booking,201,Created,Combined Load Test Thread Group 1-167,text,true,,1348,608,12,12,http://localhost:3005/api/booking,1083,0,3
+1763495799662,1080,3. Create Booking,201,Created,Combined Load Test Thread Group 1-166,text,true,,1348,608,12,12,http://localhost:3005/api/booking,1080,0,1
+1763495798423,2407,4. Login Owner,200,OK,Combined Load Test Thread Group 1-164,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,2407,0,0
+1763495800834,16,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-164,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,16,0,0
+1763495800851,4,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-164,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,4,0,0
+1763495798387,2529,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-168,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,2529,0,1
+1763495799331,1592,4. Login Owner,200,OK,Combined Load Test Thread Group 1-165,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1592,0,0
+1763495799041,1884,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-170,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1884,0,4
+1763495800923,7,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-165,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,7,0,0
+1763495800930,8,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-165,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,8,0,0
+1763495800917,136,2. Property Search,200,OK,Combined Load Test Thread Group 1-168,text,true,,8010,135,11,11,http://localhost:3004/api/property/search,136,0,0
+1763495800926,134,2. Property Search,200,OK,Combined Load Test Thread Group 1-170,text,true,,8010,135,11,11,http://localhost:3004/api/property/search,134,0,1
+1763495799590,1537,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-172,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1537,0,1
+1763495799888,1245,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-173,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1245,0,1
+1763495801133,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-173,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,87,0,0
+1763495801128,94,2. Property Search,200,OK,Combined Load Test Thread Group 1-172,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,94,0,0
+1763495801060,391,3. Create Booking,201,Created,Combined Load Test Thread Group 1-170,text,true,,1348,608,13,13,http://localhost:3005/api/booking,391,0,1
+1763495801054,403,3. Create Booking,201,Created,Combined Load Test Thread Group 1-168,text,true,,1348,608,13,13,http://localhost:3005/api/booking,403,0,2
+1763495800743,773,4. Login Owner,200,OK,Combined Load Test Thread Group 1-167,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,773,0,0
+1763495801517,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-167,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495801520,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-167,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,2,0,0
+1763495801221,352,3. Create Booking,201,Created,Combined Load Test Thread Group 1-173,text,true,,1348,608,12,12,http://localhost:3005/api/booking,352,0,1
+1763495801222,357,3. Create Booking,201,Created,Combined Load Test Thread Group 1-172,text,true,,1348,608,12,12,http://localhost:3005/api/booking,357,0,0
+1763495800743,871,4. Login Owner,200,OK,Combined Load Test Thread Group 1-166,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,871,0,0
+1763495800209,1407,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-174,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1407,0,4
+1763495801615,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-166,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495801618,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-166,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,3,0,0
+1763495800489,1207,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-175,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1207,0,0
+1763495801617,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-174,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,87,0,0
+1763495801696,96,2. Property Search,200,OK,Combined Load Test Thread Group 1-175,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,96,0,1
+1763495800786,1227,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-176,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,1227,0,1
+1763495801705,356,3. Create Booking,201,Created,Combined Load Test Thread Group 1-174,text,true,,1348,608,13,13,http://localhost:3005/api/booking,356,0,0
+1763495798823,3272,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-169,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,3272,0,11
+1763495802013,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-176,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,92,0,1
+1763495801391,722,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-178,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,722,0,1
+1763495799292,2823,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-171,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,2823,0,1
+1763495801793,367,3. Create Booking,201,Created,Combined Load Test Thread Group 1-175,text,true,,1348,608,13,13,http://localhost:3005/api/booking,367,0,0
+1763495802096,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-169,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,93,0,0
+1763495802115,97,2. Property Search,200,OK,Combined Load Test Thread Group 1-171,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,97,0,1
+1763495802113,101,2. Property Search,200,OK,Combined Load Test Thread Group 1-178,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,101,0,1
+1763495802106,368,3. Create Booking,201,Created,Combined Load Test Thread Group 1-176,text,true,,1348,608,14,14,http://localhost:3005/api/booking,368,0,1
+1763495801451,1066,4. Login Owner,200,OK,Combined Load Test Thread Group 1-170,text,true,,1576,253,14,14,http://localhost:3001/api/auth/login/owner,1066,0,0
+1763495802517,7,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-170,text,false,,1065,402,14,14,http://localhost:3005/api/booking/owner/?status=pending,7,0,0
+1763495802525,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-170,text,false,,1059,465,14,14,http://localhost:3005/api/booking//status,2,0,0
+1763495802189,376,3. Create Booking,201,Created,Combined Load Test Thread Group 1-169,text,true,,1348,608,13,13,http://localhost:3005/api/booking,376,0,2
+1763495802213,360,3. Create Booking,201,Created,Combined Load Test Thread Group 1-171,text,true,,1348,608,13,13,http://localhost:3005/api/booking,360,0,1
+1763495802214,366,3. Create Booking,201,Created,Combined Load Test Thread Group 1-178,text,true,,1348,608,13,13,http://localhost:3005/api/booking,366,0,1
+1763495801573,1045,4. Login Owner,200,OK,Combined Load Test Thread Group 1-173,text,true,,1576,253,14,14,http://localhost:3001/api/auth/login/owner,1045,0,0
+1763495801580,1040,4. Login Owner,200,OK,Combined Load Test Thread Group 1-172,text,true,,1576,253,14,14,http://localhost:3001/api/auth/login/owner,1040,0,0
+1763495802619,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-173,text,false,,1065,402,14,14,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495802620,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-172,text,false,,1065,402,14,14,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495802621,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-173,text,false,,1059,465,14,14,http://localhost:3005/api/booking//status,1,0,0
+1763495802622,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-172,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,1,0,0
+1763495801457,1255,4. Login Owner,200,OK,Combined Load Test Thread Group 1-168,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1255,0,0
+1763495802713,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-168,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495802716,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-168,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,2,0,0
+1763495801687,1428,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-179,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1428,0,2
+1763495803115,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-179,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,90,0,0
+1763495801087,2226,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-177,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,2226,0,1
+1763495801989,1325,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-180,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,1325,0,0
+1763495803313,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-177,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,93,0,1
+1763495802061,1352,4. Login Owner,200,OK,Combined Load Test Thread Group 1-174,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1352,0,0
+1763495803413,5,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-174,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,5,0,0
+1763495803314,105,2. Property Search,200,OK,Combined Load Test Thread Group 1-180,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,105,0,1
+1763495803418,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-174,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,3,0,0
+1763495803206,336,3. Create Booking,201,Created,Combined Load Test Thread Group 1-179,text,true,,1348,608,13,13,http://localhost:3005/api/booking,336,0,1
+1763495802161,1560,4. Login Owner,200,OK,Combined Load Test Thread Group 1-175,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1560,0,0
+1763495803723,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-175,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495803726,9,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-175,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,9,0,0
+1763495803407,344,3. Create Booking,201,Created,Combined Load Test Thread Group 1-177,text,true,,1348,608,12,12,http://localhost:3005/api/booking,344,0,0
+1763495803419,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-180,text,true,,1348,608,12,12,http://localhost:3005/api/booking,340,0,1
+1763495802475,1339,4. Login Owner,200,OK,Combined Load Test Thread Group 1-176,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1339,0,0
+1763495802289,1527,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-181,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,1527,0,1
+1763495803815,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-176,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495803819,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-176,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,3,0,0
+1763495803816,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-181,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,93,0,0
+1763495802566,1348,4. Login Owner,200,OK,Combined Load Test Thread Group 1-169,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1348,0,0
+1763495803914,5,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-169,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,5,0,0
+1763495803920,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-169,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,3,0,0
+1763495802573,1643,4. Login Owner,200,OK,Combined Load Test Thread Group 1-171,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1643,0,0
+1763495804216,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-171,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495804220,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-171,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,2,0,0
+1763495803910,344,3. Create Booking,201,Created,Combined Load Test Thread Group 1-181,text,true,,1348,608,11,11,http://localhost:3005/api/booking,344,0,0
+1763495802580,1735,4. Login Owner,200,OK,Combined Load Test Thread Group 1-178,text,true,,1576,253,11,11,http://localhost:3001/api/auth/login/owner,1735,0,0
+1763495804315,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-178,text,false,,1065,402,11,11,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495802889,1431,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-183,text,true,,1597,259,11,11,http://localhost:3001/api/auth/login/traveler,1431,0,1
+1763495804319,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-178,text,false,,1059,465,11,11,http://localhost:3005/api/booking//status,2,0,0
+1763495804321,86,2. Property Search,200,OK,Combined Load Test Thread Group 1-183,text,true,,8010,135,11,11,http://localhost:3004/api/property/search,86,0,0
+1763495802590,1824,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-182,text,true,,1597,259,11,11,http://localhost:3001/api/auth/login/traveler,1824,0,1
+1763495804415,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-182,text,true,,8010,135,11,11,http://localhost:3004/api/property/search,92,0,0
+1763495804408,347,3. Create Booking,201,Created,Combined Load Test Thread Group 1-183,text,true,,1348,608,12,12,http://localhost:3005/api/booking,347,0,1
+1763495803192,1623,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-184,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1623,0,1
+1763495804508,326,3. Create Booking,201,Created,Combined Load Test Thread Group 1-182,text,true,,1348,608,12,12,http://localhost:3005/api/booking,326,0,2
+1763495804816,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-184,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,92,0,0
+1763495803486,1435,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-185,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1435,0,1
+1763495804921,95,2. Property Search,200,OK,Combined Load Test Thread Group 1-185,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,95,0,0
+1763495803543,1473,4. Login Owner,200,OK,Combined Load Test Thread Group 1-179,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1473,0,0
+1763495803751,1267,4. Login Owner,200,OK,Combined Load Test Thread Group 1-177,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1267,0,0
+1763495805016,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-179,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495805018,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-177,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495805020,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-179,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,2,0,0
+1763495805021,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-177,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,1,0,0
+1763495804909,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-184,text,true,,1348,608,11,11,http://localhost:3005/api/booking,339,0,0
+1763495805016,349,3. Create Booking,201,Created,Combined Load Test Thread Group 1-185,text,true,,1348,608,12,12,http://localhost:3005/api/booking,349,0,1
+1763495803759,1755,4. Login Owner,200,OK,Combined Load Test Thread Group 1-180,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1755,0,0
+1763495805514,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-180,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495805518,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-180,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,3,0,0
+1763495803790,1833,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-186,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1832,0,0
+1763495804086,1629,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-187,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1629,0,1
+1763495805623,101,2. Property Search,200,OK,Combined Load Test Thread Group 1-186,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,101,0,1
+1763495805716,102,2. Property Search,200,OK,Combined Load Test Thread Group 1-187,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,102,0,0
+1763495804254,1566,4. Login Owner,200,OK,Combined Load Test Thread Group 1-181,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1566,0,0
+1763495805820,4,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-181,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,4,0,0
+1763495805824,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-181,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,2,0,0
+1763495805725,342,3. Create Booking,201,Created,Combined Load Test Thread Group 1-186,text,true,,1348,608,12,12,http://localhost:3005/api/booking,342,0,1
+1763495804389,1734,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-188,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1734,0,0
+1763495805819,352,3. Create Booking,201,Created,Combined Load Test Thread Group 1-187,text,true,,1348,608,12,12,http://localhost:3005/api/booking,352,0,1
+1763495806124,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-188,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,92,0,0
+1763495804691,1625,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-189,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,1625,0,1
+1763495804755,1564,4. Login Owner,200,OK,Combined Load Test Thread Group 1-183,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1564,0,0
+1763495806319,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-183,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495806322,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-183,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,2,0,0
+1763495806317,91,2. Property Search,200,OK,Combined Load Test Thread Group 1-189,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,91,0,0
+1763495804834,1586,4. Login Owner,200,OK,Combined Load Test Thread Group 1-182,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1586,0,0
+1763495806421,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-182,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495806423,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-182,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,2,0,0
+1763495806216,340,3. Create Booking,201,Created,Combined Load Test Thread Group 1-188,text,true,,1348,608,12,12,http://localhost:3005/api/booking,340,0,1
+1763495804990,1631,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-190,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1631,0,1
+1763495806622,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-190,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,87,0,0
+1763495806409,344,3. Create Booking,201,Created,Combined Load Test Thread Group 1-189,text,true,,1348,608,12,12,http://localhost:3005/api/booking,344,0,1
+1763495805248,1548,4. Login Owner,200,OK,Combined Load Test Thread Group 1-184,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1548,0,0
+1763495806796,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-184,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495806799,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-184,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,1,0,0
+1763495805290,1621,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-191,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1621,0,1
+1763495806912,89,2. Property Search,200,OK,Combined Load Test Thread Group 1-191,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,89,0,0
+1763495805365,1650,4. Login Owner,200,OK,Combined Load Test Thread Group 1-185,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1650,0,0
+1763495807015,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-185,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495807018,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-185,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,2,0,0
+1763495806709,343,3. Create Booking,201,Created,Combined Load Test Thread Group 1-190,text,true,,1348,608,11,11,http://localhost:3005/api/booking,343,0,1
+1763495805591,1634,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-192,text,true,,1597,259,12,12,http://localhost:3001/api/auth/login/traveler,1634,0,1
+1763495807226,90,2. Property Search,200,OK,Combined Load Test Thread Group 1-192,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,90,0,0
+1763495807001,345,3. Create Booking,201,Created,Combined Load Test Thread Group 1-191,text,true,,1348,608,12,12,http://localhost:3005/api/booking,345,0,1
+1763495805892,1527,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-193,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,1527,0,1
+1763495807420,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-193,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,92,0,0
+1763495806068,1449,4. Login Owner,200,OK,Combined Load Test Thread Group 1-186,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1449,0,0
+1763495807518,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-186,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495807520,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-186,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,2,0,0
+1763495807316,345,3. Create Booking,201,Created,Combined Load Test Thread Group 1-192,text,true,,1348,608,12,12,http://localhost:3005/api/booking,345,0,1
+1763495806172,1543,4. Login Owner,200,OK,Combined Load Test Thread Group 1-187,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1543,0,0
+1763495807716,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-187,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495807719,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-187,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,2,0,0
+1763495807513,343,3. Create Booking,201,Created,Combined Load Test Thread Group 1-193,text,true,,1348,608,12,12,http://localhost:3005/api/booking,343,0,1
+1763495806191,1907,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-194,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,1907,0,1
+1763495808099,87,2. Property Search,200,OK,Combined Load Test Thread Group 1-194,text,true,,8010,135,13,13,http://localhost:3004/api/property/search,87,0,0
+1763495806490,1728,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-195,text,true,,1597,259,13,13,http://localhost:3001/api/auth/login/traveler,1728,0,0
+1763495806556,1665,4. Login Owner,200,OK,Combined Load Test Thread Group 1-188,text,true,,1576,253,13,13,http://localhost:3001/api/auth/login/owner,1665,0,0
+1763495808222,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-188,text,false,,1065,402,13,13,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495808224,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-188,text,false,,1059,465,13,13,http://localhost:3005/api/booking//status,1,0,0
+1763495808218,100,2. Property Search,200,OK,Combined Load Test Thread Group 1-195,text,true,,8010,135,12,12,http://localhost:3004/api/property/search,100,0,1
+1763495806754,1641,4. Login Owner,200,OK,Combined Load Test Thread Group 1-189,text,true,,1576,253,12,12,http://localhost:3001/api/auth/login/owner,1641,0,0
+1763495808395,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-189,text,false,,1065,402,12,12,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495808398,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-189,text,false,,1059,465,12,12,http://localhost:3005/api/booking//status,2,0,0
+1763495808187,399,3. Create Booking,201,Created,Combined Load Test Thread Group 1-194,text,true,,1348,608,11,11,http://localhost:3005/api/booking,399,0,1
+1763495806791,1825,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-196,text,true,,1597,259,11,11,http://localhost:3001/api/auth/login/traveler,1825,0,1
+1763495808318,347,3. Create Booking,201,Created,Combined Load Test Thread Group 1-195,text,true,,1348,608,11,11,http://localhost:3005/api/booking,347,0,1
+1763495808615,93,2. Property Search,200,OK,Combined Load Test Thread Group 1-196,text,true,,8010,135,11,11,http://localhost:3004/api/property/search,93,0,1
+1763495807053,1766,4. Login Owner,200,OK,Combined Load Test Thread Group 1-190,text,true,,1576,253,11,11,http://localhost:3001/api/auth/login/owner,1766,0,0
+1763495808819,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-190,text,false,,1065,402,11,11,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495808822,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-190,text,false,,1059,465,11,11,http://localhost:3005/api/booking//status,1,0,0
+1763495807092,1821,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-197,text,true,,1597,259,10,10,http://localhost:3001/api/auth/login/traveler,1821,0,1
+1763495808913,105,2. Property Search,200,OK,Combined Load Test Thread Group 1-197,text,true,,8010,135,10,10,http://localhost:3004/api/property/search,105,0,1
+1763495808709,346,3. Create Booking,201,Created,Combined Load Test Thread Group 1-196,text,true,,1348,608,10,10,http://localhost:3005/api/booking,346,0,1
+1763495807347,1749,4. Login Owner,200,OK,Combined Load Test Thread Group 1-191,text,true,,1576,253,10,10,http://localhost:3001/api/auth/login/owner,1749,0,0
+1763495809095,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-191,text,false,,1065,402,10,10,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495809098,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-191,text,false,,1059,465,10,10,http://localhost:3005/api/booking//status,1,0,0
+1763495809019,355,3. Create Booking,201,Created,Combined Load Test Thread Group 1-197,text,true,,1348,608,9,9,http://localhost:3005/api/booking,355,0,1
+1763495807393,2020,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-198,text,true,,1597,259,9,9,http://localhost:3001/api/auth/login/traveler,2020,0,1
+1763495809413,100,2. Property Search,200,OK,Combined Load Test Thread Group 1-198,text,true,,8010,135,9,9,http://localhost:3004/api/property/search,100,0,0
+1763495807688,1929,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-199,text,true,,1597,259,9,9,http://localhost:3001/api/auth/login/traveler,1929,0,1
+1763495807662,1955,4. Login Owner,200,OK,Combined Load Test Thread Group 1-192,text,true,,1576,253,9,9,http://localhost:3001/api/auth/login/owner,1955,0,0
+1763495809616,5,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-192,text,false,,1065,402,9,9,http://localhost:3005/api/booking/owner/?status=pending,5,0,0
+1763495809621,4,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-192,text,false,,1059,465,9,9,http://localhost:3005/api/booking//status,4,0,0
+1763495809616,92,2. Property Search,200,OK,Combined Load Test Thread Group 1-199,text,true,,8010,135,8,8,http://localhost:3004/api/property/search,92,0,1
+1763495807856,1858,4. Login Owner,200,OK,Combined Load Test Thread Group 1-193,text,true,,1576,253,8,8,http://localhost:3001/api/auth/login/owner,1858,0,0
+1763495809714,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-193,text,false,,1065,402,8,8,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495809716,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-193,text,false,,1059,465,8,8,http://localhost:3005/api/booking//status,2,0,0
+1763495809514,341,3. Create Booking,201,Created,Combined Load Test Thread Group 1-198,text,true,,1348,608,7,7,http://localhost:3005/api/booking,341,0,1
+1763495807991,2028,1. Login Traveler,200,OK,Combined Load Test Thread Group 1-200,text,true,,1597,259,7,7,http://localhost:3001/api/auth/login/traveler,2028,0,0
+1763495809709,343,3. Create Booking,201,Created,Combined Load Test Thread Group 1-199,text,true,,1348,608,7,7,http://localhost:3005/api/booking,343,0,0
+1763495810018,96,2. Property Search,200,OK,Combined Load Test Thread Group 1-200,text,true,,8010,135,7,7,http://localhost:3004/api/property/search,96,0,1
+1763495808664,1552,4. Login Owner,200,OK,Combined Load Test Thread Group 1-195,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,1552,0,0
+1763495808586,1632,4. Login Owner,200,OK,Combined Load Test Thread Group 1-194,text,true,,1576,253,7,7,http://localhost:3001/api/auth/login/owner,1632,0,0
+1763495810216,3,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-195,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,3,0,0
+1763495810218,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-194,text,false,,1065,402,7,7,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495810219,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-195,text,false,,1059,465,7,7,http://localhost:3005/api/booking//status,2,0,0
+1763495810220,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-194,text,false,,1059,465,6,6,http://localhost:3005/api/booking//status,1,0,0
+1763495809055,1262,4. Login Owner,200,OK,Combined Load Test Thread Group 1-196,text,true,,1576,253,5,5,http://localhost:3001/api/auth/login/owner,1262,0,0
+1763495810317,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-196,text,false,,1065,402,5,5,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495810319,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-196,text,false,,1059,465,5,5,http://localhost:3005/api/booking//status,1,0,0
+1763495810114,339,3. Create Booking,201,Created,Combined Load Test Thread Group 1-200,text,true,,1348,608,4,4,http://localhost:3005/api/booking,339,0,1
+1763495809375,1240,4. Login Owner,200,OK,Combined Load Test Thread Group 1-197,text,true,,1576,253,4,4,http://localhost:3001/api/auth/login/owner,1240,0,0
+1763495810616,5,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-197,text,false,,1065,402,4,4,http://localhost:3005/api/booking/owner/?status=pending,5,0,0
+1763495810622,3,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-197,text,false,,1059,465,4,4,http://localhost:3005/api/booking//status,3,0,0
+1763495810052,642,4. Login Owner,200,OK,Combined Load Test Thread Group 1-199,text,true,,1576,253,3,3,http://localhost:3001/api/auth/login/owner,642,0,0
+1763495810695,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-199,text,false,,1065,402,3,3,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495810697,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-199,text,false,,1059,465,3,3,http://localhost:3005/api/booking//status,2,0,0
+1763495809856,863,4. Login Owner,200,OK,Combined Load Test Thread Group 1-198,text,true,,1576,253,2,2,http://localhost:3001/api/auth/login/owner,863,0,0
+1763495810719,2,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-198,text,false,,1065,402,2,2,http://localhost:3005/api/booking/owner/?status=pending,2,0,0
+1763495810722,1,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-198,text,false,,1059,465,2,2,http://localhost:3005/api/booking//status,1,0,0
+1763495810453,364,4. Login Owner,200,OK,Combined Load Test Thread Group 1-200,text,true,,1576,253,1,1,http://localhost:3001/api/auth/login/owner,364,0,0
+1763495810818,1,5. Get Owner Bookings,404,Not Found,Combined Load Test Thread Group 1-200,text,false,,1065,402,1,1,http://localhost:3005/api/booking/owner/?status=pending,1,0,0
+1763495810819,2,6. Owner Accept Booking,404,Not Found,Combined Load Test Thread Group 1-200,text,false,,1059,465,1,1,http://localhost:3005/api/booking//status,2,0,0

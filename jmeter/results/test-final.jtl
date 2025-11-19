@@ -1,0 +1,9 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1763489144876,44,1. Register Traveler,400,Bad Request,Travelers Load Test 1-1,text,false,,1199,324,1,1,http://localhost:3001/api/auth/register/traveler,42,0,8
+1763489144927,89,2. Login Traveler,401,Unauthorized,Travelers Load Test 1-1,text,false,,1082,251,1,1,http://localhost:3001/api/auth/login/traveler,89,0,0
+1763489145016,108,3. Search Properties,200,OK,Travelers Load Test 1-1,text,true,,8010,135,1,1,http://localhost:3004/api/property/search,108,0,1
+1763489145345,10,1. Register Traveler,400,Bad Request,Travelers Load Test 1-2,text,false,,1199,324,2,2,http://localhost:3001/api/auth/register/traveler,10,0,1
+1763489145126,305,4. Create Booking,401,Unauthorized,Travelers Load Test 1-1,text,false,,1064,337,2,2,http://localhost:3005/api/booking,305,0,294
+1763489145355,80,2. Login Traveler,401,Unauthorized,Travelers Load Test 1-2,text,false,,1082,251,1,1,http://localhost:3001/api/auth/login/traveler,80,0,0
+1763489145436,94,3. Search Properties,200,OK,Travelers Load Test 1-2,text,true,,8010,135,1,1,http://localhost:3004/api/property/search,94,0,0
+1763489145530,9,4. Create Booking,401,Unauthorized,Travelers Load Test 1-2,text,false,,1064,337,1,1,http://localhost:3005/api/booking,9,0,1

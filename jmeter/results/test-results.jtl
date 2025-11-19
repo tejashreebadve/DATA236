@@ -1,0 +1,6 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1763488496855,0,,Non HTTP response code: java.net.MalformedURLException,Non HTTP response message: Illegal character found in host: '{',Travelers - Making Bookings 1-1,text,false,,863,0,1,1,null,0,0,0
+1763488496856,0,,Non HTTP response code: java.net.MalformedURLException,Non HTTP response message: Illegal character found in host: '{',Travelers - Making Bookings 1-1,text,false,,863,0,1,1,null,0,0,0
+1763488496862,0,,Non HTTP response code: java.net.MalformedURLException,Non HTTP response message: Illegal character found in host: '{',Travelers - Making Bookings 1-1,text,false,,863,0,1,1,null,0,0,0
+1763488496863,0,,Non HTTP response code: java.net.MalformedURLException,Non HTTP response message: Illegal character found in host: '{',Travelers - Making Bookings 1-1,text,false,,863,0,1,1,null,0,0,0
+1763488496863,0,,Non HTTP response code: java.net.MalformedURLException,Non HTTP response message: Illegal character found in host: '{',Travelers - Making Bookings 1-1,text,false,,863,0,1,1,null,0,0,0

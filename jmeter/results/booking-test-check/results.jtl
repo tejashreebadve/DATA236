@@ -1,0 +1,4 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1763493392811,139,Login Traveler,401,Unauthorized,Booking Load Test Thread Group 1-1,text,false,,1082,251,1,1,http://localhost:3001/api/auth/login/traveler,137,0,14
+1763493392964,114,Search Properties,200,OK,Booking Load Test Thread Group 1-1,text,true,,8010,135,1,1,http://localhost:3004/api/property/search,114,0,0
+1763493393079,295,Create Booking,401,Unauthorized,Booking Load Test Thread Group 1-1,text,false,,1064,380,1,1,http://localhost:3005/api/booking,295,0,278
