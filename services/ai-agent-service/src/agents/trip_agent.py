@@ -156,9 +156,18 @@ Only include fields that are explicitly mentioned or clearly implied. Return val
         Generate a complete itinerary using the agent
         """
         try:
-            # Build context for the agent
+            # Build context for the agent with enhanced location information
+            # Ensure location is clear and unambiguous
+            location_context = location
+            if location and ',' in location:
+                # Location already formatted, use as-is
+                location_context = location
+            else:
+                # If location is just a city name, add context
+                location_context = f"{location} (verify country if ambiguous)"
+            
             context_parts = [
-                f"Location: {location}",
+                f"Location: {location_context}",
                 f"Travel dates: {start_date} to {end_date}",
                 f"Number of guests: {guests}",
             ]
@@ -176,10 +185,29 @@ Only include fields that are explicitly mentioned or clearly implied. Return val
             
             context = "\n".join(context_parts)
             
+            # Enhance location in prompt to handle ambiguity
+            location_prompt = location
+            if ',' in location:
+                parts = [p.strip() for p in location.split(',')]
+                if len(parts) >= 2:
+                    city = parts[0]
+                    country = parts[-1]
+                    # Add clarification for known ambiguous cases
+                    indian_cities = ['Mumbai', 'Delhi', 'Bangalore', 'Pune', 'Hyderabad', 'Chennai', 'Kolkata', 'Ahmedabad', 'Jaipur', 'Surat']
+                    if city in indian_cities and country not in ['India', 'IN']:
+                        location_prompt = f"{city}, India (IMPORTANT: {city} is in India, not {country}. Use India as the country.)"
+                    else:
+                        location_prompt = location
+            
             # Create agent prompt
             agent_input = f"""Create a detailed day-by-day travel itinerary with the following requirements:
 
 {context}
+
+IMPORTANT LOCATION NOTE: If the location seems ambiguous (e.g., a city name doesn't match the country provided), use your knowledge to determine the correct location. For example:
+- Mumbai, Delhi, Pune, Bangalore, Hyderabad, Chennai, Kolkata are cities in India
+- If you see "Mumbai, United States" or similar, the correct location is "Mumbai, India"
+- Always verify the country matches the city based on your knowledge
 
 Please provide:
 1. A day-by-day plan with morning, afternoon, and evening activities
@@ -188,7 +216,7 @@ Please provide:
 4. Weather-aware packing checklist
 
 Use web search to find current information about:
-- Top attractions in {location}
+- Top attractions in {location_prompt}
 - Best restaurants (considering dietary filters)
 - Local events during {start_date} to {end_date}
 - Weather patterns

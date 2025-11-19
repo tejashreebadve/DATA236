@@ -84,7 +84,51 @@ async def generate_itinerary(request: GenerateItineraryRequest) -> ItineraryResp
                 property_data = property_id
             
             location = property_data.get("location", {}) if property_data else {}
-            location_str = f"{location.get('city', '')}, {location.get('country', '')}"
+            # Build a more descriptive location string
+            city = location.get('city', '').strip()
+            state = location.get('state', '').strip()
+            country = location.get('country', '').strip()
+            address = location.get('address', '').strip()
+            
+            # Create location string with better context
+            # If address contains city name, use it; otherwise use city field
+            if city:
+                # Check for common city-country mismatches and correct them
+                city_country_map = {
+                    'Mumbai': 'India',
+                    'Delhi': 'India',
+                    'Bangalore': 'India',
+                    'Pune': 'India',
+                    'Hyderabad': 'India',
+                    'Chennai': 'India',
+                    'Kolkata': 'India',
+                    'Ahmedabad': 'India',
+                    'Jaipur': 'India',
+                    'Surat': 'India',
+                }
+                
+                # If city is known Indian city but country is wrong, correct it
+                if city in city_country_map and country != city_country_map[city]:
+                    country = city_country_map[city]
+                    logger.warning(f"Corrected country for {city} from '{location.get('country')}' to '{country}'")
+                
+                # Build location string: prefer city, country format
+                # Include state only if it's meaningful (not just 2-letter code or doesn't match country)
+                if state and len(state) > 2 and state != country:
+                    location_str = f"{city}, {state}, {country}"
+                elif state and len(state) == 2:
+                    # If state is 2-letter code, check if it makes sense
+                    # US states are 2 letters, but if country is not USA, might be wrong
+                    if country == 'United States' or country == 'USA':
+                        location_str = f"{city}, {state}, {country}"
+                    else:
+                        # For non-US countries, 2-letter state code might be wrong, skip it
+                        location_str = f"{city}, {country}"
+                else:
+                    location_str = f"{city}, {country}"
+            else:
+                # Fallback to address if city not available
+                location_str = address or "Location not specified"
             start_date = booking.get("startDate")
             end_date = booking.get("endDate")
             guests = booking.get("guests", 1)
