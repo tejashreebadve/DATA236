@@ -435,6 +435,23 @@ Format your response as a detailed JSON structure matching this schema:
                 elif "itinerary" in parsed and "packingChecklist" in parsed["itinerary"]:
                     result["packingChecklist"] = parsed["itinerary"]["packingChecklist"]
                 
+                # Validate and fix packing checklist items - ensure all have 'items' field
+                if result.get("packingChecklist"):
+                    fixed_packing = []
+                    for item in result["packingChecklist"]:
+                        if isinstance(item, dict):
+                            # Ensure 'items' field exists and is a list
+                            if "items" not in item or not isinstance(item.get("items"), list):
+                                item["items"] = item.get("items", []) if isinstance(item.get("items"), list) else []
+                            # Ensure 'category' exists
+                            if "category" not in item:
+                                item["category"] = item.get("category", "General")
+                            fixed_packing.append(item)
+                        else:
+                            # Skip invalid items
+                            logger.warning(f"Skipping invalid packing checklist item: {item}")
+                    result["packingChecklist"] = fixed_packing
+                
                 return result
                 
             except json.JSONDecodeError as parse_error:
@@ -467,7 +484,20 @@ Format your response as a detailed JSON structure matching this schema:
                         "restaurants": parsed.get("restaurants", []),
                         "packingChecklist": parsed.get("packingChecklist", [])
                     }
-                    logger.info(f"Successfully parsed JSON after aggressive cleanup: {len(result['days'])} days")
+                    
+                    # Validate and fix packing checklist items
+                    if result.get("packingChecklist"):
+                        fixed_packing = []
+                        for item in result["packingChecklist"]:
+                            if isinstance(item, dict):
+                                if "items" not in item or not isinstance(item.get("items"), list):
+                                    item["items"] = []
+                                if "category" not in item:
+                                    item["category"] = "General"
+                                fixed_packing.append(item)
+                        result["packingChecklist"] = fixed_packing
+                    
+                    logger.info(f"Successfully parsed JSON after aggressive cleanup: {len(result['days'])} days, {len(result.get('packingChecklist', []))} packing items")
                     return result
                 except json.JSONDecodeError as e2:
                     logger.error(f"Failed to parse JSON even after aggressive cleanup: {e2}")
@@ -492,11 +522,11 @@ Format your response as a detailed JSON structure matching this schema:
         except Exception as e:
             logger.error(f"Error parsing JSON from response: {e}")
             logger.error(f"Response text (first 1000 chars): {response_text[:1000]}")
-            # Return empty structure
+            # Return empty structure with valid format
             return {
                 "days": [],
                 "restaurants": [],
-                "packingChecklist": []
+                "packingChecklist": []  # Empty but valid list
             }
     
     async def chat(self, message: str, context: Optional[Dict] = None) -> Dict:

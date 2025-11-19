@@ -158,15 +158,112 @@ async def generate_itinerary(request: GenerateItineraryRequest) -> ItineraryResp
         logger.info(f"Generated itinerary result keys: {list(result.keys()) if isinstance(result, dict) else 'Not a dict'}")
         logger.info(f"Itinerary days count: {len(result.get('itinerary', {}).get('days', [])) if isinstance(result.get('itinerary'), dict) else 0}")
         
+        # Validate and fix result structure before creating response
         try:
+            # Ensure itinerary structure exists
+            if "itinerary" not in result:
+                result = {"itinerary": result, "metadata": result.get("metadata", {})}
+            
+            itinerary_data = result.get("itinerary", {})
+            
+            # Validate and fix packing checklist
+            if "packingChecklist" in itinerary_data and isinstance(itinerary_data["packingChecklist"], list):
+                fixed_packing = []
+                for idx, item in enumerate(itinerary_data["packingChecklist"]):
+                    if isinstance(item, dict):
+                        # Ensure required fields exist
+                        if "items" not in item or not isinstance(item.get("items"), list):
+                            logger.warning(f"Fixing packing checklist item {idx}: missing or invalid 'items' field")
+                            item["items"] = []
+                        if "category" not in item:
+                            logger.warning(f"Fixing packing checklist item {idx}: missing 'category' field")
+                            item["category"] = f"Category {idx + 1}"
+                        fixed_packing.append(item)
+                    else:
+                        logger.warning(f"Skipping invalid packing checklist item {idx}: {type(item)}")
+                itinerary_data["packingChecklist"] = fixed_packing
+            
+            # Validate and fix restaurants
+            if "restaurants" in itinerary_data and isinstance(itinerary_data["restaurants"], list):
+                fixed_restaurants = []
+                for idx, restaurant in enumerate(itinerary_data["restaurants"]):
+                    if isinstance(restaurant, dict):
+                        # Ensure required fields exist
+                        if "name" not in restaurant:
+                            restaurant["name"] = f"Restaurant {idx + 1}"
+                        if "address" not in restaurant:
+                            restaurant["address"] = "Address not specified"
+                        if "cuisine" not in restaurant:
+                            restaurant["cuisine"] = "Various"
+                        if "priceTier" not in restaurant:
+                            restaurant["priceTier"] = "medium"
+                        fixed_restaurants.append(restaurant)
+                    else:
+                        logger.warning(f"Skipping invalid restaurant {idx}: {type(restaurant)}")
+                itinerary_data["restaurants"] = fixed_restaurants
+            
+            # Validate and fix days
+            if "days" in itinerary_data and isinstance(itinerary_data["days"], list):
+                fixed_days = []
+                for idx, day in enumerate(itinerary_data["days"]):
+                    if isinstance(day, dict):
+                        # Ensure required fields exist
+                        if "date" not in day:
+                            logger.warning(f"Fixing day {idx}: missing 'date' field")
+                            day["date"] = ""  # Will be set by the agent if missing
+                        # Ensure time blocks exist
+                        for time_block in ["morning", "afternoon", "evening"]:
+                            if time_block not in day:
+                                day[time_block] = {"activities": []}
+                            elif not isinstance(day[time_block], dict):
+                                day[time_block] = {"activities": []}
+                            elif "activities" not in day[time_block]:
+                                day[time_block]["activities"] = []
+                        fixed_days.append(day)
+                    else:
+                        logger.warning(f"Skipping invalid day {idx}: {type(day)}")
+                itinerary_data["days"] = fixed_days
+            
+            # Update result with fixed data
+            result["itinerary"] = itinerary_data
+            
+            # Create response with validated data
             response = ItineraryResponse(**result)
-            logger.info(f"Successfully created ItineraryResponse with {len(response.itinerary.days)} days")
+            logger.info(f"Successfully created ItineraryResponse with {len(response.itinerary.days)} days, {len(response.itinerary.restaurants)} restaurants, {len(response.itinerary.packingChecklist)} packing items")
             return response
         except Exception as e:
             logger.error(f"Error creating ItineraryResponse: {e}", exc_info=True)
             logger.error(f"Result structure: {result}")
-            # Return the result as-is if validation fails (let FastAPI handle it)
-            raise HTTPException(status_code=500, detail=f"Failed to validate itinerary response: {str(e)}")
+            # Try to create a minimal valid response as fallback
+            try:
+                fallback_result = {
+                    "itinerary": {
+                        "days": result.get("itinerary", {}).get("days", []) if isinstance(result.get("itinerary"), dict) else result.get("days", []),
+                        "restaurants": result.get("itinerary", {}).get("restaurants", []) if isinstance(result.get("itinerary"), dict) else result.get("restaurants", []),
+                        "packingChecklist": result.get("itinerary", {}).get("packingChecklist", []) if isinstance(result.get("itinerary"), dict) else result.get("packingChecklist", [])
+                    },
+                    "metadata": result.get("metadata", {
+                        "location": location_str,
+                        "dates": {
+                            "start": start_date_normalized or start_date,
+                            "end": end_date_normalized or end_date
+                        }
+                    })
+                }
+                # Apply same fixes to fallback
+                itinerary_data = fallback_result["itinerary"]
+                if "packingChecklist" in itinerary_data:
+                    itinerary_data["packingChecklist"] = [
+                        {**item, "items": item.get("items", []) if isinstance(item.get("items"), list) else []}
+                        for item in itinerary_data["packingChecklist"]
+                        if isinstance(item, dict)
+                    ]
+                response = ItineraryResponse(**fallback_result)
+                logger.warning("Created ItineraryResponse using fallback structure")
+                return response
+            except Exception as fallback_error:
+                logger.error(f"Fallback also failed: {fallback_error}")
+                raise HTTPException(status_code=500, detail=f"Failed to validate itinerary response: {str(e)}")
         
     except HTTPException:
         raise

@@ -13,7 +13,7 @@ class Activity(BaseModel):
     address: str
     coordinates: Optional[Coordinates] = None
     priceTier: str = Field(..., description="low|medium|high|luxury")
-    duration: str
+    duration: str = ""  # Default to empty string if not provided
     tags: List[str] = []
     wheelchairAccessible: bool = False
     childFriendly: bool = False
@@ -34,8 +34,8 @@ class DayPlan(BaseModel):
 class Restaurant(BaseModel):
     name: str
     address: str
-    cuisine: str
-    priceTier: str
+    cuisine: str = ""  # Default to empty string if not provided
+    priceTier: str = "medium"  # Default to medium if not provided
     dietaryOptions: List[str] = []
     rating: Optional[float] = None
     description: Optional[str] = None
@@ -44,7 +44,7 @@ class Restaurant(BaseModel):
 
 class PackingItem(BaseModel):
     category: str
-    items: List[str]
+    items: List[str] = []  # Default to empty list if not provided
     weatherBased: bool = False
 
 
