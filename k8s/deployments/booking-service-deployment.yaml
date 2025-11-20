@@ -7,7 +7,7 @@ metadata:
     app: booking-service
     service: booking
 spec:
-  replicas: 2
+  replicas: 1  # Single replica for demo
   selector:
     matchLabels:
       app: booking-service
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: booking-service
-        image: rednest-booking-service:latest
+        image: 985121561706.dkr.ecr.us-east-1.amazonaws.com/rednest-booking-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3005
@@ -58,11 +58,11 @@ spec:
               key: cors-origin
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "100m"
+            memory: "128Mi"
+            cpu: "50m"
           limits:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: "128Mi"
+            cpu: "200m"
         livenessProbe:
           httpGet:
             path: /health

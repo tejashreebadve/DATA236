@@ -8,8 +8,8 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
-  storageClassName: hostpath
+      storage: 1Gi  # Minimal for demo
+  storageClassName: gp2-immediate
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -21,8 +21,8 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
-  storageClassName: hostpath
+      storage: 1Gi  # Minimal for demo
+  storageClassName: gp2-immediate
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -34,6 +34,6 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
-  storageClassName: hostpath
+      storage: 2Gi  # Minimal for demo
+  storageClassName: gp2-immediate
 

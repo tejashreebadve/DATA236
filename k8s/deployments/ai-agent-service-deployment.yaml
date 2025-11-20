@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: ai-agent-service
-        image: rednest-ai-agent-service:latest
+        image: 985121561706.dkr.ecr.us-east-1.amazonaws.com/rednest-ai-agent-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3006
@@ -68,10 +68,10 @@ spec:
               key: cors-origin
         resources:
           requests:
-            memory: "512Mi"
+            memory: "128Mi"
             cpu: "200m"
           limits:
-            memory: "1Gi"
+            memory: "256Mi"
             cpu: "1000m"
         livenessProbe:
           httpGet:

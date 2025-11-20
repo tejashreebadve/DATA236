@@ -27,31 +27,19 @@ spec:
           value: "2000"
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "200m"
+            memory: "256Mi"
+            cpu: "100m"
           limits:
-            memory: "1Gi"
-            cpu: "500m"
+            memory: "512Mi"
+            cpu: "300m"
         volumeMounts:
         - name: zookeeper-data
           mountPath: /var/lib/zookeeper/data
         - name: zookeeper-logs
           mountPath: /var/lib/zookeeper/log
-  volumeClaimTemplates:
-  - metadata:
-      name: zookeeper-data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: gp2-immediate
-      resources:
-        requests:
-          storage: 2Gi  # Minimal for demo
-  - metadata:
-      name: zookeeper-logs
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: gp2-immediate
-      resources:
-        requests:
-          storage: 1Gi  # Minimal for demo
+      volumes:
+      - name: zookeeper-data
+        emptyDir: {}
+      - name: zookeeper-logs
+        emptyDir: {}
 

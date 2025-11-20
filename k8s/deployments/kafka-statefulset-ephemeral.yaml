@@ -37,21 +37,15 @@ spec:
           value: "true"
         resources:
           requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
             memory: "1Gi"
             cpu: "500m"
-          limits:
-            memory: "2Gi"
-            cpu: "1000m"
         volumeMounts:
         - name: kafka-data
           mountPath: /var/lib/kafka/data
-  volumeClaimTemplates:
-  - metadata:
-      name: kafka-data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: gp2-immediate
-      resources:
-        requests:
-          storage: 5Gi  # Minimal for demo (just a few bookings)
+      volumes:
+      - name: kafka-data
+        emptyDir: {}
 
