@@ -27,19 +27,13 @@ export const getProfilePictureUrl = (imagePath, role = 'traveler') => {
     normalizedPath = `/uploads${normalizedPath.startsWith('/') ? '' : '/'}${normalizedPath}`
   }
   
-  // In development, use relative paths that go through Vite proxy
-  if (import.meta.env.DEV) {
-    // For owner service, use owner-uploads proxy
-    if (role === 'owner') {
-      return normalizedPath.replace(/^\/uploads/, '/owner-uploads')
-    }
-    // For traveler service, use relative path (proxy will handle)
-    return normalizedPath
+  // Use relative paths that go through nginx proxy (works in both dev and production)
+  // For owner service, use owner-uploads proxy
+  if (role === 'owner') {
+    return normalizedPath.replace(/^\/uploads/, '/owner-uploads')
   }
-  
-  // In production, construct full URL based on service
-  const servicePort = role === 'owner' ? 3003 : 3002
-  return `http://localhost:${servicePort}${normalizedPath}`
+  // For traveler service, use relative path (nginx will proxy)
+  return normalizedPath
 }
 
 /**
@@ -69,13 +63,8 @@ export const getPropertyImageUrl = (imagePath) => {
     normalizedPath = `/uploads${normalizedPath.startsWith('/') ? '' : '/'}${normalizedPath}`
   }
   
-  // In development, use the property-uploads proxy
-  if (import.meta.env.DEV) {
-    // Use property-uploads proxy which routes to property service
-    return normalizedPath.replace(/^\/uploads/, '/property-uploads')
-  }
-  
-  // In production, construct full URL to property service
-  return `http://localhost:3004${normalizedPath}`
+  // Use relative path that goes through nginx proxy (works in both dev and production)
+  // Use property-uploads proxy which routes to property service
+  return normalizedPath.replace(/^\/uploads/, '/property-uploads')
 }
 
