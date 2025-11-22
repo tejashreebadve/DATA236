@@ -11,7 +11,7 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
-// Create uploads directory if it doesn't exist
+
 const uploadsDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
@@ -20,7 +20,7 @@ if (!fs.existsSync(uploadsDir)) {
 // Connect to MongoDB
 connectDB();
 
-// Initialize Kafka consumer
+
 require('./kafka/consumer');
 
 // Middleware
@@ -65,7 +65,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 3002;
 
 app.listen(PORT, () => {
-  console.log(`Traveler Service running on port ${PORT}`);
+  console.log(`Traveler Service  on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
