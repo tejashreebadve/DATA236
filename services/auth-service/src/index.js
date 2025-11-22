@@ -18,9 +18,9 @@ app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   credentials: true,
 }));
-app.use(morgan('dev')); // Logging
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(morgan('dev')); 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -38,7 +38,7 @@ app.use('/api/auth', authRoutes);
 app.use((req, res) => {
   res.status(404).json({
     error: {
-      message: 'Route not found',
+      message: 'not found',
       code: 'NOT_FOUND',
       status: 404,
     },
@@ -51,7 +51,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-  console.log(`Auth Service running on port ${PORT}`);
+  console.log(`Auth Service  on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 

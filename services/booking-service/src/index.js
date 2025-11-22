@@ -1,12 +1,9 @@
 require('dotenv').config();
 
-// Register models for population FIRST - before anything else
-// This ensures models are available when Booking model is loaded
-// Register Traveler, Owner, Property first (for population)
 require('./models/Traveler');
 require('./models/Owner');
 require('./models/Property');
-// Then register Booking (which references the above)
+
 require('./models/Booking');
 
 const express = require('express');
@@ -16,10 +13,10 @@ const morgan = require('morgan');
 const connectDB = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
 
-// Initialize Kafka consumer (after models are registered)
+// Initialize Kafka
 require('./kafka/consumer');
 
-// Load routes AFTER all models are registered
+// Load routes
 const bookingRoutes = require('./routes/bookingRoutes');
 
 const app = express();
@@ -53,7 +50,7 @@ app.use('/api/booking', bookingRoutes);
 app.use((req, res) => {
   res.status(404).json({
     error: {
-      message: 'Route not found',
+      message: ' not found',
       code: 'NOT_FOUND',
       status: 404,
     },
@@ -66,7 +63,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 3005;
 
 app.listen(PORT, () => {
-  console.log(`Booking Service running on port ${PORT}`);
+  console.log(`Booking on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
