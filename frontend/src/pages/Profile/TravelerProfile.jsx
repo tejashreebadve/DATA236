@@ -67,7 +67,7 @@ const TravelerProfile = () => {
       }
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setErrorMessage('Image size should be less than 5MB')
+        setErrorMessage('Image size must be less than 5MB')
         setTimeout(() => setErrorMessage(null), 3000)
         return
       }
@@ -115,13 +115,13 @@ const TravelerProfile = () => {
     setSuccessMessage(null)
     setErrorMessage(null)
     try {
-      // First, upload picture if one was selected
+  
       if (selectedPictureFile) {
         await dispatch(uploadProfilePicture({ role: 'traveler', file: selectedPictureFile })).unwrap()
       }
       // Then update profile data
       await dispatch(updateProfile({ role: 'traveler', data: formData })).unwrap()
-      // Refetch profile to get updated data including picture
+
       await dispatch(fetchProfile('traveler'))
       setIsEditing(false)
       setPicturePreview(null)

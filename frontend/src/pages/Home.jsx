@@ -31,7 +31,7 @@ const Home = () => {
     }
   }, [dispatch, isAuthenticated, user])
 
-  // Show owner-specific homepage for owners (AFTER all hooks)
+  // Show owner-specific
   if (isAuthenticated && user?.role === 'owner') {
     return <OwnerHome />
   }

@@ -19,7 +19,7 @@ const OwnerBookings = () => {
     dispatch(fetchBookings('owner'))
   }, [dispatch])
 
-  // Filter bookings based on status
+  
   const filteredBookings = useMemo(() => {
     if (statusFilter === 'all') {
       return items
@@ -147,7 +147,7 @@ const OwnerBookings = () => {
               try {
                 // Debug logging for cancelled bookings
                 if (booking.status === 'cancelled') {
-                  console.log('🔴 Cancelled booking data:', {
+                  console.log(' Cancelled booking data:', {
                     bookingId: booking._id,
                     travelerId: booking.travelerId,
                     travelerIdType: typeof booking.travelerId,
@@ -158,7 +158,7 @@ const OwnerBookings = () => {
                 }
 
                 // Safely extract property data
-                // Handle both populated objects and ObjectId strings
+              
                 let property = null;
                 if (typeof booking.propertyId === 'object' && booking.propertyId !== null) {
                   // Check if it's a populated object (has _id or name property)
@@ -179,7 +179,7 @@ const OwnerBookings = () => {
                 const propertyPhoto = property?.photos?.[0];
 
                 // Safely extract traveler data
-                // Handle both populated objects and ObjectId strings
+            
                 let traveler = null;
                 if (typeof booking.travelerId === 'object' && booking.travelerId !== null) {
                   // Check if it's a populated object (has _id, name, or email property)
@@ -192,7 +192,7 @@ const OwnerBookings = () => {
                 
                 // Debug logging for cancelled bookings
                 if (booking.status === 'cancelled') {
-                  console.log('🔴 Cancelled booking debug:', {
+                  console.log('Cancelled booking debug:', {
                     rawTravelerId: booking.travelerId,
                     travelerIdType: typeof booking.travelerId,
                     parsedTraveler: traveler,

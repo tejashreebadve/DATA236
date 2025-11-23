@@ -43,7 +43,7 @@
 
 .tab.active {
   color: #e31c5f;
-  border-bottom-color: #e31c5f;
+  border-bottom-color: #cf1956;
 }
 
 .tab:hover {
@@ -87,7 +87,7 @@
 .auth-footer {
   text-align: center;
   margin-top: 20px;
-  color: #666;
+  color: #747272;
 }
 
 .auth-footer a {
