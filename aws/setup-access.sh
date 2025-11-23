@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Script to set up access to RedNest app after deployment
-# Provides options for port-forwarding or LoadBalancer
+# Script to setup
 
 set -e
 

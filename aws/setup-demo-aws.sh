@@ -17,20 +17,20 @@ echo "=============================================="
 echo ""
 
 # Check prerequisites
-echo -e "${YELLOW}📋 Checking prerequisites...${NC}"
+echo -e "${YELLOW} Checking prerequisites...${NC}"
 
 for cmd in aws kubectl eksctl docker; do
     if ! command -v $cmd &> /dev/null; then
-        echo -e "${RED}❌ $cmd is not installed.${NC}"
+        echo -e "${RED} $cmd is not installed.${NC}"
         exit 1
     fi
 done
 
-echo -e "${GREEN}✅ All prerequisites met!${NC}"
+echo -e "${GREEN} All prerequisites met!${NC}"
 echo ""
 
 # Get AWS credentials
-echo -e "${YELLOW}🔐 AWS Configuration${NC}"
+echo -e "${YELLOW} AWS Configuration${NC}"
 read -p "Enter AWS Account ID: " AWS_ACCOUNT_ID
 read -p "Enter AWS Region (e.g., us-east-1): " AWS_REGION
 read -p "Enter AWS Access Key ID: " AWS_ACCESS_KEY_ID
@@ -38,7 +38,7 @@ read -s -p "Enter AWS Secret Access Key: " AWS_SECRET_ACCESS_KEY
 echo ""
 
 # Configure AWS CLI
-echo -e "${YELLOW}⚙️  Configuring AWS CLI...${NC}"
+echo -e "${YELLOW}  Configuring AWS CLI...${NC}"
 aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
 aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
 aws configure set region "$AWS_REGION"
@@ -46,10 +46,10 @@ aws configure set output json
 
 # Verify AWS credentials
 if ! aws sts get-caller-identity &> /dev/null; then
-    echo -e "${RED}❌ AWS credentials are invalid.${NC}"
+    echo -e "${RED} AWS credentials are invalid.${NC}"
     exit 1
 fi
-echo -e "${GREEN}✅ AWS credentials verified!${NC}"
+echo -e "${GREEN} AWS credentials verified!${NC}"
 echo ""
 
 # Set variables
@@ -72,7 +72,7 @@ for service in "${SERVICES[@]}"; do
             --region "$AWS_REGION" \
             --image-scanning-configuration scanOnPush=true \
             --encryption-configuration encryptionType=AES256
-        echo -e "${GREEN}✅ Created ${REPO_NAME}${NC}"
+        echo -e "${GREEN} Created ${REPO_NAME}${NC}"
     fi
 done
 
@@ -96,7 +96,7 @@ for service in "${SERVICES[@]}"; do
     ECR_IMAGE="${ECR_REGISTRY}/rednest-${service}:latest"
     docker tag "$LOCAL_IMAGE" "$ECR_IMAGE"
     docker push "$ECR_IMAGE"
-    echo -e "${GREEN}✅ Pushed ${service}${NC}"
+    echo -e "${GREEN} Pushed ${service}${NC}"
 done
 
 echo ""
@@ -126,15 +126,15 @@ else
         --with-oidc \
         --full-ecr-access
     
-    echo -e "${GREEN}✅ Cluster created!${NC}"
+    echo -e "${GREEN} Cluster created!${NC}"
 fi
 
 # Update kubeconfig
 aws eks update-kubeconfig --name "$CLUSTER_NAME" --region "$AWS_REGION"
-echo -e "${GREEN}✅ kubeconfig updated${NC}"
+echo -e "${GREEN} kubeconfig updated${NC}"
 echo ""
 
-echo -e "${BLUE}📝 Step 4: Updating Deployment Files${NC}"
+echo -e "${BLUE} Step 4: Updating Deployment Files${NC}"
 echo "=================================="
 
 # Update deployment files with ECR images
@@ -149,7 +149,7 @@ for service in "${SERVICES[@]}"; do
         fi
     fi
 done
-echo -e "${GREEN}✅ Deployment files updated${NC}"
+echo -e "${GREEN} Deployment files updated${NC}"
 echo ""
 
 echo -e "${BLUE}🚀 Step 5: Deploying to Kubernetes${NC}"
@@ -159,7 +159,7 @@ echo "=================================="
 kubectl apply -f k8s/namespace.yaml
 
 # Apply secrets
-echo -e "${YELLOW}⚠️  Make sure k8s/secrets/app-secrets.yaml is updated!${NC}"
+echo -e "${YELLOW}  Make sure k8s/secrets/app-secrets.yaml is updated!${NC}"
 read -p "Press Enter after updating secrets..."
 
 kubectl apply -f k8s/secrets/app-secrets.yaml
@@ -204,22 +204,22 @@ fi
 kubectl apply -f k8s/ingress/ingress.yaml
 
 echo ""
-echo -e "${GREEN}✅ Demo deployment complete!${NC}"
+echo -e "${GREEN} Demo deployment complete!${NC}"
 echo ""
-echo -e "${BLUE}📊 Status:${NC}"
+echo -e "${BLUE} Status:${NC}"
 kubectl get pods -n "$NAMESPACE"
 echo ""
-echo -e "${BLUE}💾 Storage:${NC}"
+echo -e "${BLUE} Storage:${NC}"
 kubectl get pvc -n "$NAMESPACE"
 echo ""
-echo -e "${GREEN}🎉 RedNest demo is ready!${NC}"
+echo -e "${GREEN} RedNest demo is ready!${NC}"
 echo ""
-echo -e "${YELLOW}💰 Estimated Cost: ~$50-60/month${NC}"
+echo -e "${YELLOW} Estimated Cost: ~$50-60/month${NC}"
 echo "   - EKS Control Plane: ~$73/month"
 echo "   - EC2 t3.small (1 node): ~$15/month"
 echo "   - EBS Volumes (~10Gi total): ~$1/month"
 echo "   - ECR: Free tier (500GB)"
 echo ""
-echo -e "${YELLOW}💡 To reduce costs further, delete cluster after demo:${NC}"
+echo -e "${YELLOW} To reduce costs further, delete cluster after demo:${NC}"
 echo "   eksctl delete cluster --name $CLUSTER_NAME --region $AWS_REGION"
 
